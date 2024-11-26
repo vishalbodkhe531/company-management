@@ -7,14 +7,17 @@ module.exports = {
       backgroundColor: {
         background: "#000",
         btnBackground: "#f97316",
+        inputBg: "#fff",
       },
       colors: {
         heading: " #f97316",
         mainHeading: "#fff",
+        inputTitle: "#000",
       },
       fontSize: {
         title: "1.875rem",
         smallTitle: "1.12rem",
+        inputText: "0.93rem",
       },
 
       fontFamily: {

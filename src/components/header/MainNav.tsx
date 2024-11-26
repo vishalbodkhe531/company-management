@@ -1,15 +1,37 @@
-// import { useAuth0 } from "@auth0/auth0-react";s
-
+import { Link, useNavigate } from "react-router-dom";
+import ToasterComponent from "../toaster/Toaster";
 import { Button } from "../ui/button";
+import NavBtn from "../nav-Btns/Nav-btn";
 
 function MainNav() {
+  const navigate = useNavigate();
+
+  const handleSignIn = (data: string) => {
+    console.log("data : ", data);
+    if (data === "Admin") {
+      navigate("/sign-in-admin");
+    }
+  };
+
+  const showLoginToast = ToasterComponent({
+    message: "You clicked Log In",
+    description: "How you wan't to login",
+    firstLable: "Admin",
+    secLable: "Employee",
+    caseHandler: handleSignIn,
+  });
+
   return (
-    <Button
-      variant={"ghost"}
-      className="font-bold  hover:text-orange-500 text-smallTitle hover:bg-white"
-    >
-      Log In
-    </Button>
+    <div>
+      <Link to={"/"}>
+        <NavBtn menue={"Home"} />
+      </Link>
+      <NavBtn menue={"Tasks"} />
+      <NavBtn menue={"Projects"} />
+      <button onClick={showLoginToast}>
+        <NavBtn menue={"Login"} />
+      </button>
+    </div>
   );
 }
 
