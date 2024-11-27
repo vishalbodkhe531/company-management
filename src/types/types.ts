@@ -5,7 +5,7 @@ export type PropsType = {
 export type ToastType = {
   message: string;
   description: string;
-  firstLable: string;
-  secLable: string;
-  caseHandler: (lable: string) => void;
+  firstLable?: string;
+  secLable?: string;
+  caseHandler?: (lable: string) => void;
 };

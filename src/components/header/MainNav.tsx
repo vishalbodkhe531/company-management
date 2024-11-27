@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import ToasterComponent from "../toaster/Toaster";
-import { Button } from "../ui/button";
 import NavBtn from "../nav-Btns/Nav-btn";
+import { LoginButton } from "../button/Btn";
 
 function MainNav() {
   const navigate = useNavigate();
@@ -13,24 +13,26 @@ function MainNav() {
     }
   };
 
-  const showLoginToast = ToasterComponent({
-    message: "You clicked Log In",
-    description: "How you wan't to login",
-    firstLable: "Admin",
-    secLable: "Employee",
-    caseHandler: handleSignIn,
-  });
+  const showLoginToast = () => {
+    ToasterComponent({
+      message: "You clicked Log In",
+      description: "How you wan't to login",
+      firstLable: "Admin",
+      secLable: "Employee",
+      caseHandler: handleSignIn,
+    });
+  };
 
   return (
-    <div>
+    <div className="flex items-center gap-4">
       <Link to={"/"}>
         <NavBtn menue={"Home"} />
       </Link>
       <NavBtn menue={"Tasks"} />
       <NavBtn menue={"Projects"} />
-      <button onClick={showLoginToast}>
-        <NavBtn menue={"Login"} />
-      </button>
+      <div onClick={showLoginToast}>
+        <LoginButton title={"Login"} />
+      </div>
     </div>
   );
 }
