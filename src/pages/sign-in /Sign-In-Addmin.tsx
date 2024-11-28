@@ -1,3 +1,4 @@
+import { userSchema } from "@/components/form-validation /Validation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,11 +8,46 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserFormValues } from "../sign-up/Sign-Up-Addmin";
+import ToasterComponent from "@/components/toaster/Toaster";
+
 function SignInAddmin() {
+  const navigate = useNavigate();
+
+  const form = useForm({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = form;
+
+  const handleForm = handleSubmit((data: UserFormValues) => {
+    console.log("data : ", data);
+    ToasterComponent({
+      message: "Admin Login Successfully !!",
+      description: "Thanks for Authentication",
+      firstLable: "Close",
+    });
+    navigate("/");
+  });
+
   return (
     <>
       <div className="flex justify-center items-center h-[80%]">
@@ -21,44 +57,75 @@ function SignInAddmin() {
             <TabsTrigger value="password">Password</TabsTrigger>
           </TabsList>
           <TabsContent value="account" className="px-[3rem] w-full">
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-bold">Account</CardTitle>
-                <CardDescription>
-                  Make changes to your account here. Click save when you're
-                  done.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-1">
-                <div className="space-y-2">
-                  <Label htmlFor="email">email</Label>
-                  <Input
-                    id="email"
-                    placeholder="email"
-                    className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
-                  />
-                </div>
-                <div className="space-y-2 ">
-                  <Label htmlFor="password">password</Label>
-                  <Input
-                    id="password"
-                    placeholder="password"
-                    className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
-                  />
-                </div>
-              </CardContent>
-              <CardFooter className=" mt-7 flex flex-col items-end">
-                <Button className="cursor-pointer bg-btnBackground w-full">
-                  Save changes
-                </Button>
-                <Button className="cursor-pointer bg-blue-500 w-full mt-4">
-                  Sign With Google
-                </Button>
-                <div className="text-start mt-9 font-bold cursor-pointer">
-                  <Link to={"/sign-up-admin"}>Sign-Up</Link>
-                </div>
-              </CardFooter>
-            </Card>
+            <Form {...form}>
+              <form onSubmit={handleForm}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="font-bold">Account</CardTitle>
+                    <CardDescription>
+                      Make changes to your account here. Click save when you're
+                      done.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-1">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="email"
+                        className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                        {...register("email")}
+                      />
+                      {errors.email && (
+                        <span className="text-errorText font-bold text-sm">
+                          {errors.email.message}
+                        </span>
+                      )}
+                    </div>
+                    <div className="space-y-2 relative">
+                      <Label htmlFor="password">Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="password"
+                          className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                          {...register("password")}
+                        />
+                        {/* Eye icon */}
+                        <button
+                          type="button"
+                          className="absolute inset-y-0 right-2 flex items-center text-inputText cursor-pointer"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <span>👁️</span> : <span>🔒</span>}
+                        </button>
+                      </div>
+                      {errors.password && (
+                        <span className="text-errorText font-bold text-sm">
+                          {errors.password.message}
+                        </span>
+                      )}
+                    </div>
+                  </CardContent>
+                  <CardFooter className="mt-7 flex flex-col items-end">
+                    <Button
+                      type="submit"
+                      className="cursor-pointer bg-btnBackground w-full"
+                    >
+                      Save changes
+                    </Button>
+                    <Button className="cursor-pointer bg-blue-500 w-full mt-4">
+                      Sign With Google
+                    </Button>
+                    <div className="text-start mt-9 font-bold cursor-pointer">
+                      <Link to={"/sign-up-admin"}>Sign-Up</Link>
+                    </div>
+                  </CardFooter>
+                </Card>
+              </form>
+            </Form>
           </TabsContent>
           <TabsContent value="password" className="px-[3rem]">
             <Card>
@@ -74,7 +141,7 @@ function SignInAddmin() {
                   <Input
                     id="current"
                     type="password"
-                    className=" bg-inputBg text-inputTitle"
+                    className="bg-inputBg text-inputTitle"
                     placeholder="password"
                   />
                 </div>
@@ -83,7 +150,7 @@ function SignInAddmin() {
                   <Input
                     id="new"
                     type="password"
-                    className=" bg-inputBg"
+                    className="bg-inputBg"
                     placeholder="password"
                   />
                 </div>

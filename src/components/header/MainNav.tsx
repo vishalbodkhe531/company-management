@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import ToasterComponent from "../toaster/Toaster";
-import NavBtn from "../nav-Btns/Nav-btn";
+import NavBtn from "../nav-Btns/NavBtn";
 import { LoginButton } from "../button/Btn";
 
 function MainNav() {

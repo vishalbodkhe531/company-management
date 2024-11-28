@@ -13,6 +13,7 @@ module.exports = {
         heading: " #f97316",
         mainHeading: "#fff",
         inputTitle: "#000",
+        errorText: "red",
       },
       fontSize: {
         title: "1.875rem",
