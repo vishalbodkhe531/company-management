@@ -23,7 +23,7 @@ import z from "zod";
 
 export type UserFormValues = z.infer<typeof userSchema>;
 
-function Profile() {
+function AdminProfile() {
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<UserFormValues>({
@@ -147,7 +147,7 @@ function Profile() {
                       Sign With Google
                     </Button>
                     <div className="text-start mt-9 font-bold cursor-pointer">
-                      <Link to={"/sign-in-admin"}>
+                      <Link to={"/admin/sign-in"}>
                         <Button onClick={handleLogout}>Logout</Button>
                       </Link>
                     </div>
@@ -195,4 +195,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default AdminProfile;

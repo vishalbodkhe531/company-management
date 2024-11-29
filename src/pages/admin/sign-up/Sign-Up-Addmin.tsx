@@ -1,4 +1,3 @@
-import { userSchema } from "@/components/form-validation /Validation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,25 +11,28 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserFormValues } from "../sign-up/Sign-Up-Addmin";
+
+import z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import ToasterComponent from "@/components/toaster/Toaster";
+import { userSchema } from "@/components/form-validation /Validation";
+import { useState } from "react";
 
-function SignInAddmin() {
-  const navigate = useNavigate();
+export type UserFormValues = z.infer<typeof userSchema>;
 
-  const form = useForm({
+function SignUpAddmin() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const form = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const {
     handleSubmit,
@@ -38,49 +40,71 @@ function SignInAddmin() {
     formState: { errors },
   } = form;
 
-  const handleForm = handleSubmit((data: UserFormValues) => {
-    // Temp save user
+  const navigate = useNavigate();
+
+  const onSubmit = handleSubmit((data: UserFormValues) => {
+    console.log("Sign Up data : ", data);
+
+    // Temp save User
+    const jsonUser = JSON.stringify(data);
+    localStorage.setItem("User", jsonUser);
+    console.log("User successfully saved in local storage");
 
     ToasterComponent({
-      message: "Admin Login Successfully !!",
+      message: "Admin Registade Successfully !!",
       description: "Thanks for Authentication",
       firstLable: "Close",
     });
-    navigate("/");
+
+    navigate("/admin/sign-in");
   });
 
   return (
     <>
-      <div className="flex justify-center items-center h-[80%]">
+      <div className="flex justify-center items-center h-[90vh]">
         <Tabs defaultValue="account" className="w-[500px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="account">Account</TabsTrigger>
             <TabsTrigger value="password">Password</TabsTrigger>
           </TabsList>
           <TabsContent value="account" className="px-[3rem] w-full">
-            <Form {...form}>
-              <form onSubmit={handleForm}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="font-bold">Account</CardTitle>
-                    <CardDescription>
-                      Make changes to your account here. Click save when you're
-                      done.
-                    </CardDescription>
-                  </CardHeader>
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-bold">Account</CardTitle>
+                <CardDescription>
+                  Make changes to your account here. Click save when you're
+                  done.
+                </CardDescription>
+              </CardHeader>
+              <Form {...form}>
+                <form onSubmit={onSubmit}>
                   <CardContent className="space-y-1">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        placeholder="Name"
+                        className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                        {...register("name")}
+                      />
+                      {errors.name && (
+                        <span className="text-errorText font-bold text-sm">
+                          {errors.name.message as string}
+                        </span>
+                      )}
+                    </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
                       <Input
                         id="email"
+                        placeholder="Email"
                         type="email"
-                        placeholder="email"
                         className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
                         {...register("email")}
                       />
                       {errors.email && (
                         <span className="text-errorText font-bold text-sm">
-                          {errors.email.message}
+                          {errors.email.message as string}
                         </span>
                       )}
                     </div>
@@ -89,15 +113,14 @@ function SignInAddmin() {
                       <div className="relative">
                         <Input
                           id="password"
+                          placeholder="Password"
                           type={showPassword ? "text" : "password"}
-                          placeholder="password"
-                          className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                          className="border-none bg-inputBg text-inputTitle p-5 pr-10 !text-inputText"
                           {...register("password")}
                         />
-                        {/* Eye icon */}
                         <button
                           type="button"
-                          className="absolute inset-y-0 right-2 flex items-center text-inputText cursor-pointer"
+                          className="absolute inset-y-0 right-3 flex items-center text-inputText cursor-pointer hover:text-blue-500 focus:outline-none"
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? <span>👁️</span> : <span>🔒</span>}
@@ -105,7 +128,7 @@ function SignInAddmin() {
                       </div>
                       {errors.password && (
                         <span className="text-errorText font-bold text-sm">
-                          {errors.password.message}
+                          {errors.password.message as string}
                         </span>
                       )}
                     </div>
@@ -121,12 +144,12 @@ function SignInAddmin() {
                       Sign With Google
                     </Button>
                     <div className="text-start mt-9 font-bold cursor-pointer">
-                      <Link to={"/sign-up-admin"}>Sign-Up</Link>
+                      <Link to={"/admin/sign-in"}>Sign-In</Link>
                     </div>
                   </CardFooter>
-                </Card>
-              </form>
-            </Form>
+                </form>
+              </Form>
+            </Card>
           </TabsContent>
           <TabsContent value="password" className="px-[3rem]">
             <Card>
@@ -143,7 +166,7 @@ function SignInAddmin() {
                     id="current"
                     type="password"
                     className="bg-inputBg text-inputTitle"
-                    placeholder="password"
+                    placeholder="Current password"
                   />
                 </div>
                 <div className="space-y-1">
@@ -152,7 +175,7 @@ function SignInAddmin() {
                     id="new"
                     type="password"
                     className="bg-inputBg"
-                    placeholder="password"
+                    placeholder="New password"
                   />
                 </div>
               </CardContent>
@@ -167,4 +190,4 @@ function SignInAddmin() {
   );
 }
 
-export default SignInAddmin;
+export default SignUpAddmin;

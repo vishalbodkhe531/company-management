@@ -3,7 +3,7 @@ import logo from "../../assets/logo.webp";
 const Footer = () => {
   return (
     <footer className="bg-navFoot text-heading">
-      <div className="flex items-center text-navFoot  flex-wrap justify-center">
+      <div className="flex items-center text-navFoot  flex-wrap justify-center ">
         <img
           src={logo}
           alt="Company Logo"

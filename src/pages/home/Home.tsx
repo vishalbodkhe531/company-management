@@ -9,7 +9,7 @@ function Home() {
             Empower Your Business with Smart Management Tools
           </h2>
         </div>
-        <div className="px-10 ">
+        <div className="px-10">
           <img src={mainImage} className="h-full" />
         </div>
       </div>

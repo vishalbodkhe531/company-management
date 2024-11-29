@@ -11,7 +11,7 @@ export type User = {
   password: string;
 };
 
-// temp get user
+// Temp get user
 const getUserFromLocalStorage = (): User | null => {
   try {
     const userJson = localStorage.getItem("User");
@@ -34,7 +34,11 @@ function MainNav() {
   const handleSignIn = (data: string) => {
     console.log("data : ", data);
     if (data === "Admin") {
-      navigate("/sign-in-admin");
+      navigate("/admin/sign-in");
+    }
+
+    if (data === "Employee") {
+      navigate("/emp/sign-in");
     }
   };
 
@@ -54,13 +58,13 @@ function MainNav() {
         <NavBtn menue={"Home"} />
       </Link>
 
-      <Link to={"/payroll"}>
+      <Link to={"/emp/payroll"}>
         <NavBtn menue={"Payroll"} />
       </Link>
 
       <NavBtn menue={"Projects"} />
       {localStorageUser ? (
-        <Link to={"/admin-profile"}>
+        <Link to={"/admin/profile"}>
           <img src={admin} alt="" className="h-12" />
         </Link>
       ) : (

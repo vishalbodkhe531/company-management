@@ -1,18 +1,22 @@
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
 import { Toaster } from "@/components/ui/sonner";
-import { PropsType } from "@/types/types";
+import { Outlet } from "react-router-dom";
 
-function Structure({ children }: PropsType) {
+function Structure({ children }: { children?: React.ReactNode }) {
   return (
-    <>
-      <div className="text-heading">
+    <div className="flex flex-col min-h-screen">
+      <header className="text-heading">
         <Header />
-      </div>
-      <div className="h-screen bg-background text-mainHeading">{children}</div>
+      </header>
+      <main className="flex-grow bg-background text-mainHeading">
+        {children || <Outlet />}
+      </main>
       <Toaster />
-      <Footer />
-    </>
+      <footer>
+        <Footer />
+      </footer>
+    </div>
   );
 }
 
