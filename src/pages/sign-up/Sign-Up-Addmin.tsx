@@ -45,6 +45,11 @@ function SignUpAddmin() {
   const onSubmit = handleSubmit((data: UserFormValues) => {
     console.log("Sign Up data : ", data);
 
+    // Temp save User
+    const jsonUser = JSON.stringify(data);
+    localStorage.setItem("User", jsonUser);
+    console.log("User successfully saved in local storage");
+
     ToasterComponent({
       message: "Admin Registade Successfully !!",
       description: "Thanks for Authentication",

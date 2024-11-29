@@ -7,12 +7,15 @@ const Loader = lazy(() => import("./components/loader/Loader"));
 const SignInAddmin = lazy(() => import("./pages/sign-in /Sign-In-Addmin"));
 const SignInEmp = lazy(() => import("./pages/sign-in /Sign-In-Emp"));
 const SignUpAddmin = lazy(() => import("./pages/sign-up/Sign-Up-Addmin"));
+const Profile = lazy(() => import("./pages/admin/profile/Profile"));
+const Payroll = lazy(() => import("./pages/payroll/Payroll"));
 
 function AppRoutes() {
   return (
     <>
       <Suspense fallback={<Loader />}>
         <Router>
+          {/* Admin Routes */}
           <Routes>
             <Route
               path="/"
@@ -41,6 +44,25 @@ function AppRoutes() {
               }
             />
 
+            <Route
+              path="/admin-profile"
+              element={
+                <Structure>
+                  <Profile />
+                </Structure>
+              }
+            />
+
+            <Route
+              path="/payroll"
+              element={
+                <Structure>
+                  <Payroll />
+                </Structure>
+              }
+            />
+
+            {/* Employee Routes    */}
             <Route
               path="/sign-in-employee"
               element={

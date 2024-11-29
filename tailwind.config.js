@@ -8,12 +8,14 @@ module.exports = {
         background: "#000",
         btnBackground: "#f97316",
         inputBg: "#fff",
+        navFoot: "#fff",
       },
       colors: {
         heading: " #f97316",
         mainHeading: "#fff",
         inputTitle: "#000",
         errorText: "red",
+        navFoot: "#000",
       },
       fontSize: {
         title: "1.875rem",

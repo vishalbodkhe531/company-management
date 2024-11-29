@@ -3,6 +3,31 @@ import ToasterComponent from "../toaster/Toaster";
 import NavBtn from "../nav-Btns/NavBtn";
 import { LoginButton } from "../button/Btn";
 
+import admin from "../../assets/admin.jpg";
+
+export type User = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+// temp get user
+const getUserFromLocalStorage = (): User | null => {
+  try {
+    const userJson = localStorage.getItem("User");
+    if (userJson) {
+      const userData = JSON.parse(userJson) as User;
+      return userData;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error retrieving user from local storage:", error);
+    return null;
+  }
+};
+
+export const localStorageUser = getUserFromLocalStorage();
+
 function MainNav() {
   const navigate = useNavigate();
 
@@ -28,11 +53,21 @@ function MainNav() {
       <Link to={"/"}>
         <NavBtn menue={"Home"} />
       </Link>
-      <NavBtn menue={"Tasks"} />
+
+      <Link to={"/payroll"}>
+        <NavBtn menue={"Payroll"} />
+      </Link>
+
       <NavBtn menue={"Projects"} />
-      <div onClick={showLoginToast}>
-        <LoginButton title={"Login"} />
-      </div>
+      {localStorageUser ? (
+        <Link to={"/admin-profile"}>
+          <img src={admin} alt="" className="h-12" />
+        </Link>
+      ) : (
+        <div onClick={showLoginToast}>
+          <LoginButton title={"Login"} />
+        </div>
+      )}
     </div>
   );
 }
