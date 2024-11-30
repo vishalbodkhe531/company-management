@@ -13,20 +13,18 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link, useNavigate } from "react-router-dom";
 
-import z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { adminSchema } from "@/components/form-validation /Validation";
 import ToasterComponent from "@/components/toaster/Toaster";
-import { userSchema } from "@/components/form-validation /Validation";
+import { AdminFormValues } from "@/types/validation-types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-
-export type UserFormValues = z.infer<typeof userSchema>;
+import { useForm } from "react-hook-form";
 
 function SignUpAddmin() {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<UserFormValues>({
-    resolver: zodResolver(userSchema),
+  const form = useForm<AdminFormValues>({
+    resolver: zodResolver(adminSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -42,7 +40,7 @@ function SignUpAddmin() {
 
   const navigate = useNavigate();
 
-  const onSubmit = handleSubmit((data: UserFormValues) => {
+  const onSubmit = handleSubmit((data: AdminFormValues) => {
     console.log("Sign Up data : ", data);
 
     // Temp save User
@@ -51,12 +49,12 @@ function SignUpAddmin() {
     console.log("User successfully saved in local storage");
 
     ToasterComponent({
-      message: "Admin Registade Successfully !!",
+      message: "Admin Registered Successfully !!",
       description: "Thanks for Authentication",
       firstLable: "Close",
     });
 
-    navigate("/admin/sign-in");
+    navigate("/employee/sign-in");
   });
 
   return (

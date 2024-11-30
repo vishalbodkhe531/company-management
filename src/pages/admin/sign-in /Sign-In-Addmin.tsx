@@ -1,4 +1,5 @@
-import { userSchema } from "@/components/form-validation /Validation";
+import { adminSchema } from "@/components/form-validation /Validation";
+import ToasterComponent from "@/components/toaster/Toaster";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,18 +13,17 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { UserFormValues } from "../sign-up/Sign-Up-Addmin";
-import ToasterComponent from "@/components/toaster/Toaster";
 
 function SignInAddmin() {
   const navigate = useNavigate();
 
-  const form = useForm({
-    resolver: zodResolver(userSchema),
+  const form = useForm<AdminFormValues>({
+    resolver: zodResolver(adminSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -38,7 +38,7 @@ function SignInAddmin() {
     formState: { errors },
   } = form;
 
-  const handleForm = handleSubmit((data: UserFormValues) => {
+  const handleForm = handleSubmit((data: AdminFormValues) => {
     // Temp save user
 
     ToasterComponent({

@@ -38,7 +38,7 @@ function MainNav() {
     }
 
     if (data === "Employee") {
-      navigate("/emp/sign-in");
+      navigate("/employee/sign-in");
     }
   };
 

@@ -9,6 +9,7 @@ module.exports = {
         btnBackground: "#f97316",
         inputBg: "#fff",
         navFoot: "#fff",
+        formBtn: "#2563eb",
       },
       colors: {
         heading: " #f97316",

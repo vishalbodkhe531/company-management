@@ -13,15 +13,15 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link, useNavigate } from "react-router-dom";
 
-import { userSchema } from "@/components/form-validation /Validation";
+import {
+  UserFormValues,
+  userSchema,
+} from "@/components/form-validation /Validation";
 import { localStorageUser } from "@/components/header/MainNav";
 import ToasterComponent from "@/components/toaster/Toaster";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import z from "zod";
-
-export type UserFormValues = z.infer<typeof userSchema>;
 
 function AdminProfile() {
   const [showPassword, setShowPassword] = useState(false);
