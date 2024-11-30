@@ -1,5 +1,10 @@
 import { Suspense, lazy } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -48,6 +53,7 @@ function AppRoutes() {
               <Route path="sign-up" element={<EmployeeSignUp />} />
               <Route path="payroll" element={<Payroll />} />
             </Route>
+            <Route path="*" element={<Navigate to={"/"} />} />
           </Routes>
         </Router>
       </Suspense>

@@ -1,20 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
-import ToasterComponent from "../toaster/Toaster";
-import NavBtn from "../nav-Btns/NavBtn";
 import { LoginButton } from "../button/Btn";
+import NavBtn from "../nav-Btns/NavBtn";
+import ToasterComponent from "../toaster/Toaster";
 
-import admin from "../../assets/admin.jpg";
-
-export type User = {
-  name: string;
-  email: string;
-  password: string;
-};
+import { User } from "@/types/types";
+import adminLogo from "../../assets/admin.jpg";
+import empLogo from "../../assets/employee.png";
 
 // Temp get user
 const getUserFromLocalStorage = (): User | null => {
   try {
-    const userJson = localStorage.getItem("User");
+    const userJson =
+      localStorage.getItem("User") || localStorage.getItem("Employee");
     if (userJson) {
       const userData = JSON.parse(userJson) as User;
       return userData;
@@ -27,6 +24,8 @@ const getUserFromLocalStorage = (): User | null => {
 };
 
 export const localStorageUser = getUserFromLocalStorage();
+console.log();
+// export const localStorageEmp
 
 function MainNav() {
   const navigate = useNavigate();
@@ -64,9 +63,15 @@ function MainNav() {
 
       <NavBtn menue={"Projects"} />
       {localStorageUser ? (
-        <Link to={"/admin/profile"}>
-          <img src={admin} alt="" className="h-12" />
-        </Link>
+        localStorageUser.employeeId ? (
+          <Link to={"/admin/profile"}>
+            <img src={empLogo} alt="" className="h-12" />
+          </Link>
+        ) : (
+          <Link to={"/admin/profile"}>
+            <img src={adminLogo} alt="" className="h-12" />
+          </Link>
+        )
       ) : (
         <div onClick={showLoginToast}>
           <LoginButton title={"Login"} />

@@ -5,3 +5,10 @@ export type ToastType = {
   secLable?: string;
   caseHandler?: (lable: string) => void;
 };
+
+export type User = {
+  name: string;
+  email: string;
+  password: string;
+  employeeId?: string;
+};

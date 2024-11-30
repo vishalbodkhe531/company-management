@@ -7,10 +7,12 @@ import {
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
-import admin from "../../assets/admin.jpg";
 import NavBtn from "../nav-Btns/NavBtn";
 import { Button } from "../ui/button";
 import { localStorageUser } from "./MainNav";
+
+import adminLogo from "../../assets/admin.jpg";
+import empLogo from "../../assets/employee.png";
 
 const MobileNav = () => {
   return (
@@ -45,11 +47,15 @@ const MobileNav = () => {
 
             {/* Conditional Admin Profile or Log In */}
             {localStorageUser ? (
-              <Link to={"/admin-profile"}>
-                <SheetTrigger>
-                  <img src={admin} alt="Admin" className="h-12 rounded-full" />
-                </SheetTrigger>
-              </Link>
+              localStorageUser.employeeId ? (
+                <Link to={"/admin/profile"}>
+                  <img src={empLogo} alt="" className="h-12" />
+                </Link>
+              ) : (
+                <Link to={"/admin/profile"}>
+                  <img src={adminLogo} alt="" className="h-12" />
+                </Link>
+              )
             ) : (
               <div className="w-full">
                 <SheetTrigger className="w-full">

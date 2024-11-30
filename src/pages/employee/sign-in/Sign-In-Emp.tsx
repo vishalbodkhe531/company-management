@@ -1,264 +1,170 @@
-import { employeeSchema } from "@/components/form-validation /Validation";
+import { adminSchema } from "@/components/form-validation /Validation";
 import ToasterComponent from "@/components/toaster/Toaster";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { EmployeeFormValues } from "@/types/validation-types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const EmployeeSignIn = () => {
+function EmployeeSignIn() {
   const navigate = useNavigate();
 
-  const form = useForm<EmployeeFormValues>({
-    resolver: zodResolver(employeeSchema),
+  const form = useForm<AdminFormValues>({
+    resolver: zodResolver(adminSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     handleSubmit,
-    setValue,
-    watch,
+    register,
     formState: { errors },
   } = form;
 
-  const handleForm = handleSubmit((data: EmployeeFormValues) => {
-    console.log("EmployeeFormValues", data);
-
-    const jsonUser = JSON.stringify(data);
-    localStorage.setItem("Employee", jsonUser);
-    console.log("Employee successfully saved in local storage");
+  const handleForm = handleSubmit((data: AdminFormValues) => {
+    // Temp save user
 
     ToasterComponent({
-      message: "Employee Login Successfully !!",
+      message: "Login Successfully !!",
       description: "Thanks for Authentication",
       firstLable: "Close",
     });
-
     navigate("/");
   });
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={handleForm}
-        className="max-w-full mx-auto p-6 bg-gray-800 rounded-lg shadow-lg h-[100vh]"
-      >
-        <h2 className="text-2xl font-bold text-white mb-6 text-center">
-          Employee Sign-Up
-        </h2>
-
-        <div className="grid grid-cols-2 gap-6">
-          {/* Full Name */}
-          <div>
-            <Label htmlFor="fullName">Full Name</Label>
-            <Input
-              id="fullName"
-              placeholder="John Doe"
-              {...form.register("fullName")}
-              className="mt-1 !text-inputText h-12"
-            />
-            {errors.fullName && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.fullName.message}
-              </p>
-            )}
-          </div>
-
-          {/* Date of Birth */}
-          <div>
-            <Label htmlFor="dateOfBirth">Date of Birth</Label>
-            <Input
-              id="dateOfBirth"
-              type="date"
-              {...form.register("dateOfBirth")}
-              className="mt-1 !text-inputText h-12"
-            />
-          </div>
-
-          {/* Gender */}
-          <div>
-            <Label htmlFor="gender">Gender</Label>
-            <Select
-              onValueChange={(value) =>
-                setValue("gender", value as EmployeeFormValues["gender"])
-              }
-              value={watch("gender")}
-            >
-              <SelectTrigger id="gender">
-                <SelectValue placeholder="Select Gender" />
-              </SelectTrigger>
-              <SelectContent className="bg-white text-black">
-                <SelectItem value="Male">Male</SelectItem>
-                <SelectItem value="Female">Female</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.gender && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.gender.message}
-              </p>
-            )}
-          </div>
-
-          {/* Email */}
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="example@email.com"
-              {...form.register("email")}
-              className="mt-1 !text-inputText h-12"
-            />
-            {errors.email && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          {/* Phone Number */}
-          <div>
-            <Label htmlFor="phoneNumber">Phone Number</Label>
-            <Input
-              id="phoneNumber"
-              type="tel"
-              placeholder="1234567890"
-              {...form.register("phoneNumber")}
-              className="mt-1 !text-inputText h-12"
-            />
-            {errors.phoneNumber && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.phoneNumber.message}
-              </p>
-            )}
-          </div>
-
-          {/* Address */}
-          <div>
-            <Label htmlFor="address">Address</Label>
-            <Textarea
-              id="address"
-              placeholder="123 Main Street"
-              {...form.register("address")}
-              className="mt-1 !text-inputText h-12"
-            />
-            {errors.address && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.address.message}
-              </p>
-            )}
-          </div>
-
-          {/* Employee ID */}
-          <div>
-            <Label htmlFor="employeeId">Employee ID</Label>
-            <Input
-              id="employeeId"
-              placeholder="EMP1234"
-              {...form.register("employeeId")}
-              className="mt-1 !text-inputText h-12"
-            />
-            {errors.employeeId && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.employeeId.message}
-              </p>
-            )}
-          </div>
-
-          {/* Job Title */}
-          <div>
-            <Label htmlFor="jobTitle">Job Title</Label>
-            <Input
-              id="jobTitle"
-              placeholder="Software Engineer"
-              {...form.register("jobTitle")}
-              className="mt-1 !text-inputText h-12"
-            />
-            {errors.jobTitle && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.jobTitle.message}
-              </p>
-            )}
-          </div>
-
-          {/* Department */}
-          <div>
-            <Label htmlFor="department">Department</Label>
-            <Select
-              onValueChange={(value) =>
-                setValue(
-                  "department",
-                  value as EmployeeFormValues["department"]
-                )
-              }
-              value={watch("department")}
-            >
-              <SelectTrigger id="department">
-                <SelectValue placeholder="Select Department" />
-              </SelectTrigger>
-              <SelectContent className="bg-white text-black">
-                <SelectItem value="HR">HR</SelectItem>
-                <SelectItem value="IT">IT</SelectItem>
-                <SelectItem value="Sales">Sales</SelectItem>
-                <SelectItem value="Finance">Finance</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.department && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.department.message}
-              </p>
-            )}
-          </div>
-
-          {/* Employment Type */}
-          <div>
-            <Label htmlFor="employmentType">Employment Type</Label>
-            <Select
-              onValueChange={(value) =>
-                setValue(
-                  "employmentType",
-                  value as EmployeeFormValues["employmentType"]
-                )
-              }
-              value={watch("employmentType")}
-            >
-              <SelectTrigger id="employmentType">
-                <SelectValue placeholder="Select Type" />
-              </SelectTrigger>
-              <SelectContent className="bg-white text-black">
-                <SelectItem value="Full-time">Full-time</SelectItem>
-                <SelectItem value="Part-time">Part-time</SelectItem>
-                <SelectItem value="Contract">Contract</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.employmentType && (
-              <p className="text-errorText font-bold text-sm">
-                {errors.employmentType.message}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Submit Button */}
-        <div className="mt-6 flex justify-center">
-          <Button type="submit" className="bg-formBtn">
-            Submit
-          </Button>
-        </div>
-      </form>
-    </Form>
+    <>
+      <div className="flex justify-center items-center h-[80vh]">
+        <Tabs defaultValue="account" className="w-[500px]">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account" className="px-[3rem] w-full">
+            <Form {...form}>
+              <form onSubmit={handleForm}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="font-bold">Account</CardTitle>
+                    <CardDescription>
+                      Make changes to your account here. Click save when you're
+                      done.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-1">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="email"
+                        className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                        {...register("email")}
+                      />
+                      {errors.email && (
+                        <span className="text-errorText font-bold text-sm">
+                          {errors.email.message}
+                        </span>
+                      )}
+                    </div>
+                    <div className="space-y-2 relative">
+                      <Label htmlFor="password">Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="password"
+                          className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                          {...register("password")}
+                        />
+                        {/* Eye icon */}
+                        <button
+                          type="button"
+                          className="absolute inset-y-0 right-2 flex items-center text-inputText cursor-pointer"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <span>👁️</span> : <span>🔒</span>}
+                        </button>
+                      </div>
+                      {errors.password && (
+                        <span className="text-errorText font-bold text-sm">
+                          {errors.password.message}
+                        </span>
+                      )}
+                    </div>
+                  </CardContent>
+                  <CardFooter className="mt-7 flex flex-col items-end">
+                    <Button
+                      type="submit"
+                      className="cursor-pointer bg-btnBackground w-full"
+                    >
+                      Save changes
+                    </Button>
+                    <Button className="cursor-pointer bg-blue-500 w-full mt-4">
+                      Sign With Google
+                    </Button>
+                    <div className="text-start mt-9 font-bold cursor-pointer">
+                      <Link to={"/employee/sign-up"}>Sign-Up</Link>
+                    </div>
+                  </CardFooter>
+                </Card>
+              </form>
+            </Form>
+          </TabsContent>
+          <TabsContent value="password" className="px-[3rem]">
+            <Card>
+              <CardHeader>
+                <CardTitle>Password</CardTitle>
+                <CardDescription>
+                  Change your password here. After saving, you'll be logged out.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="space-y-1">
+                  <Label htmlFor="current">Current password</Label>
+                  <Input
+                    id="current"
+                    type="password"
+                    className="bg-inputBg text-inputTitle"
+                    placeholder="password"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="new">New password</Label>
+                  <Input
+                    id="new"
+                    type="password"
+                    className="bg-inputBg"
+                    placeholder="password"
+                  />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button>Save password</Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </>
   );
-};
+}
 
 export default EmployeeSignIn;
