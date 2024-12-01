@@ -17,6 +17,9 @@ function Payroll() {
       totalAmount: "$250.00",
       paymentMethod: "Credit Card",
       companyName: "Company A",
+      employeeName: "Karan",
+      position: "Manager",
+      salary: "$3,000",
     },
     {
       invoice: "INV002",
@@ -24,6 +27,9 @@ function Payroll() {
       totalAmount: "$150.00",
       paymentMethod: "PayPal",
       companyName: "Company B",
+      employeeName: "Shubham",
+      position: "Developer",
+      salary: "$2,500",
     },
     {
       invoice: "INV003",
@@ -31,91 +37,126 @@ function Payroll() {
       totalAmount: "$350.00",
       paymentMethod: "Bank Transfer",
       companyName: "Company C",
+      employeeName: "Nitesh",
+      position: "Designer",
+      salary: "$2,800",
     },
     {
-      invoice: "INV004",
+      invoice: "INV001",
       paymentStatus: "Paid",
-      totalAmount: "$450.00",
+      totalAmount: "$250.00",
       paymentMethod: "Credit Card",
       companyName: "Company A",
+      employeeName: "Ram",
+      position: "Manager",
+      salary: "$3,000",
     },
     {
-      invoice: "INV005",
+      invoice: "INV001",
       paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
-      companyName: "Company B",
-    },
-    {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
-      companyName: "Company C",
-    },
-    {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
+      totalAmount: "$250.00",
       paymentMethod: "Credit Card",
       companyName: "Company A",
+      employeeName: "Pavan",
+      position: "Manager",
+      salary: "$3,000",
+    },
+    {
+      invoice: "INV001",
+      paymentStatus: "Paid",
+      totalAmount: "$250.00",
+      paymentMethod: "Credit Card",
+      companyName: "Company A",
+      employeeName: "Rohan",
+      position: "Manager",
+      salary: "$3,000",
     },
   ];
 
   return (
-    <div className="flex w-full justify-center items-center">
-      <Table className=" table-auto border-collapse text-white">
-        <TableCaption className="text-gray-300">
-          A list of your recent invoices.
-        </TableCaption>
-        <TableHeader>
-          <TableRow className="bg-gray-800 text-left text-sm font-semibold text-gray-200">
-            <TableHead className="px-4 py-2 w-[100px]">Invoice</TableHead>
-            <TableHead className="px-4 py-2">Status</TableHead>
-            <TableHead className="px-4 py-2">Method</TableHead>
-            <TableHead className="px-4 py-2">Company</TableHead>{" "}
-            {/* New column for Company */}
-            <TableHead className="px-4 py-2 text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow
-              key={invoice.invoice}
-              className="border-b border-gray-700 hover:bg-gray-600"
-            >
-              <TableCell className="px-4 py-2 font-medium">
-                {invoice.invoice}
-              </TableCell>
-              <TableCell className="px-4 py-2">
-                {invoice.paymentStatus}
-              </TableCell>
-              <TableCell className="px-4 py-2">
-                {invoice.paymentMethod}
-              </TableCell>
-              <TableCell className="px-4 py-2">
-                {invoice.companyName} {/* Display the company name */}
-              </TableCell>
-              <TableCell className="px-4 py-2 text-right">
-                {invoice.totalAmount}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow className="bg-gray-800">
-            <TableCell
-              colSpan={4}
-              className="px-4 py-2 text-sm font-semibold text-gray-200"
-            >
-              Total
-            </TableCell>
-            <TableCell className="px-4 py-2 text-right font-semibold text-gray-200">
-              $2,500.00
-            </TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+    <div className="h-[70vh] flex justify-center w-full">
+      <div className="flex w-full justify-center items-center h-full">
+        {/* Make the table container scrollable */}
+        <div className="w-full overflow-x-auto px-4">
+          <Table className="table-auto border-collapse text-white w-full min-w-[700px] h-[50vh]">
+            <TableCaption className="text-gray-300">
+              A list of your recent invoices and employee management details.
+            </TableCaption>
+            <TableHeader>
+              <TableRow className="bg-gray-800 md:text-base font-bold text-gray-200">
+                <TableHead className="px-2 md:px-4 py-2 text-[1.20rem]">
+                  Invoice
+                </TableHead>
+                <TableHead className="px-2 md:px-4 py-2 ">Status</TableHead>
+                <TableHead className="px-2 md:px-4 py-2 text-[1.20rem] ">
+                  Method
+                </TableHead>
+                <TableHead className="px-2 md:px-4 py-2 text-[1.20rem] ">
+                  Company
+                </TableHead>
+                <TableHead className="px-2 md:px-4 py-2 text-[1.20rem] ">
+                  Employee
+                </TableHead>
+                <TableHead className="px-2 md:px-4 py-2 text-[1.20rem] ">
+                  Position
+                </TableHead>
+                <TableHead className="px-2 md:px-4 py-2 text-[1.20rem] ">
+                  Salary
+                </TableHead>
+                <TableHead className="px-2 md:px-4 py-2 text-[1.20rem]  text-right">
+                  Amount
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {invoices.map((invoice, index) => (
+                <TableRow
+                  key={index}
+                  className="border-b border-gray-700 hover:bg-gray-600  md:text-sm"
+                >
+                  <TableCell className="px-2 md:px-4 py-2 font-medium text-[0.99rem]">
+                    {invoice.invoice}
+                  </TableCell>
+                  <TableCell className="px-2 md:px-4 py-2 text-[0.99rem]">
+                    {invoice.paymentStatus}
+                  </TableCell>
+                  <TableCell className="px-2 md:px-4 py-2 text-[0.99rem]">
+                    {invoice.paymentMethod}
+                  </TableCell>
+                  <TableCell className="px-2 md:px-4 py-2 text-[0.99rem]">
+                    {invoice.companyName}
+                  </TableCell>
+                  <TableCell className="px-2 md:px-4 py-2 text-[0.99rem]">
+                    {invoice.employeeName}
+                  </TableCell>
+                  <TableCell className="px-2 md:px-4 py-2 text-[0.99rem]">
+                    {invoice.position}
+                  </TableCell>
+                  <TableCell className="px-2 md:px-4 py-2 text-[0.99rem]">
+                    {invoice.salary}
+                  </TableCell>
+                  <TableCell className="px-2 md:px-4 py-2 text-right text-[0.99rem]">
+                    {invoice.totalAmount}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow className="bg-gray-800">
+                <TableCell
+                  colSpan={7}
+                  className="px-4 py-2 text-[0.99rem] font-semibold text-gray-200"
+                >
+                  Total
+                </TableCell>
+                <TableCell className="px-4 py-2 text-right font-semibold text-gray-200 text-[0.99rem]">
+                  $2,500.00
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
+      </div>
     </div>
   );
 }

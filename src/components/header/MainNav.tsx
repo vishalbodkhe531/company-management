@@ -57,7 +57,7 @@ function MainNav() {
         <NavBtn menue={"Home"} />
       </Link>
 
-      <Link to={"/emp/payroll"}>
+      <Link to={"/employee/payroll"}>
         <NavBtn menue={"Payroll"} />
       </Link>
 
@@ -68,7 +68,7 @@ function MainNav() {
             <img src={empLogo} alt="" className="h-12" />
           </Link>
         ) : (
-          <Link to={"/admin/profile"}>
+          <Link to={"/admin/dashboard"}>
             <img src={adminLogo} alt="" className="h-12" />
           </Link>
         )
