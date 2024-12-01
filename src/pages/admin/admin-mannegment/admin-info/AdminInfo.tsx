@@ -1,73 +1,91 @@
 import { TabsContent } from "@/components/ui/tabs";
+import EditForm from "../edit-form/EditForm";
+import { useState } from "react";
 
-function AdminInfo() {
+function AdminInfo({ isEdit }: { isEdit: boolean }) {
+  // Temp user data
+  const [adminData, setAdminData] = useState({
+    email: "xyz123@gmail.com",
+    address: "123 Main Street, City, Country",
+    gender: "Male",
+    adminID: "ADM12345",
+    adminRole: "Super Admin",
+    department: "Information Technology",
+    accessLevel: "Admin",
+  });
+
+  const handleUpdateData = (updateData: typeof adminData) => {
+    console.log("updateData : ", updateData);
+    setAdminData(updateData);
+  };
+
   return (
     <>
-      <TabsContent value="admin" className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Gender</label>
-          <input
-            type="text"
-            placeholder="Super Admin"
-            className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Admin ID</label>
-          <input
-            type="text"
-            placeholder="ADM12345"
-            className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-        </div>
+      {isEdit ? (
+        <EditForm
+          adminData={adminData}
+          saveBtn={isEdit}
+          onUpdate={handleUpdateData}
+        />
+      ) : (
+        <TabsContent value="admin" className="space-y-4">
+          {/* Email Address */}
+          <div>
+            <label className="block text-sm font-medium">Email Address</label>
+            <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              {adminData.email}
+            </div>
+          </div>
 
-        {/* Admin Role: The admin's specific role (e.g., Super Admin, Manager). */}
-        <div>
-          <label className="block text-sm font-medium"> Admin Role</label>
-          <input
-            type="email"
-            placeholder="vishalbodkhe531@gmail.com"
-            className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-        </div>
+          {/* Address */}
+          <div>
+            <label className="block text-sm font-medium">Address</label>
+            <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              {adminData.address}
+            </div>
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium">Admin ID</label>
-          <input
-            type="email"
-            placeholder="vishalbodkhe531@gmail.com"
-            className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-        </div>
+          {/* Gender */}
+          <div>
+            <label className="block text-sm font-medium">Gender</label>
+            <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              {adminData.gender}
+            </div>
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium">Department</label>
-          <input
-            type="email"
-            placeholder="vishalbodkhe531@gmail.com"
-            className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-        </div>
+          {/* Admin ID */}
+          <div>
+            <label className="block text-sm font-medium">Admin ID</label>
+            <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              {adminData.adminID}
+            </div>
+          </div>
 
-        {/* Access Level: Defines what permissions the admin has (e.g., Read/Write). */}
-        <div>
-          <label className="block text-sm font-medium">Access Level</label>
-          <input
-            type="email"
-            placeholder="vishalbodkhe531@gmail.com"
-            className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-        </div>
+          {/* Admin Role */}
+          <div>
+            <label className="block text-sm font-medium">Admin Role</label>
+            <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              {adminData.adminRole}
+            </div>
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium">Access Level</label>
-          <input
-            type="email"
-            placeholder="vishalbodkhe531@gmail.com"
-            className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
-          />
-        </div>
-      </TabsContent>
+          {/* Department */}
+          <div>
+            <label className="block text-sm font-medium">Department</label>
+            <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              {adminData.department}
+            </div>
+          </div>
+
+          {/* Access Level */}
+          <div>
+            <label className="block text-sm font-medium">Access Level</label>
+            <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              {adminData.accessLevel}
+            </div>
+          </div>
+        </TabsContent>
+      )}
     </>
   );
 }

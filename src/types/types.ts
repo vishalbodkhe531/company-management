@@ -12,3 +12,13 @@ export type User = {
   password: string;
   employeeId?: string;
 };
+
+export type adminDataType = {
+  email: string;
+  address: string;
+  gender: string;
+  adminID: string;
+  adminRole: string;
+  department: string;
+  accessLevel: string;
+};

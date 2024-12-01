@@ -113,11 +113,11 @@ function EmployeeSignIn() {
                   <CardFooter className="mt-7 flex flex-col items-end">
                     <Button
                       type="submit"
-                      className="cursor-pointer bg-btnBackground w-full"
+                      className="cursor-pointer bg-Btn1 w-full"
                     >
                       Save changes
                     </Button>
-                    <Button className="cursor-pointer bg-blue-500 w-full mt-4">
+                    <Button className="cursor-pointer bg-Btn2 w-full mt-4">
                       Sign With Google
                     </Button>
                     <div className="text-start mt-9 font-bold cursor-pointer">

@@ -252,7 +252,7 @@ const EmployeeSignUp = () => {
 
         {/* Submit Button */}
         <div className="mt-6 flex justify-center">
-          <Button type="submit" className="bg-formBtn">
+          <Button type="submit" className="bg-Btn1">
             Submit
           </Button>
         </div>

@@ -6,10 +6,11 @@ module.exports = {
     extend: {
       backgroundColor: {
         background: "#000",
-        btnBackground: "#f97316",
         inputBg: "#fff",
         navFoot: "#fff",
-        formBtn: "#2563eb",
+        Btn1: "#f97316",
+        Btn2: "#2563eb",
+        Btn3: "rgb(22 163 74 / var(--tw-bg-opacity, 1))",
       },
       colors: {
         heading: " #f97316",
