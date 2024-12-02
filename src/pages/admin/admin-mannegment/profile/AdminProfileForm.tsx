@@ -49,9 +49,10 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
     if (user) {
       const parsedUser = JSON.parse(user);
       setLocalStorageUser(parsedUser);
+      // Only reset if the user data is new
       reset(parsedUser);
     }
-  }, [reset]);
+  }, [reset]); // Add `reset` as a dependency so it runs on component mount
 
   const onSubmit = handleSubmit((data: AdminFormValues) => {
     console.log("Sign Up data : ", data);

@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        background: "#000",
+        background: "#1f2937",
         inputBg: "#fff",
         navFoot: "#fff",
         Btn1: "#f97316",
@@ -31,6 +31,28 @@ module.exports = {
 
       lineHeight: {
         textHeight: "2.25rem",
+      },
+
+      animation: {
+        expandWave1: "expandWave 4s ease-out infinite",
+        expandWave2: "expandWave 5s ease-out infinite",
+        expandWave3: "expandWave 6s ease-out infinite",
+      },
+      keyframes: {
+        expandWave: {
+          "0%": {
+            transform: "scale(0)",
+            opacity: 0.6,
+          },
+          "50%": {
+            transform: "scale(1.5)",
+            opacity: 0.4,
+          },
+          "100%": {
+            transform: "scale(3)",
+            opacity: 0,
+          },
+        },
       },
     },
   },

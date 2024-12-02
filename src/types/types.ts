@@ -13,7 +13,7 @@ export type User = {
   employeeId?: string;
 };
 
-export type adminDataType = {
+export interface AdminDataType {
   email: string;
   address: string;
   gender: string;
@@ -21,4 +21,4 @@ export type adminDataType = {
   adminRole: string;
   department: string;
   accessLevel: string;
-};
+}

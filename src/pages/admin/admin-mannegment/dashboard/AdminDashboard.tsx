@@ -10,12 +10,12 @@ function AdminDashboard() {
   const [edit, setEdit] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-4 flex flex-col md:flex-row gap-4">
+    <div className="min-h-screen  bg-gray-900 text-gray-200 p-4 flex flex-col md:flex-row gap-4">
       {/* Profile Card */}
       <AdminProfile />
 
       {/* Details Section */}
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full md:w-2/3">
+      <div className="bg-background p-6  rounded-lg shadow-lg w-full md:w-2/3">
         <Tabs defaultValue="admin">
           {/* Tab Triggers */}
           <TabsList className="flex space-x-4 mb-4">

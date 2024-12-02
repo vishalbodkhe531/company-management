@@ -1,5 +1,5 @@
 import { TabsContent } from "@/components/ui/tabs";
-import { adminDataType } from "@/types/types";
+import { AdminDataType } from "@/types/types";
 import { useEffect, useState } from "react";
 
 function EditForm({
@@ -7,8 +7,8 @@ function EditForm({
   onUpdate,
   saveBtn,
 }: {
-  adminData: adminDataType;
-  onUpdate: (updateData: adminDataType) => void;
+  adminData: AdminDataType;
+  onUpdate: (updateData: AdminDataType) => void;
   saveBtn: boolean;
 }) {
   const [formData, setFormData] = useState(adminData);
@@ -17,7 +17,6 @@ function EditForm({
     setFormData(adminData);
   }, [adminData]);
 
-  // Handle form field changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -32,7 +31,6 @@ function EditForm({
 
   return (
     <TabsContent value="admin" className="space-y-4">
-      {/* Email Address */}
       <div>
         <label className="block text-sm font-medium">Email Address</label>
         <input
@@ -45,7 +43,6 @@ function EditForm({
         />
       </div>
 
-      {/* Address */}
       <div>
         <label className="block text-sm font-medium">Address</label>
         <input
@@ -58,7 +55,6 @@ function EditForm({
         />
       </div>
 
-      {/* Gender */}
       <div>
         <label className="block text-sm font-medium">Gender</label>
         <select
@@ -74,7 +70,6 @@ function EditForm({
         </select>
       </div>
 
-      {/* Admin ID */}
       <div>
         <label className="block text-sm font-medium">Admin ID</label>
         <input
@@ -87,7 +82,6 @@ function EditForm({
         />
       </div>
 
-      {/* Admin Role */}
       <div>
         <label className="block text-sm font-medium">Admin Role</label>
         <select
@@ -103,7 +97,6 @@ function EditForm({
         </select>
       </div>
 
-      {/* Department */}
       <div>
         <label className="block text-sm font-medium">Department</label>
         <select
@@ -119,7 +112,6 @@ function EditForm({
         </select>
       </div>
 
-      {/* Access Level */}
       <div>
         <label className="block text-sm font-medium">Access Level</label>
         <select
