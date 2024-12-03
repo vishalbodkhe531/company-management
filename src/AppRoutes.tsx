@@ -22,7 +22,9 @@ const AdminDashboard = lazy(
   () => import("./pages/admin/admin-mannegment/dashboard/AdminDashboard")
 );
 
-const ProjectDashboard = lazy(() => import("./pages/projects/Project"));
+const ProjectDashboard = lazy(
+  () => import("./pages/projects-management/ProjectDashboard")
+);
 
 const EmployeeSignUp = lazy(
   () => import("./pages/employee/sign-up/Sign-Up-Emp")
