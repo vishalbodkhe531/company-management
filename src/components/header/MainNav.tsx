@@ -25,7 +25,6 @@ const getUserFromLocalStorage = (): User | null => {
 
 export const localStorageUser = getUserFromLocalStorage();
 console.log();
-// export const localStorageEmp
 
 function MainNav() {
   const navigate = useNavigate();
@@ -61,7 +60,9 @@ function MainNav() {
         <NavBtn menue={"Payroll"} />
       </Link>
 
-      <NavBtn menue={"Projects"} />
+      <Link to={"/projects"}>
+        <NavBtn menue={"Projects"} />
+      </Link>
       {localStorageUser ? (
         localStorageUser.employeeId ? (
           <Link to={"/admin/profile"}>

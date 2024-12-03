@@ -5,7 +5,6 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-import AdminDashboard from "./pages/admin/admin-mannegment/dashboard/AdminDashboard";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -18,6 +17,12 @@ const SignUpAddmin = lazy(() => import("./pages/admin/sign-up/Sign-Up-Addmin"));
 const AdminProfile = lazy(
   () => import("./pages/admin/admin-mannegment/profile/AdminProfile")
 );
+
+const AdminDashboard = lazy(
+  () => import("./pages/admin/admin-mannegment/dashboard/AdminDashboard")
+);
+
+const ProjectDashboard = lazy(() => import("./pages/projects/Project"));
 
 const EmployeeSignUp = lazy(
   () => import("./pages/employee/sign-up/Sign-Up-Emp")
@@ -49,6 +54,7 @@ function AppRoutes() {
               <Route path="sign-up" element={<SignUpAddmin />} />
               <Route path="dashboard" element={<AdminDashboard />} />
             </Route>
+            <Route path="projects" element={<ProjectDashboard />} />
 
             {/* Employee Routes */}
             <Route path="employee" element={<Structure />}>
