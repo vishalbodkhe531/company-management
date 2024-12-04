@@ -15,10 +15,10 @@ const ProjectDashboard = () => {
     <div className="flex h-screen bg-black text-mainHeading">
       {/* Sidebar for Large Screens */}
       <aside className="hidden lg:block w-[23rem] bg-gray-900 p-4">
-        <h1 className="text-2xl font-bold text-heading mb-6">
+        <h1 className="text-2xl font-system font-bold text-heading mb-6">
           Project Management
         </h1>
-        <nav className="space-y-4">
+        <nav className="space-y-5 mt-10">
           <ProjectTabs
             setTab={setSelectedTab}
             currentTab={selectedTab}

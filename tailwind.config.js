@@ -11,6 +11,7 @@ module.exports = {
         Btn1: "#f97316",
         Btn2: "#2563eb",
         Btn3: "rgb(22 163 74 / var(--tw-bg-opacity, 1))",
+        contentBg: "#374151",
       },
       colors: {
         heading: " #f97316",

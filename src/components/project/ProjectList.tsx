@@ -54,10 +54,7 @@ const ProjectList = () => {
   return (
     <Card className="bg-gray-800 text-white p-6 shadow-white border-none">
       <CardHeader>
-        <div className="flex justify-between">
-          <CardTitle className="text-[2rem] font-bold">Project List</CardTitle>
-          <Button className="bg-Btn2">Create Project</Button>
-        </div>
+        <CardTitle className="text-[2rem] font-bold">Project List</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">

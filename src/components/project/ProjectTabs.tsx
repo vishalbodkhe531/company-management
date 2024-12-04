@@ -16,7 +16,7 @@ function ProjectTabs({
     { value: "overview", label: "Overview" },
     { value: "team", label: "Team Management" },
     { value: "all-projects", label: "Projects & Milestones" },
-    { value: "Activity-Logs", label: "Activity Logs" },
+    // { value: "Activity-Logs", label: "Activity Logs" },
     { value: "reports", label: "Reports" },
     { value: "setting", label: "Settings" },
   ];
