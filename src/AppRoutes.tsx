@@ -1,10 +1,12 @@
 import { Suspense, lazy } from "react";
+import { useSelector } from "react-redux";
 import {
   Navigate,
   Route,
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import { RootState } from "./redux/store";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -14,9 +16,6 @@ const SignInAddmin = lazy(
   () => import("./pages/admin/sign-in /Sign-In-Addmin")
 );
 const SignUpAddmin = lazy(() => import("./pages/admin/sign-up/Sign-Up-Addmin"));
-const AdminProfile = lazy(
-  () => import("./pages/admin/admin-mannegment/profile/AdminProfile")
-);
 
 const AdminDashboard = lazy(
   () => import("./pages/admin/admin-mannegment/dashboard/AdminDashboard")
@@ -36,6 +35,9 @@ const EmployeeSignIn = lazy(
 );
 
 function AppRoutes() {
+  const { admin } = useSelector((state: RootState) => state.adminReducers);
+  console.log(admin);
+
   return (
     <>
       <Suspense fallback={<Loader />}>

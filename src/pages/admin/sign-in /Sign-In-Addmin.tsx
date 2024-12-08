@@ -13,14 +13,23 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLoginMutation } from "@/redux/api/AdminAPI";
+import { adminExist } from "@/redux/reducer/AdminReducer";
+import { messageResponce } from "@/types/api-types";
 import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 function SignInAddmin() {
   const navigate = useNavigate();
+
+  const [login] = useLoginMutation();
+
+  const dispatch = useDispatch();
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminSchema),
@@ -38,15 +47,42 @@ function SignInAddmin() {
     formState: { errors },
   } = form;
 
-  const handleForm = handleSubmit((data: AdminFormValues) => {
+  const handleForm = handleSubmit(async (data: AdminFormValues) => {
+    const { email, password } = data;
+
+    const res = await login({ email, password });
+
+    if (res.data) {
+      const { name, email, password, gender, profilePic } = res.data?.admin;
+      dispatch(adminExist({ name, email, password, profilePic, gender }));
+
+      ToasterComponent({
+        message: "Admin Login Successfully !!",
+        description: "Thanks for Authentication",
+        firstLable: "Close",
+      });
+      navigate("/");
+    }
+
+    if (res.error) {
+      const error = res.error as FetchBaseQueryError;
+      console.log("Error response:", error);
+      const message = error?.data
+        ? (error.data as messageResponce).message
+        : "An unknown error occurred";
+
+      ToasterComponent({
+        message: "Admin Not Logged  !!",
+        description: message,
+        firstLable: "Close",
+      });
+    }
+
     // Temp save user
 
-    ToasterComponent({
-      message: "Admin Login Successfully !!",
-      description: "Thanks for Authentication",
-      firstLable: "Close",
-    });
-    navigate("/");
+    //if (res.data) {
+    //
+    // }
   });
 
   return (

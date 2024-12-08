@@ -149,6 +149,62 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
                     )}
                   </div>
                 </CardContent>
+                <div className="flex flex-col space-y-4 mt-1 items-center">
+                  <Label className="text-mainHeading font-bold">Gender</Label>
+                  <div className="flex justify-around w-full items-center">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        id="male"
+                        type="radio"
+                        value="Male"
+                        className="h-5 w-5 border-gray-300 rounded-full"
+                        {...register("gender")}
+                      />
+                      <label
+                        htmlFor="male"
+                        className="text-mainHeading font-medium cursor-pointer"
+                      >
+                        Male
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        id="female"
+                        type="radio"
+                        value="Female"
+                        className="h-5 w-5 border-gray-300 rounded-full"
+                        {...register("gender")}
+                      />
+                      <label
+                        htmlFor="female"
+                        className="text-mainHeading font-medium cursor-pointer"
+                      >
+                        Female
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        id="other"
+                        type="radio"
+                        value="Other"
+                        className="h-5 w-5 border-gray-300 rounded-full"
+                        {...register("gender")}
+                        defaultChecked
+                      />
+                      <label
+                        htmlFor="other"
+                        className="text-mainHeading font-medium cursor-pointer"
+                      >
+                        Other
+                      </label>
+                    </div>
+                  </div>
+                  {errors.gender && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.gender.message}
+                    </span>
+                  )}
+                </div>
                 <CardFooter className="mt-7 flex flex-col items-end">
                   <Button
                     type="submit"

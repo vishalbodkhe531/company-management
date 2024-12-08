@@ -15,13 +15,19 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { adminSchema } from "@/components/form-validation /Validation";
 import ToasterComponent from "@/components/toaster/Toaster";
+import { useAdminRegisterMutation } from "@/redux/api/AdminAPI";
 import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 function SignUpAddmin() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [adminRegister] = useAdminRegisterMutation();
+
+  // const dispatch = useDispatch();
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminSchema),
@@ -29,6 +35,7 @@ function SignUpAddmin() {
       name: "",
       email: "",
       password: "",
+      gender: "other",
     },
   });
 
@@ -40,13 +47,24 @@ function SignUpAddmin() {
 
   const navigate = useNavigate();
 
-  const onSubmit = handleSubmit((data: AdminFormValues) => {
-    console.log("Sign Up data : ", data);
+  const onSubmit = handleSubmit(async (data: AdminFormValues) => {
+    const { name, email, password, gender } = data;
 
-    // Temp save User
-    const jsonUser = JSON.stringify(data);
-    localStorage.setItem("User", jsonUser);
-    console.log("User successfully saved in local storage");
+    const res = await adminRegister({
+      name: name!,
+      email,
+      password,
+      gender: gender!,
+    });
+    console.log("res : ", res);
+    // if (res.data) {
+    //   dispatch(adminExist({ name: name!, email, password, gender: gender! }));
+    // }
+
+    // Save user data temporarily
+    // const jsonUser = JSON.stringify(data);
+    // localStorage.setItem("User", jsonUser);
+    // console.log("User successfully saved in local storage");
 
     ToasterComponent({
       message: "Admin Registered Successfully !!",
@@ -54,12 +72,12 @@ function SignUpAddmin() {
       firstLable: "Close",
     });
 
-    navigate("/employee/sign-in");
+    navigate("/admin/sign-in");
   });
 
   return (
     <>
-      <div className="flex justify-center items-center h-[90vh]">
+      <div className="flex justify-center items-center h-[90vh] font-system">
         <Tabs defaultValue="account" className="w-[500px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="account">Account</TabsTrigger>
@@ -131,6 +149,62 @@ function SignUpAddmin() {
                       )}
                     </div>
                   </CardContent>
+                  <div className="flex flex-col space-y-4 mt-1 items-center">
+                    <Label className="text-mainHeading font-bold">Gender</Label>
+                    <div className="flex justify-around w-full items-center">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          id="male"
+                          type="radio"
+                          value="male"
+                          className="h-5 w-5 border-gray-300 rounded-full"
+                          {...register("gender")}
+                        />
+                        <label
+                          htmlFor="male"
+                          className="text-mainHeading font-medium cursor-pointer"
+                        >
+                          Male
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          id="female"
+                          type="radio"
+                          value="female"
+                          className="h-5 w-5 border-gray-300 rounded-full"
+                          {...register("gender")}
+                        />
+                        <label
+                          htmlFor="female"
+                          className="text-mainHeading font-medium cursor-pointer"
+                        >
+                          Female
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          id="other"
+                          type="radio"
+                          value="other"
+                          className="h-5 w-5 border-gray-300 rounded-full"
+                          {...register("gender")}
+                          defaultChecked
+                        />
+                        <label
+                          htmlFor="other"
+                          className="text-mainHeading font-medium cursor-pointer"
+                        >
+                          Other
+                        </label>
+                      </div>
+                    </div>
+                    {errors.gender && (
+                      <span className="text-errorText font-bold text-sm">
+                        {errors.gender.message}
+                      </span>
+                    )}
+                  </div>
                   <CardFooter className="mt-7 flex flex-col items-end">
                     <Button
                       type="submit"

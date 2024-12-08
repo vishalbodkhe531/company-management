@@ -22,3 +22,16 @@ export interface AdminDataType {
   department: string;
   accessLevel: string;
 }
+
+export type Admin = {
+  name: string;
+  email: string;
+  password: string;
+  profilePic?: string;
+  gender: string;
+};
+
+export type adminLogin = {
+  email: string;
+  password: string;
+};

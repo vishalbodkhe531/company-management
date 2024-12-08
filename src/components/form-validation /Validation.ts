@@ -12,12 +12,11 @@ export const adminSchema = z.object({
   password: z
     .string()
     .trim()
-    .min(6, "Password must be at least 6 characters long")
-    .optional(),
+    .min(6, "Password must be at least 6 characters long"),
 
   gender: z
-    .enum(["Male", "Female", "Other"], {
-      required_error: "Gender is required",
+    .enum(["male", "female", "other"], {
+      message: "Select a valid gender",
     })
     .optional(),
 });
