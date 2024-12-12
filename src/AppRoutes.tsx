@@ -1,12 +1,14 @@
-import { Suspense, lazy } from "react";
-import { useSelector } from "react-redux";
+import { Suspense, lazy, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   Navigate,
   Route,
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-import { RootState } from "./redux/store";
+import { useGetLoggedAdminQuery } from "./redux/api/AdminAPI";
+import { adminExist } from "./redux/reducer/AdminReducer";
+import { Admin } from "./types/types";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -16,6 +18,8 @@ const SignInAddmin = lazy(
   () => import("./pages/admin/sign-in /Sign-In-Addmin")
 );
 const SignUpAddmin = lazy(() => import("./pages/admin/sign-up/Sign-Up-Addmin"));
+
+const SecureRoutes = lazy(() => import("./components/secure/SecureRoutes"));
 
 const AdminDashboard = lazy(
   () => import("./pages/admin/admin-mannegment/dashboard/AdminDashboard")
@@ -35,8 +39,16 @@ const EmployeeSignIn = lazy(
 );
 
 function AppRoutes() {
-  const { admin } = useSelector((state: RootState) => state.adminReducers);
-  console.log(admin);
+  const dispatch = useDispatch();
+
+  const { data } = useGetLoggedAdminQuery("");
+
+  useEffect(() => {
+    const { name, email, profilePic, gender } = data?.admin || {};
+    if (data?.admin) {
+      dispatch(adminExist({ name, email, profilePic, gender } as Admin));
+    }
+  }, [data]);
 
   return (
     <>
@@ -56,7 +68,16 @@ function AppRoutes() {
             <Route path="admin" element={<Structure />}>
               <Route path="sign-in" element={<SignInAddmin />} />
               <Route path="sign-up" element={<SignUpAddmin />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
+            </Route>
+            <Route path="/admin" element={<SecureRoutes />}>
+              <Route
+                path="dashboard"
+                element={
+                  <Structure>
+                    <AdminDashboard />
+                  </Structure>
+                }
+              />
             </Route>
             <Route path="projects" element={<ProjectDashboard />} />
 

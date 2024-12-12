@@ -18,15 +18,20 @@ import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
-  const [localStorageUser, setLocalStorageUser] = useState<{
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { admin } = useSelector((state: RootState) => state.adminReducers);
+  console.log(admin);
+
+  const [inputValue, setInputValue] = useState<{
     name?: string;
     email?: string;
     password?: string;
   } | null>(null);
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminSchema),
@@ -40,27 +45,18 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
   const {
     handleSubmit,
     register,
-    formState: { errors },
     reset,
+    formState: { errors },
   } = form;
 
   useEffect(() => {
-    const user = localStorage.getItem("User");
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      setLocalStorageUser(parsedUser);
-      // Only reset if the user data is new
-      reset(parsedUser);
+    if (admin) {
+      setInputValue(admin);
     }
-  }, [reset]); // Add `reset` as a dependency so it runs on component mount
+  }, [reset]);
 
   const onSubmit = handleSubmit((data: AdminFormValues) => {
     console.log("Sign Up data : ", data);
-
-    // Temp save User
-    const jsonUser = JSON.stringify(data);
-    localStorage.setItem("User", jsonUser);
-    console.log("User successfully saved in local storage");
 
     ToasterComponent({
       message: "Profile Updated Successfully !!",
@@ -71,15 +67,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
     switer(false);
   });
 
-  const handleLogout = () => {
-    localStorage.removeItem("User");
-    switer(false);
-    ToasterComponent({
-      message: "Logout Successfully !!",
-      description: "Thanks for visite it",
-      firstLable: "Close",
-    });
-  };
+  const handleLogout = () => {};
 
   return (
     <div className="flex justify-center items-center h-[70vh]">

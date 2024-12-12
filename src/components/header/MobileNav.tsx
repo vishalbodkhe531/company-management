@@ -9,10 +9,7 @@ import { Menu } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBtn from "../nav-Btns/NavBtn";
 import { Button } from "../ui/button";
-import { localStorageUser } from "./MainNav";
 
-import adminLogo from "../../assets/admin.jpg";
-import empLogo from "../../assets/employee.png";
 import ToasterComponent from "../toaster/Toaster";
 
 const MobileNav = () => {
@@ -72,7 +69,7 @@ const MobileNav = () => {
             </Link>
 
             {/* Conditional Admin Profile or Log In */}
-            {localStorageUser ? (
+            {/* {localStorageUser ? (
               localStorageUser.employeeId ? (
                 <Link to={"/admin/profile"}>
                   <SheetTrigger>
@@ -97,7 +94,17 @@ const MobileNav = () => {
                   </Button>
                 </SheetTrigger>
               </div>
-            )}
+            )} */}
+            <div className="w-full">
+              <SheetTrigger className="w-full">
+                <Button
+                  className="w-full bg-Btn1 dark:bg-gray-800 dark:text-gray-100"
+                  onClick={showLoginToast}
+                >
+                  Log In
+                </Button>
+              </SheetTrigger>
+            </div>
           </div>
         </SheetDescription>
       </SheetContent>

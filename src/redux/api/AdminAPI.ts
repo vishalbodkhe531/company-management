@@ -6,6 +6,7 @@ export const adminAPI = createApi({
   reducerPath: "adminApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_SERVER}/api/admin/`,
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     adminRegister: builder.mutation<messageResponce, Admin>({
@@ -27,9 +28,25 @@ export const adminAPI = createApi({
           "Content-Type": "application/json",
         },
         body: JSON.stringify(admin),
+        credentials: "include",
+      }),
+    }),
+    getLoggedAdmin: builder.query<adminLoginResponce, string>({
+      // query: () => `logged`,
+      query: () => ({
+        url: "logged",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
       }),
     }),
   }),
 });
 
-export const { useAdminRegisterMutation, useLoginMutation } = adminAPI;
+export const {
+  useAdminRegisterMutation,
+  useLoginMutation,
+  useGetLoggedAdminQuery,
+} = adminAPI;

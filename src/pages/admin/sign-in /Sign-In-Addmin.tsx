@@ -77,12 +77,6 @@ function SignInAddmin() {
         firstLable: "Close",
       });
     }
-
-    // Temp save user
-
-    //if (res.data) {
-    //
-    // }
   });
 
   return (
