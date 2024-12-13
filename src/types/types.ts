@@ -29,6 +29,7 @@ export type Admin = {
   password: string;
   profilePic?: string;
   gender: string;
+  _id?: string;
 };
 
 export type adminLogin = {

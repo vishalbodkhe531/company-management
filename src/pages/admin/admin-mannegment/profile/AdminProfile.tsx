@@ -19,7 +19,9 @@ function AdminProfile() {
           </div>
           <h2 className="text-xl font-semibold mt-4">Vishal Bodkhe</h2>
           <p className="text-gray-400">vishalbodkhe531@gmail.com</p>
-          <AdminProfileForm switer={setEdit} />
+          <div className="mt-10">
+            <AdminProfileForm switer={setEdit} />
+          </div>
         </div>
       ) : (
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full md:w-1/3 flex flex-col items-center">

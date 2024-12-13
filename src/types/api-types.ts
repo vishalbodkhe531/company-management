@@ -9,3 +9,8 @@ export type adminLoginResponce = {
   success: boolean;
   admin: Admin;
 };
+
+export type updateAdminRequest = {
+  id: string;
+  admin: Admin;
+};

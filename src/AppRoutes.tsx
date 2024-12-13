@@ -44,9 +44,9 @@ function AppRoutes() {
   const { data } = useGetLoggedAdminQuery("");
 
   useEffect(() => {
-    const { name, email, profilePic, gender } = data?.admin || {};
+    const { name, email, profilePic, gender, _id } = data?.admin || {};
     if (data?.admin) {
-      dispatch(adminExist({ name, email, profilePic, gender } as Admin));
+      dispatch(adminExist({ name, email, profilePic, gender, _id } as Admin));
     }
   }, [data]);
 

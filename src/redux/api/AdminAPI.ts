@@ -1,4 +1,8 @@
-import { adminLoginResponce, messageResponce } from "@/types/api-types";
+import {
+  adminLoginResponce,
+  messageResponce,
+  updateAdminRequest,
+} from "@/types/api-types";
 import { Admin, adminLogin } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -31,14 +35,29 @@ export const adminAPI = createApi({
         credentials: "include",
       }),
     }),
+
     getLoggedAdmin: builder.query<adminLoginResponce, string>({
-      // query: () => `logged`,
       query: () => ({
         url: "logged",
-        method: "GET",
+        credentials: "include",
+      }),
+    }),
+
+    logoutAdmin: builder.mutation<messageResponce, void>({
+      query: () => ({
+        url: "logout",
+        credentials: "include",
+      }),
+    }),
+
+    updateAdmin: builder.mutation<Admin, updateAdminRequest>({
+      query: ({ id, admin }) => ({
+        url: id,
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        body: admin,
         credentials: "include",
       }),
     }),
@@ -49,4 +68,6 @@ export const {
   useAdminRegisterMutation,
   useLoginMutation,
   useGetLoggedAdminQuery,
+  useUpdateAdminMutation,
+  useLogoutAdminMutation,
 } = adminAPI;

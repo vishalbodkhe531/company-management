@@ -7,12 +7,15 @@ export const adminSchema = z.object({
     .min(2, "Name must be at least 2 characters long")
     .optional(),
 
-  email: z.string().trim().email("Invalid email address"),
+  email: z.string().trim().email("Invalid email address").optional(),
 
   password: z
     .string()
     .trim()
-    .min(6, "Password must be at least 6 characters long"),
+    .optional()
+    .refine((password) => !password || password.length >= 6, {
+      message: "Password must be at least 6 characters long",
+    }),
 
   gender: z
     .enum(["male", "female", "other"], {
