@@ -13,7 +13,10 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLoginMutation } from "@/redux/api/AdminAPI";
+import {
+  useGoogleSignInMutation,
+  useLoginMutation,
+} from "@/redux/api/AdminAPI";
 import { adminExist } from "@/redux/reducer/AdminReducer";
 import { messageResponce } from "@/types/api-types";
 import { AdminFormValues } from "@/types/validation-types";
@@ -24,10 +27,15 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/firebase";
+
 function SignInAddmin() {
   const navigate = useNavigate();
 
   const [login] = useLoginMutation();
+
+  const [googleSignIn] = useGoogleSignInMutation();
 
   const dispatch = useDispatch();
 
@@ -50,7 +58,7 @@ function SignInAddmin() {
   const handleForm = handleSubmit(async (data: AdminFormValues) => {
     const { email, password } = data;
 
-    const res = await login({ email, password });
+    const res = await login({ email: email!, password: password! });
 
     if (res.data) {
       const { name, email, password, gender, profilePic } = res.data?.admin;
@@ -78,6 +86,37 @@ function SignInAddmin() {
       });
     }
   });
+
+  const handleSignWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+
+      const { displayName, email, photoURL } = user;
+
+      const adminData = {
+        name: displayName || "Anonymous",
+        email: email || "",
+        password: "",
+        profilePic: photoURL || "",
+        gender: "other",
+      };
+
+      const res = await googleSignIn(adminData);
+
+      if (res) {
+        ToasterComponent({
+          message: "Admin Login Successfully  !!",
+          description: "Thank's for Login",
+          firstLable: "Close",
+        });
+        dispatch(adminExist(adminData));
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+    }
+  };
 
   return (
     <>
@@ -147,7 +186,11 @@ function SignInAddmin() {
                     >
                       Save changes
                     </Button>
-                    <Button className="cursor-pointer bg-Btn2 w-full mt-4">
+                    <Button
+                      className="cursor-pointer bg-Btn2 w-full mt-4"
+                      type="button"
+                      onClick={handleSignWithGoogle}
+                    >
                       Sign With Google
                     </Button>
                     <div className="text-start mt-9 font-bold cursor-pointer">

@@ -61,6 +61,18 @@ export const adminAPI = createApi({
         credentials: "include",
       }),
     }),
+
+    googleSignIn: builder.mutation<messageResponce, Admin>({
+      query: (admin) => ({
+        url: "/google-login",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: admin,
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -70,4 +82,5 @@ export const {
   useGetLoggedAdminQuery,
   useUpdateAdminMutation,
   useLogoutAdminMutation,
+  useGoogleSignInMutation,
 } = adminAPI;

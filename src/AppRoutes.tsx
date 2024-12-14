@@ -14,9 +14,7 @@ const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
 const Loader = lazy(() => import("./components/loader/Loader"));
 
-const SignInAddmin = lazy(
-  () => import("./pages/admin/sign-in /Sign-In-Addmin")
-);
+const SignInAddmin = lazy(() => import("./pages/admin/sign-in /Sign-In-Admin"));
 const SignUpAddmin = lazy(() => import("./pages/admin/sign-up/Sign-Up-Addmin"));
 
 const SecureRoutes = lazy(() => import("./components/secure/SecureRoutes"));

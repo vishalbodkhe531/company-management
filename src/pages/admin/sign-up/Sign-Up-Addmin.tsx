@@ -15,19 +15,27 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { adminSchema } from "@/components/form-validation /Validation";
 import ToasterComponent from "@/components/toaster/Toaster";
-import { useAdminRegisterMutation } from "@/redux/api/AdminAPI";
+import {
+  useAdminRegisterMutation,
+  useGoogleSignInMutation,
+} from "@/redux/api/AdminAPI";
 import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/firebase";
 import { useDispatch } from "react-redux";
+import { adminExist } from "@/redux/reducer/AdminReducer";
 
 function SignUpAddmin() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [adminRegister] = useAdminRegisterMutation();
 
-  // const dispatch = useDispatch();
+  const [googleSignIn] = useGoogleSignInMutation();
+
+  const dispatch = useDispatch();
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminSchema),
@@ -50,21 +58,12 @@ function SignUpAddmin() {
   const onSubmit = handleSubmit(async (data: AdminFormValues) => {
     const { name, email, password, gender } = data;
 
-    const res = await adminRegister({
+    await adminRegister({
       name: name!,
-      email,
-      password,
+      email: email!,
+      password: password!,
       gender: gender!,
     });
-    console.log("res : ", res);
-    // if (res.data) {
-    //   dispatch(adminExist({ name: name!, email, password, gender: gender! }));
-    // }
-
-    // Save user data temporarily
-    // const jsonUser = JSON.stringify(data);
-    // localStorage.setItem("User", jsonUser);
-    // console.log("User successfully saved in local storage");
 
     ToasterComponent({
       message: "Admin Registered Successfully !!",
@@ -74,6 +73,37 @@ function SignUpAddmin() {
 
     navigate("/admin/sign-in");
   });
+
+  const handleSignWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+
+      const { displayName, email, photoURL } = user;
+
+      const adminData = {
+        name: displayName || "Anonymous",
+        email: email || "",
+        password: "",
+        profilePic: photoURL || "",
+        gender: "other",
+      };
+
+      const res = await googleSignIn(adminData);
+
+      if (res) {
+        ToasterComponent({
+          message: "Admin Login Successfully  !!",
+          description: "Thank's for Login",
+          firstLable: "Close",
+        });
+        dispatch(adminExist(adminData));
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+    }
+  };
 
   return (
     <>
@@ -212,7 +242,11 @@ function SignUpAddmin() {
                     >
                       Save changes
                     </Button>
-                    <Button className="cursor-pointer bg-Btn2 w-full mt-4">
+                    <Button
+                      className="cursor-pointer bg-Btn2 w-full mt-4"
+                      onClick={handleSignWithGoogle}
+                      type="button"
+                    >
                       Sign With Google
                     </Button>
                     <div className="text-start mt-9 font-bold cursor-pointer">
