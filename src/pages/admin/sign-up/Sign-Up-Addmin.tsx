@@ -27,6 +27,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/firebase";
 import { useDispatch } from "react-redux";
 import { adminExist } from "@/redux/reducer/AdminReducer";
+import { Admin } from "@/types/types";
 
 function SignUpAddmin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -79,29 +80,43 @@ function SignUpAddmin() {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
-      const { displayName, email, photoURL } = user;
+      const { displayName, email, photoURL, uid } = user;
 
-      const adminData = {
+      const adminData: Admin = {
         name: displayName || "Anonymous",
         email: email || "",
         password: "",
         profilePic: photoURL || "",
         gender: "other",
+        _id: uid,
       };
 
       const res = await googleSignIn(adminData);
 
-      if (res) {
+      if ("data" in res && res.data) {
+        const { email, gender, name, profilePic, _id } = res.data;
         ToasterComponent({
           message: "Admin Login Successfully  !!",
           description: "Thank's for Login",
           firstLable: "Close",
         });
-        dispatch(adminExist(adminData));
+        dispatch(adminExist({ email, gender, name, profilePic, _id }));
         navigate("/");
+      } else if ("error" in res) {
+        console.error("Google Sign-In Error:", res.error);
+        ToasterComponent({
+          message: "Admin Login Failed  !!",
+          description: "An error occurred during login.",
+          firstLable: "Close",
+        });
       }
     } catch (error) {
       console.error("Error signing in with Google:", error);
+      ToasterComponent({
+        message: "Google Sign-In Failed",
+        description: "Unable to authenticate with Google.",
+        firstLable: "Close",
+      });
     }
   };
 
@@ -238,12 +253,12 @@ function SignUpAddmin() {
                   <CardFooter className="mt-7 flex flex-col items-end">
                     <Button
                       type="submit"
-                      className="cursor-pointer bg-Btn1 w-full"
+                      className="cursor-pointer btn-orange  w-full"
                     >
                       Save changes
                     </Button>
                     <Button
-                      className="cursor-pointer bg-Btn2 w-full mt-4"
+                      className="cursor-pointer btn-gradient w-full mt-4"
                       onClick={handleSignWithGoogle}
                       type="button"
                     >

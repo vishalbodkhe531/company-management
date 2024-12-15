@@ -46,7 +46,7 @@ function AdminDashboard() {
             <div className="flex flex-col items-center mt-10">
               <Button
                 className={` ${
-                  edit ? `bg-Btn3` : `bg-Btn1`
+                  edit ? `btn-gradient` : `btn-orange`
                 } w-[50%] rounded-full h-10 text-mainHeading font-bold cursor-pointer`}
                 onClick={() => setEdit((prev) => !prev)}
               >

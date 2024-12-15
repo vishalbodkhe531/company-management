@@ -12,10 +12,11 @@ export const adminSchema = z.object({
   password: z
     .string()
     .trim()
-    .optional()
-    .refine((password) => !password || password.length >= 6, {
-      message: "Password must be at least 6 characters long",
-    }),
+    .length(6, "Password must be exactly 6 characters long")
+    .optional(),
+  // .refine((password) => !password || password.length >= 6, {
+  //   message: "Password must be at least 6 characters long",
+  // }),
 
   gender: z
     .enum(["male", "female", "other"], {
@@ -95,4 +96,13 @@ export const employeeSchema = z.object({
   }),
 
   employmentType: z.enum(["Full-time", "Part-time", "Contract"]),
+});
+
+export const OTPSchema = z.object({
+  pin: z
+    .string()
+    .min(6, {
+      message: "Your one-time password must be 6 characters.",
+    })
+    .regex(/^\d+$/, { message: "OTP must contain only numbers." }),
 });

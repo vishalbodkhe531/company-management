@@ -19,6 +19,10 @@ module.exports = {
         inputTitle: "#000",
         errorText: "red",
         navFoot: "#000",
+        btnGradientFrom: "#10b981", // Green
+        btnGradientTo: "#3b82f6", // Blue
+        btnOrangeFrom: "#f97316", // Bright orange
+        btnOrangeTo: "#ea580c", // Warm reddish-orange
       },
       fontSize: {
         title: "1.875rem",

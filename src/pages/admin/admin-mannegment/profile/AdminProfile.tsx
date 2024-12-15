@@ -31,7 +31,7 @@ function AdminProfile() {
           <h2 className="text-xl font-semibold mt-4">Vishal Bodkhe</h2>
           <p className="text-gray-400">vishalbodkhe531@gmail.com</p>
           <button
-            className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-medium"
+            className="mt-4 px-4 py-2 btn-gradient rounded text-white font-medium"
             onClick={handleEditToggle} // Use function to toggle
           >
             Edit Profile

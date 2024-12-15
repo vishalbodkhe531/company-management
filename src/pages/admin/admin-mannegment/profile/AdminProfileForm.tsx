@@ -70,6 +70,8 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
   const onSubmit = handleSubmit(async (data: AdminFormValues) => {
     setIsLoading(true);
 
+    console.log("admin : ", admin);
+
     try {
       if (admin?._id) {
         const response = await updateAdmin({
@@ -82,7 +84,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
           firstLable: "Close",
         });
 
-        console.log("data : ", data);
+        console.log("data : ");
 
         const { name, email, gender } = data;
         switer(false);
@@ -237,7 +239,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
                 <CardFooter className="mt-7 flex flex-col items-end">
                   <Button
                     type="submit"
-                    className={`cursor-pointer bg-Btn1 w-full ${
+                    className={`cursor-pointer btn-orange w-full ${
                       isLoading ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     disabled={isLoading}

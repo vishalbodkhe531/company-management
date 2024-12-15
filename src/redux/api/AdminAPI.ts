@@ -62,7 +62,7 @@ export const adminAPI = createApi({
       }),
     }),
 
-    googleSignIn: builder.mutation<messageResponce, Admin>({
+    googleSignIn: builder.mutation<Admin, Admin>({
       query: (admin) => ({
         url: "/google-login",
         method: "POST",

@@ -26,7 +26,7 @@ export interface AdminDataType {
 export type Admin = {
   name: string;
   email: string;
-  password: string;
+  password?: string;
   profilePic?: string;
   gender: string;
   _id?: string;

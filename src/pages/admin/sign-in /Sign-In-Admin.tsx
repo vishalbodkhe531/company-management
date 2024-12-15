@@ -27,8 +27,10 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import OTPdrower from "@/components/OTP/OTPdrover";
 import { auth } from "@/firebase";
+import { Admin } from "@/types/types";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 function SignInAddmin() {
   const navigate = useNavigate();
@@ -38,6 +40,8 @@ function SignInAddmin() {
   const [googleSignIn] = useGoogleSignInMutation();
 
   const dispatch = useDispatch();
+
+  const [OTPTrigger, setOTPTrigger] = useState(false);
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminSchema),
@@ -60,17 +64,18 @@ function SignInAddmin() {
 
     const res = await login({ email: email!, password: password! });
 
-    if (res.data) {
-      const { name, email, password, gender, profilePic } = res.data?.admin;
-      dispatch(adminExist({ name, email, password, profilePic, gender }));
+    setOTPTrigger(true);
+    // if (res.data) {
+    //   const { name, email, password, gender, profilePic } = res.data?.admin;
+    //   dispatch(adminExist({ name, email, password, profilePic, gender }));
 
-      ToasterComponent({
-        message: "Admin Login Successfully !!",
-        description: "Thanks for Authentication",
-        firstLable: "Close",
-      });
-      navigate("/");
-    }
+    //   ToasterComponent({
+    //     message: "Admin Login Successfully !!",
+    //     description: "Thanks for Authentication",
+    //     firstLable: "Close",
+    //   });
+    //   navigate("/");
+    // }
 
     if (res.error) {
       const error = res.error as FetchBaseQueryError;
@@ -92,29 +97,45 @@ function SignInAddmin() {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
-      const { displayName, email, photoURL } = user;
+      const { displayName, email, photoURL, uid } = user;
 
-      const adminData = {
+      console.log("user : ", user);
+
+      const adminData: Admin = {
         name: displayName || "Anonymous",
         email: email || "",
         password: "",
         profilePic: photoURL || "",
         gender: "other",
+        _id: uid,
       };
 
       const res = await googleSignIn(adminData);
 
-      if (res) {
+      if ("data" in res && res.data) {
+        const { email, gender, name, profilePic, _id } = res.data;
         ToasterComponent({
           message: "Admin Login Successfully  !!",
           description: "Thank's for Login",
           firstLable: "Close",
         });
-        dispatch(adminExist(adminData));
+        dispatch(adminExist({ email, gender, name, profilePic, _id }));
         navigate("/");
+      } else if ("error" in res) {
+        console.error("Google Sign-In Error:", res.error);
+        ToasterComponent({
+          message: "Admin Login Failed  !!",
+          description: "An error occurred during login.",
+          firstLable: "Close",
+        });
       }
     } catch (error) {
       console.error("Error signing in with Google:", error);
+      ToasterComponent({
+        message: "Google Sign-In Failed",
+        description: "Unable to authenticate with Google.",
+        firstLable: "Close",
+      });
     }
   };
 
@@ -182,12 +203,16 @@ function SignInAddmin() {
                   <CardFooter className="mt-7 flex flex-col items-end">
                     <Button
                       type="submit"
-                      className="cursor-pointer bg-Btn1 w-full"
+                      className="cursor-pointer btn-orange w-full"
+                      // onClick={() => setOTPTrigger(true)}
                     >
-                      Save changes
+                      Sign In
                     </Button>
+                    {OTPTrigger && (
+                      <OTPdrower open={OTPTrigger} setOpen={setOTPTrigger} />
+                    )}
                     <Button
-                      className="cursor-pointer bg-Btn2 w-full mt-4"
+                      className="cursor-pointer btn-gradient w-full mt-4"
                       type="button"
                       onClick={handleSignWithGoogle}
                     >
@@ -230,7 +255,7 @@ function SignInAddmin() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button>Save password</Button>
+                <Button>Save password</Button>;
               </CardFooter>
             </Card>
           </TabsContent>
