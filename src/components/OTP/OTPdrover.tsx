@@ -23,9 +23,10 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 interface OTPdrowerProps {
   open: boolean;
   setOpen: (value: boolean) => void;
+  onOTPSubmit: (value: string) => void;
 }
 
-function OTPdrower({ open, setOpen }: OTPdrowerProps) {
+function OTPdrower({ open, setOpen, onOTPSubmit }: OTPdrowerProps) {
   const form = useForm<OTPFormValues>({
     resolver: zodResolver(OTPSchema),
     defaultValues: {
@@ -37,25 +38,16 @@ function OTPdrower({ open, setOpen }: OTPdrowerProps) {
 
   const onSubmitForm = handleSubmit((data: OTPFormValues) => {
     console.log(data);
+    const { pin } = data;
 
-    // if (res.data) {
-    //   const { name, email, password, gender, profilePic } = res.data?.admin;
-    //   dispatch(adminExist({ name, email, password, profilePic, gender }));
-
-    //   ToasterComponent({
-    //     message: "Admin Login Successfully !!",
-    //     description: "Thanks for Authentication",
-    //     firstLable: "Close",
-    //   });
-    //   navigate("/");
-    // }
+    onOTPSubmit(pin);
 
     ToasterComponent({
       message: "You submitted the following values:",
       description: "Thanks for submitting",
       firstLable: "Close",
     });
-    setOpen(false); // Close the dialog after successful form submission
+    setOpen(false);
   });
 
   return (
