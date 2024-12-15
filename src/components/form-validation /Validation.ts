@@ -25,6 +25,30 @@ export const adminSchema = z.object({
     .optional(),
 });
 
+export const updateAdminSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters long")
+    .optional(),
+
+  email: z.string().trim().email("Invalid email address").optional(),
+
+  password: z
+    .string()
+    .trim()
+    .refine((password) => !password || password.length >= 6, {
+      message: "Password must be at least 6 characters long",
+    })
+    .optional(),
+
+  gender: z
+    .enum(["male", "female", "other"], {
+      message: "Select a valid gender",
+    })
+    .optional(),
+});
+
 export const applyProjectSchema = z.object({
   email: z.string().trim().email("Invalid email address"),
 

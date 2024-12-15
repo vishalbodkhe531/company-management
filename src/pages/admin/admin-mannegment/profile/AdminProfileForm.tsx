@@ -12,7 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 
-import { adminSchema } from "@/components/form-validation /Validation";
+import {
+  adminSchema,
+  updateAdminSchema,
+} from "@/components/form-validation /Validation";
 import ToasterComponent from "@/components/toaster/Toaster";
 import {
   useLogoutAdminMutation,
@@ -21,7 +24,10 @@ import {
 import { adminExist, adminNotExist } from "@/redux/reducer/AdminReducer";
 import { RootState } from "@/redux/store";
 import { Admin } from "@/types/types";
-import { AdminFormValues } from "@/types/validation-types";
+import {
+  AdminFormValues,
+  UpdateAdminFormValues,
+} from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,8 +43,8 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
 
   const { admin } = useSelector((state: RootState) => state.adminReducers);
 
-  const form = useForm<AdminFormValues>({
-    resolver: zodResolver(adminSchema),
+  const form = useForm<UpdateAdminFormValues>({
+    resolver: zodResolver(updateAdminSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -70,6 +76,8 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
   const onSubmit = handleSubmit(async (data: AdminFormValues) => {
     setIsLoading(true);
 
+    console.log("data : ", data);
+
     console.log("admin : ", admin);
 
     try {
@@ -83,8 +91,6 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
           description: "Your changes have been saved.",
           firstLable: "Close",
         });
-
-        console.log("data : ");
 
         const { name, email, gender } = data;
         switer(false);
