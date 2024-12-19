@@ -13,21 +13,24 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link, useNavigate } from "react-router-dom";
 
+import OTPdrower from "@/components/OTP/OTPdrover";
 import { adminSchema } from "@/components/form-validation /Validation";
 import ToasterComponent from "@/components/toaster/Toaster";
+import { auth } from "@/firebase";
 import {
   useAdminRegisterMutation,
   useGoogleSignInMutation,
 } from "@/redux/api/AdminAPI";
-import { AdminFormValues } from "@/types/validation-types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/firebase";
-import { useDispatch } from "react-redux";
 import { adminExist } from "@/redux/reducer/AdminReducer";
 import { Admin } from "@/types/types";
+import { AdminFormValues } from "@/types/validation-types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { messageResponce } from "@/types/api-types";
 
 function SignUpAddmin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +40,10 @@ function SignUpAddmin() {
   const [googleSignIn] = useGoogleSignInMutation();
 
   const dispatch = useDispatch();
+
+  const [OTPTrigger, setOTPTrigger] = useState(false);
+  const [OTPSubmit, setOTPSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminSchema),
@@ -57,26 +64,58 @@ function SignUpAddmin() {
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit(async (data: AdminFormValues) => {
+    setLoading(true);
     const { name, email, password, gender } = data;
 
-    await adminRegister({
-      name: name!,
-      email: email!,
-      password: password!,
-      gender: gender!,
-    });
+    if (OTPSubmit) {
+      const res = await adminRegister({
+        name: name!,
+        email: email!,
+        password: password!,
+        gender: gender!,
+      });
 
-    ToasterComponent({
-      message: "Admin Registered Successfully !!",
-      description: "Thanks for Authentication",
-      firstLable: "Close",
-    });
+      setLoading(false);
 
-    navigate("/admin/sign-in");
+      if ("data" in res && res.data) {
+        ToasterComponent({
+          message: "Admin Registered Successfully !!",
+          description: "Thanks for Authentication",
+          firstLable: "Close",
+        });
+        navigate("/admin/sign-in");
+      } else if ("error" in res) {
+        const error = res.error as FetchBaseQueryError;
+        const message = error?.data
+          ? (error.data as messageResponce).message
+          : "An unknown error occurred";
+        ToasterComponent({
+          message: message,
+          description: "Admin does not Registered",
+          firstLable: "Close",
+        });
+        setOTPTrigger(true);
+      } else {
+        ToasterComponent({
+          message: "Unknown error occurred.",
+          description: "Please contact support.",
+          firstLable: "Close",
+        });
+      }
+    } else {
+      ToasterComponent({
+        message: "Fill OTP Here !!",
+        description: "Thanks for Authentication",
+        firstLable: "Close",
+      });
+      setOTPTrigger(true);
+    }
+    setLoading(false);
   });
 
   const handleSignWithGoogle = async () => {
     try {
+      setLoading(true);
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
@@ -118,6 +157,12 @@ function SignUpAddmin() {
         firstLable: "Close",
       });
     }
+    setLoading(false);
+  };
+
+  const handleOTPSubmit = (data: string) => {
+    setOTPSubmit(true);
+    console.log("data : ", data);
   };
 
   return (
@@ -253,16 +298,25 @@ function SignUpAddmin() {
                   <CardFooter className="mt-7 flex flex-col items-end">
                     <Button
                       type="submit"
-                      className="cursor-pointer btn-orange  w-full"
+                      className="cursor-pointer btn-orange w-full"
+                      disabled={loading}
                     >
-                      Save changes
+                      {loading ? "Loading..." : "Sign In"}
                     </Button>
+                    {OTPTrigger && (
+                      <OTPdrower
+                        open={OTPTrigger}
+                        setOpen={setOTPTrigger}
+                        onOTPSubmit={handleOTPSubmit}
+                      />
+                    )}
                     <Button
                       className="cursor-pointer btn-gradient w-full mt-4"
-                      onClick={handleSignWithGoogle}
                       type="button"
+                      onClick={handleSignWithGoogle}
+                      disabled={loading}
                     >
-                      Sign With Google
+                      {loading ? "Loading..." : "Sign With Google"}
                     </Button>
                     <div className="text-start mt-9 font-bold cursor-pointer">
                       <Link to={"/admin/sign-in"}>Sign-In</Link>
