@@ -20,6 +20,8 @@ import { auth } from "@/firebase";
 import {
   useAdminRegisterMutation,
   useGoogleSignInMutation,
+  useSendOTPMutation,
+  useVerifyOTPMutation,
 } from "@/redux/api/AdminAPI";
 import { adminExist } from "@/redux/reducer/AdminReducer";
 import { Admin } from "@/types/types";
@@ -38,6 +40,10 @@ function SignUpAddmin() {
   const [adminRegister] = useAdminRegisterMutation();
 
   const [googleSignIn] = useGoogleSignInMutation();
+
+  const [sendOTP] = useSendOTPMutation();
+
+  const [verifyOTP] = useVerifyOTPMutation();
 
   const dispatch = useDispatch();
 
@@ -103,6 +109,7 @@ function SignUpAddmin() {
         });
       }
     } else {
+      if (email) sendOTP({ email });
       ToasterComponent({
         message: "Fill OTP Here !!",
         description: "Thanks for Authentication",
@@ -160,9 +167,41 @@ function SignUpAddmin() {
     setLoading(false);
   };
 
-  const handleOTPSubmit = (data: string) => {
-    setOTPSubmit(true);
-    console.log("data : ", data);
+  const handleOTPSubmit = async (verificationCode: string) => {
+    const email = form.getValues("email");
+
+    if (!email || !verificationCode) {
+      ToasterComponent({
+        message: "Email and OTP are required",
+        description: "Please enter both fields",
+        firstLable: "Close",
+      });
+      setLoading(false);
+      return;
+    }
+
+    const res = await verifyOTP({ email, verificationCode });
+
+    console.log("res : ", res);
+
+    if ("data" in res && res.data) {
+      ToasterComponent({
+        message: "OTP Verified Successfully",
+        description: "You may proceed with registration",
+        firstLable: "Close",
+      });
+      setOTPSubmit(true);
+    } else if ("error" in res) {
+      const error = res.error as FetchBaseQueryError;
+      const message = error?.data
+        ? (error.data as messageResponce).message
+        : "An unknown error occurred";
+      ToasterComponent({
+        message: message,
+        description: "Failed to verify OTP",
+        firstLable: "Close",
+      });
+    }
   };
 
   return (

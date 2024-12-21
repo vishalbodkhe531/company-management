@@ -26,11 +26,10 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import OTPdrower from "@/components/OTP/OTPdrover";
+import { adminSchema } from "@/components/form-validation /Validation";
 import { auth } from "@/firebase";
 import { Admin } from "@/types/types";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { adminSchema } from "@/components/form-validation /Validation";
 
 function SignInAddmin() {
   const navigate = useNavigate();
@@ -38,8 +37,6 @@ function SignInAddmin() {
   const [googleSignIn] = useGoogleSignInMutation();
   const dispatch = useDispatch();
 
-  const [OTPTrigger, setOTPTrigger] = useState(false);
-  const [OTPSubmit, setOTPSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -65,19 +62,15 @@ function SignInAddmin() {
 
     setLoading(false);
 
-    if (OTPSubmit) {
-      if (res.data) {
-        const { name, email, password, gender, profilePic } = res.data?.admin;
-        dispatch(adminExist({ name, email, password, profilePic, gender }));
-        ToasterComponent({
-          message: "Admin Login Successfully !!",
-          description: "Thanks for Authentication",
-          firstLable: "Close",
-        });
-        navigate("/");
-      }
-    } else if (!res.error) {
-      setOTPTrigger(true);
+    if (res.data) {
+      const { name, email, password, gender, profilePic } = res.data?.admin;
+      dispatch(adminExist({ name, email, password, profilePic, gender }));
+      ToasterComponent({
+        message: "Admin Login Successfully !!",
+        description: "Thanks for Authentication",
+        firstLable: "Close",
+      });
+      navigate("/");
     }
 
     if (res.error) {
@@ -137,10 +130,6 @@ function SignInAddmin() {
       });
     }
     setLoading(false);
-  };
-
-  const handleOTPSubmit = (data: string) => {
-    setOTPSubmit(true);
   };
 
   return (
@@ -211,13 +200,6 @@ function SignInAddmin() {
                     >
                       {loading ? "Loading..." : "Sign In"}
                     </Button>
-                    {OTPTrigger && (
-                      <OTPdrower
-                        open={OTPTrigger}
-                        setOpen={setOTPTrigger}
-                        onOTPSubmit={handleOTPSubmit}
-                      />
-                    )}
                     <Button
                       className="cursor-pointer btn-gradient w-full mt-4"
                       type="button"

@@ -39,7 +39,7 @@ const EmployeeSignIn = lazy(
 function AppRoutes() {
   const dispatch = useDispatch();
 
-  const { data } = useGetLoggedAdminQuery("");
+  const { data } = useGetLoggedAdminQuery();
 
   useEffect(() => {
     const { name, email, profilePic, gender, _id } = data?.admin || {};

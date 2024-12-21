@@ -36,3 +36,8 @@ export type adminLogin = {
   email: string;
   password: string;
 };
+
+export type OTPRequest = {
+  email: string;
+  verificationCode?: string;
+};
