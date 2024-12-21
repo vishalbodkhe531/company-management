@@ -17,7 +17,6 @@ function AdminDashboard() {
       {/* Details Section */}
       <div className="bg-background p-6  rounded-lg shadow-lg w-full md:w-2/3">
         <Tabs defaultValue="admin">
-          {/* Tab Triggers */}
           <TabsList className="flex space-x-4 mb-4">
             <TabsTrigger
               value="admin"

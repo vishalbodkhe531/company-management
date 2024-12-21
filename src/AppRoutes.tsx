@@ -1,5 +1,6 @@
+import { RootState } from "@/redux/store";
 import { Suspense, lazy, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Navigate,
   Route,
@@ -12,6 +13,7 @@ import { Admin } from "./types/types";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
+const AdminHome = lazy(() => import("./pages/admin/home/AdminHome"));
 const Loader = lazy(() => import("./components/loader/Loader"));
 
 const SignInAddmin = lazy(() => import("./pages/admin/sign-in /Sign-In-Admin"));
@@ -36,17 +38,25 @@ const EmployeeSignIn = lazy(
   () => import("./pages/employee/sign-in/Sign-In-Emp")
 );
 
+const EmoployeeDash = lazy(
+  () => import("./pages/admin/emp-managment/EmoployeeDash")
+);
+
 function AppRoutes() {
   const dispatch = useDispatch();
+
+  const { admin } = useSelector((state: RootState) => state.adminReducers);
 
   const { data } = useGetLoggedAdminQuery();
 
   useEffect(() => {
-    const { name, email, profilePic, gender, _id } = data?.admin || {};
+    const { name, email, profilePic, gender, _id, role } = data?.admin || {};
     if (data?.admin) {
-      dispatch(adminExist({ name, email, profilePic, gender, _id } as Admin));
+      dispatch(
+        adminExist({ name, email, profilePic, gender, _id, role } as Admin)
+      );
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   return (
     <>
@@ -57,7 +67,13 @@ function AppRoutes() {
               path="/"
               element={
                 <Structure>
-                  <Home />
+                  {admin?.role === undefined ? (
+                    <Home />
+                  ) : admin?.role === "admin" ? (
+                    <AdminHome />
+                  ) : (
+                    <Home />
+                  )}
                 </Structure>
               }
             />
@@ -77,7 +93,10 @@ function AppRoutes() {
                 }
               />
             </Route>
+            {/* dashboards */}
             <Route path="projects" element={<ProjectDashboard />} />
+            <Route path="employee-management" element={<EmoployeeDash />} />
+
 
             {/* Employee Routes */}
             <Route path="employee" element={<Structure />}>

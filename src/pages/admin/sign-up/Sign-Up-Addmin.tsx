@@ -79,6 +79,7 @@ function SignUpAddmin() {
         email: email!,
         password: password!,
         gender: gender!,
+        role: "admin",
       });
 
       setLoading(false);
@@ -140,13 +141,13 @@ function SignUpAddmin() {
       const res = await googleSignIn(adminData);
 
       if ("data" in res && res.data) {
-        const { email, gender, name, profilePic, _id } = res.data;
+        const { email, gender, name, profilePic, _id, role } = res.data;
         ToasterComponent({
           message: "Admin Login Successfully  !!",
           description: "Thank's for Login",
           firstLable: "Close",
         });
-        dispatch(adminExist({ email, gender, name, profilePic, _id }));
+        dispatch(adminExist({ email, gender, name, profilePic, _id, role }));
         navigate("/");
       } else if ("error" in res) {
         console.error("Google Sign-In Error:", res.error);

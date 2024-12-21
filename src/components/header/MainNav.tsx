@@ -42,24 +42,14 @@ function MainNav() {
         <NavBtn menue={"Payroll"} />
       </Link>
 
+      <Link to={"/employee-management"}>
+        <NavBtn menue={"Emoployee"} />
+      </Link>
+
       <Link to={"/projects"}>
         <NavBtn menue={"Projects"} />
       </Link>
-      {/* {localStorageUser ? (
-        localStorageUser.employeeId ? (
-          <Link to={"/admin/profile"}>
-            <img src={empLogo} alt="" className="h-12" />
-          </Link>
-        ) : (
-          <Link to={"/admin/dashboard"}>
-            <img src={adminLogo} alt="" className="h-12" />
-          </Link>
-        )
-      ) : (
-        <div onClick={showLoginToast}>
-          <LoginButton title={"Login"} />
-        </div>
-      )} */}
+
       {admin ? (
         <Link to={"/admin/dashboard"}>
           <img src={adminLogo} alt="" className="h-12" />

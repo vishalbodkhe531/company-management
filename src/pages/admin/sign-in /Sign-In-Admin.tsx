@@ -63,8 +63,9 @@ function SignInAddmin() {
     setLoading(false);
 
     if (res.data) {
-      const { name, email, password, gender, profilePic } = res.data?.admin;
-      dispatch(adminExist({ name, email, password, profilePic, gender }));
+      const { name, email, password, gender, profilePic, role } =
+        res.data?.admin;
+      dispatch(adminExist({ name, email, password, profilePic, gender, role }));
       ToasterComponent({
         message: "Admin Login Successfully !!",
         description: "Thanks for Authentication",
@@ -107,13 +108,13 @@ function SignInAddmin() {
       const res = await googleSignIn(adminData);
 
       if ("data" in res && res.data) {
-        const { email, gender, name, profilePic, _id } = res.data;
+        const { email, gender, name, profilePic, _id, role } = res.data;
         ToasterComponent({
           message: "Admin Login Successfully  !!",
           description: "Thank's for Login",
           firstLable: "Close",
         });
-        dispatch(adminExist({ email, gender, name, profilePic, _id }));
+        dispatch(adminExist({ email, gender, name, profilePic, _id, role }));
         navigate("/");
       } else if ("error" in res) {
         ToasterComponent({
