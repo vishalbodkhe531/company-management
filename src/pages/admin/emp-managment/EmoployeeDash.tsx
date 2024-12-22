@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import EmpTabs from "../../../components/admin/emp-management/EmpTabs";
+import EmployeeDirectory from "@/components/admin/emp-management/EmpDirectory";
+import EmployeeAttendance from "@/components/admin/emp-management/EmpAttendance";
+import EmployeeList from "@/components/admin/emp-management/EmpList";
 
 const EmoployeeDash = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
@@ -58,9 +61,11 @@ const EmoployeeDash = () => {
         <div className="space-y-6">
           {selectedTab === "overview" && <EmployeeOverview />}
           {selectedTab === "all-projects" && <ProjectList />}
-          {/* {selectedTab === "team" && <Team />} */}
-          {/* {selectedTab === "reports" && <Reports />} */}
-          {/* {selectedTab === "setting" && <Setting />} */}
+          {selectedTab === "employee-directory" && <EmployeeDirectory />}
+          {selectedTab === "attendance-tracking" && <EmployeeAttendance />}
+          {selectedTab === "all-employees" && <EmployeeList />}
+          {/* {selectedTab === "all-employees" && <EmployeeList />} */}
+          {/* {selectedTab === "all-employees" && <EmployeeList />} */}
         </div>
       </main>
     </div>
