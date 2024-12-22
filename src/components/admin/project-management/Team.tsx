@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
-import { Separator } from "../ui/separator";
-// import { Textarea } from "../ui/textarea";
+import { Button } from "../../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "../../ui/select";
+import { Separator } from "../../ui/separator";
 
 const TeamManagement = () => {
   const [teamMembers, setTeamMembers] = useState([

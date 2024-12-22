@@ -1,12 +1,10 @@
-import ProjectList from "@/components/project/ProjectList";
-import ProjectOverview from "@/components/project/ProjectOverview";
-import ProjectTabs from "@/components/project/ProjectTabs";
-import Reports from "@/components/project/Reports";
-import Setting from "@/components/project/Setting";
-import Team from "@/components/project/Team";
+import EmployeeOverview from "@/components/admin/emp-management/EmpOverview";
+import ProjectList from "@/components/admin/project-management/ProjectList";
+import ProjectTabs from "@/components/admin/project-management/ProjectTabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
+import EmpTabs from "../../../components/admin/emp-management/EmpTabs";
 
 const EmoployeeDash = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
@@ -19,7 +17,7 @@ const EmoployeeDash = () => {
           Employee Management
         </h1>
         <nav className="space-y-5 mt-10">
-          <ProjectTabs
+          <EmpTabs
             setTab={setSelectedTab}
             currentTab={selectedTab}
             key={selectedTab}
@@ -36,7 +34,7 @@ const EmoployeeDash = () => {
         </SheetTrigger>
         <SheetContent side="left" className="w-64 bg-gray-900 p-4">
           <h1 className="text-2xl font-bold text-heading mb-6">
-            Project Management
+            Employee Management
           </h1>
           <nav className="space-y-4">
             <ProjectTabs
@@ -58,11 +56,11 @@ const EmoployeeDash = () => {
 
         {/* Tab Content */}
         <div className="space-y-6">
-          {selectedTab === "overview" && <ProjectOverview />}
+          {selectedTab === "overview" && <EmployeeOverview />}
           {selectedTab === "all-projects" && <ProjectList />}
-          {selectedTab === "team" && <Team />}
-          {selectedTab === "reports" && <Reports />}
-          {selectedTab === "setting" && <Setting />}
+          {/* {selectedTab === "team" && <Team />} */}
+          {/* {selectedTab === "reports" && <Reports />} */}
+          {/* {selectedTab === "setting" && <Setting />} */}
         </div>
       </main>
     </div>

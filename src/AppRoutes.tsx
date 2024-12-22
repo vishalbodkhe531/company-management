@@ -33,7 +33,7 @@ const EmployeeSignUp = lazy(
   () => import("./pages/employee/sign-up/Sign-Up-Emp")
 );
 
-const Payroll = lazy(() => import("./pages/payroll/Payroll"));
+const Payroll = lazy(() => import("./components/admin/emp-management/Payroll"));
 const EmployeeSignIn = lazy(
   () => import("./pages/employee/sign-in/Sign-In-Emp")
 );
@@ -96,7 +96,6 @@ function AppRoutes() {
             {/* dashboards */}
             <Route path="projects" element={<ProjectDashboard />} />
             <Route path="employee-management" element={<EmoployeeDash />} />
-
 
             {/* Employee Routes */}
             <Route path="employee" element={<Structure />}>

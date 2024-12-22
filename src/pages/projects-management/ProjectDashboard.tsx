@@ -1,9 +1,9 @@
-import ProjectList from "@/components/project/ProjectList";
-import ProjectOverview from "@/components/project/ProjectOverview";
-import ProjectTabs from "@/components/project/ProjectTabs";
-import Reports from "@/components/project/Reports";
-import Setting from "@/components/project/Setting";
-import Team from "@/components/project/Team";
+import ProjectList from "@/components/admin/project-management/ProjectList";
+import ProjectOverview from "@/components/admin/project-management/ProjectOverview";
+import ProjectTabs from "@/components/admin/project-management/ProjectTabs";
+import ProjectReportTab from "@/components/admin/project-management/Reports";
+import ProjectSettings from "@/components/admin/project-management/Setting";
+import TeamManagement from "@/components/admin/project-management/Team";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -60,9 +60,9 @@ const ProjectDashboard = () => {
         <div className="space-y-6">
           {selectedTab === "overview" && <ProjectOverview />}
           {selectedTab === "all-projects" && <ProjectList />}
-          {selectedTab === "team" && <Team />}
-          {selectedTab === "reports" && <Reports />}
-          {selectedTab === "setting" && <Setting />}
+          {selectedTab === "team" && <TeamManagement />}
+          {selectedTab === "reports" && <ProjectReportTab />}
+          {selectedTab === "setting" && <ProjectSettings />}
         </div>
       </main>
     </div>

@@ -1,5 +1,5 @@
-import { BarChart } from "../charts/Chart";
-import { DoughnutChart } from "../charts/DoughnutChart";
+import { BarChart } from "../../charts/Chart";
+import { DoughnutChart } from "../../charts/DoughnutChart";
 
 function ProjectOverview() {
   return (

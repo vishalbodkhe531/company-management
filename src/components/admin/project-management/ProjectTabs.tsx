@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { cn } from "../../components/lib/utils";
-import { Button } from "../ui/button";
+import { cn } from "../../lib/utils";
+import { Button } from "../../ui/button";
 
 function ProjectTabs({
   setTab,

@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Label } from "../ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
-import { Separator } from "../ui/separator";
-import { Input } from "../ui/input";
+import { Button } from "../../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Label } from "../../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "../../ui/select";
+import { Separator } from "../../ui/separator";
+import { Input } from "../../ui/input";
 
 const ProjectSettings = () => {
   const [projects, setProjects] = useState([

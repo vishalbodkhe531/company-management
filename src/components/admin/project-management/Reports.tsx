@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Progress } from "../ui/progress";
-import { Separator } from "../ui/separator";
+import { Button } from "../../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Progress } from "../../ui/progress";
+import { Separator } from "../../ui/separator";
 
 const ProjectReportTab = () => {
   const [projects, setProjects] = useState([
