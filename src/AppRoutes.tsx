@@ -33,7 +33,9 @@ const EmployeeSignUp = lazy(
   () => import("./pages/employee/sign-up/Sign-Up-Emp")
 );
 
-const Payroll = lazy(() => import("./components/admin/emp-management/Payroll"));
+const Payroll = lazy(
+  () => import("./components/admin/emp-management/EmpPayroll")
+);
 const EmployeeSignIn = lazy(
   () => import("./pages/employee/sign-in/Sign-In-Emp")
 );

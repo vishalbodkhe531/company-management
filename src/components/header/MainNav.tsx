@@ -24,7 +24,7 @@ function MainNav() {
 
   const showLoginToast = () => {
     ToasterComponent({
-      message: "You clicked Log In",
+      message: "Click Here To Log In With",
       description: "How you wan't to login",
       firstLable: "Admin",
       secLable: "Employee",

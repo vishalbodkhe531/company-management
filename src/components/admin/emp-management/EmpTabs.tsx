@@ -14,10 +14,8 @@ function EmpTabs({
     { value: "overview", label: "Overview" },
     { value: "employee-directory", label: "Employee Directory" },
     { value: "attendance-tracking", label: "Attendance Tracking" },
-    { value: "all-employees", label: "All Employees" },
     { value: "employee-documents", label: "Employee Documents" },
     { value: "payroll", label: "Payroll" },
-    { value: "leave-management", label: "Leave Management" },
     { value: "notifications", label: "Notifications" },
     { value: "setting", label: "Settings" },
   ];

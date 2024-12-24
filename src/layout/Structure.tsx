@@ -6,14 +6,23 @@ import { Outlet } from "react-router-dom";
 function Structure({ children }: { children?: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="text-heading">
+      {/* Header */}
+      <header className="bg-header text-heading shadow-md">
         <Header />
       </header>
+
+      {/* Main Content Area */}
       <main className="flex-grow bg-background text-mainHeading">
-        {children || <Outlet />}
+        <div className=" mx-auto px-4  w-full py-6 h-full">
+          {children || <Outlet />}
+        </div>
       </main>
-      <Toaster />
-      <footer>
+
+      {/* Toaster Notifications */}
+      <Toaster toastOptions={{ duration: 3000 }} />
+
+      {/* Footer */}
+      <footer className="bg-footer text-footerHeading">
         <Footer />
       </footer>
     </div>

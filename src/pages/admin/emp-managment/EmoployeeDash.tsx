@@ -1,13 +1,15 @@
+import EmployeeAttendance from "@/components/admin/emp-management/EmpAttendance";
+import EmployeeDirectory from "@/components/admin/emp-management/EmpDirectory";
+import EmployeeDocuments from "@/components/admin/emp-management/EmpDocuments";
 import EmployeeOverview from "@/components/admin/emp-management/EmpOverview";
+import EmployeeSettings from "@/components/admin/emp-management/EmpSettings";
 import ProjectList from "@/components/admin/project-management/ProjectList";
 import ProjectTabs from "@/components/admin/project-management/ProjectTabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import EmpTabs from "../../../components/admin/emp-management/EmpTabs";
-import EmployeeDirectory from "@/components/admin/emp-management/EmpDirectory";
-import EmployeeAttendance from "@/components/admin/emp-management/EmpAttendance";
-import EmployeeList from "@/components/admin/emp-management/EmpList";
+import EmployeePayroll from "@/components/admin/emp-management/EmpPayroll";
 
 const EmoployeeDash = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
@@ -63,9 +65,9 @@ const EmoployeeDash = () => {
           {selectedTab === "all-projects" && <ProjectList />}
           {selectedTab === "employee-directory" && <EmployeeDirectory />}
           {selectedTab === "attendance-tracking" && <EmployeeAttendance />}
-          {selectedTab === "all-employees" && <EmployeeList />}
-          {/* {selectedTab === "all-employees" && <EmployeeList />} */}
-          {/* {selectedTab === "all-employees" && <EmployeeList />} */}
+          {selectedTab === "employee-documents" && <EmployeeDocuments />}
+          {selectedTab === "payroll" && <EmployeePayroll />}
+          {selectedTab === "setting" && <EmployeeSettings />}
         </div>
       </main>
     </div>
