@@ -10,14 +10,19 @@ import {
 import { useGetLoggedAdminQuery } from "./redux/api/AdminAPI";
 import { adminExist } from "./redux/reducer/AdminReducer";
 import { Admin } from "./types/types";
+import AuthPage from "./pages/admin/authentication/AuthPage";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
 const AdminHome = lazy(() => import("./pages/admin/home/AdminHome"));
 const Loader = lazy(() => import("./components/loader/Loader"));
 
-const SignInAddmin = lazy(() => import("./pages/admin/sign-in /Sign-In-Admin"));
-const SignUpAddmin = lazy(() => import("./pages/admin/sign-up/Sign-Up-Addmin"));
+const SignInAddmin = lazy(
+  () => import("./components/admin/auth/sign-in /Sign-In-Admin")
+);
+const SignUpAddmin = lazy(
+  () => import("./components/admin/auth/sign-up/Sign-Up-Addmin")
+);
 
 const SecureRoutes = lazy(() => import("./components/secure/SecureRoutes"));
 
@@ -82,8 +87,10 @@ function AppRoutes() {
 
             {/* Admin Routes  */}
             <Route path="admin" element={<Structure />}>
-              <Route path="sign-in" element={<SignInAddmin />} />
-              <Route path="sign-up" element={<SignUpAddmin />} />
+              {/* <Route path="sign-in" element={<SignInAddmin />} />
+              <Route path="sign-up" element={<SignUpAddmin />} /> */}
+              <Route path="sign-in" element={<AuthPage />} />
+              <Route path="sign-up" element={<AuthPage />} />
             </Route>
             <Route path="/admin" element={<SecureRoutes />}>
               <Route

@@ -1,6 +1,6 @@
 import { TextGenerateEffect } from "@/components/ui/TextGenrateEffect";
 import mainImage from "../../assets/hero.png";
-
+import { motion } from "framer-motion";
 function Home() {
   return (
     <>
@@ -9,11 +9,17 @@ function Home() {
           words="Empower Your Business with Smart Management Tools ..."
           className="text-3xl  w-[50rem]"
         />
-        <img
-          src={mainImage}
-          alt="Main Image"
-          className="h-[22vw]  transform home-img transition-all duration-700 ease-in-out"
-        />
+        <motion.p
+          initial={{ x: "-8vw", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1, delay: 1, ease: "easeIn" }}
+        >
+          <img
+            src={mainImage}
+            alt="Main Image"
+            className="h-[19rem] md:h-[24rem]"
+          />
+        </motion.p>
       </div>
     </>
   );
