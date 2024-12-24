@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -10,7 +9,6 @@ import {
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link, useNavigate } from "react-router-dom";
 
 import OTPdrower from "@/components/OTP/OTPdrover";
@@ -24,15 +22,15 @@ import {
   useVerifyOTPMutation,
 } from "@/redux/api/AdminAPI";
 import { adminExist } from "@/redux/reducer/AdminReducer";
+import { messageResponce } from "@/types/api-types";
 import { Admin } from "@/types/types";
 import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { messageResponce } from "@/types/api-types";
 
 function SignUpAddmin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -210,14 +208,14 @@ function SignUpAddmin() {
       <Form {...form}>
         <form onSubmit={onSubmit} className="">
           <CardHeader>
-            <CardTitle className="font-bold">Account</CardTitle>
+            <CardTitle className="text-xl font-bold">Account</CardTitle>
             <CardDescription>
               Make changes to your account here. Click save when you're done.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-1">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name ">Name</Label>
               <Input
                 id="name"
                 placeholder="Name"
@@ -271,7 +269,7 @@ function SignUpAddmin() {
             </div>
           </CardContent>
           <div className="flex flex-col space-y-4 mt-1 items-center">
-            <Label className="text-mainHeading font-bold">Gender</Label>
+            <Label className="text-lg font-bold">Gender</Label>
             <div className="flex justify-around w-full items-center">
               <div className="flex items-center space-x-2">
                 <input
@@ -349,45 +347,12 @@ function SignUpAddmin() {
             >
               {loading ? "Loading..." : "Sign With Google"}
             </Button>
-            <div className="text-start mt-9 font-bold cursor-pointer">
+            <div className="text-start text-xl mt-9 font-bold cursor-pointer">
               <Link to={"/admin/sign-in"}>Sign-In</Link>
             </div>
           </CardFooter>
         </form>
       </Form>
-      <TabsContent value="password" className="px-[3rem]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Password</CardTitle>
-            <CardDescription>
-              Change your password here. After saving, you'll be logged out.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="current">Current password</Label>
-              <Input
-                id="current"
-                type="password"
-                className="bg-inputBg text-inputTitle"
-                placeholder="Current password"
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="new">New password</Label>
-              <Input
-                id="new"
-                type="password"
-                className="bg-inputBg"
-                placeholder="New password"
-              />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button>Save password</Button>
-          </CardFooter>
-        </Card>
-      </TabsContent>
     </>
   );
 }

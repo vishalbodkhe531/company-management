@@ -13,9 +13,7 @@ function Structure({ children }: { children?: React.ReactNode }) {
 
       {/* Main Content Area */}
       <main className="flex-grow bg-background text-mainHeading">
-        <div className=" mx-auto px-4  w-full py-6 h-full">
-          {children || <Outlet />}
-        </div>
+        <div className=" mx-auto w-full h-full">{children || <Outlet />}</div>
       </main>
 
       {/* Toaster Notifications */}

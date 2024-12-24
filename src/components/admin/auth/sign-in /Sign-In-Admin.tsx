@@ -138,7 +138,7 @@ function SignInAddmin() {
         <form onSubmit={handleForm}>
           <Card className="border-none">
             <CardHeader>
-              <CardTitle className="font-bold">Account</CardTitle>
+              <CardTitle className="text-xl font-bold">Account</CardTitle>
               <CardDescription>
                 Make changes to your account here. Click save when you're done.
               </CardDescription>
@@ -200,7 +200,7 @@ function SignInAddmin() {
               >
                 {loading ? "Loading..." : "Sign With Google"}
               </Button>
-              <div className="text-start mt-9 font-bold cursor-pointer">
+              <div className="text-start mt-9 text-xl font-bold cursor-pointer">
                 <Link to={"/admin/sign-up"}>Sign-Up</Link>
               </div>
             </CardFooter>
