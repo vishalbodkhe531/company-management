@@ -68,7 +68,7 @@ function SignInAddmin() {
       ToasterComponent({
         message: "Admin Login Successfully !!",
         description: "Thanks for Authentication",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
       navigate("/");
     }
@@ -82,7 +82,7 @@ function SignInAddmin() {
       ToasterComponent({
         message: "Admin Not Logged  !!",
         description: message,
-        firstLable: "Close",
+        firstLabel: "Close",
       });
     }
   });
@@ -111,7 +111,7 @@ function SignInAddmin() {
         ToasterComponent({
           message: "Admin Login Successfully  !!",
           description: "Thank's for Login",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
         dispatch(adminExist({ email, gender, name, profilePic, _id, role }));
         navigate("/");
@@ -119,14 +119,14 @@ function SignInAddmin() {
         ToasterComponent({
           message: "Admin Login Failed  !!",
           description: "An error occurred during login.",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
       }
     } catch (error) {
       ToasterComponent({
         message: "Google Sign-In Failed",
         description: "Unable to authenticate with Google.",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
     }
     setLoading(false);

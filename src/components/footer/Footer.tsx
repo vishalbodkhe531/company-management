@@ -7,7 +7,7 @@ const Footer = () => {
         <img
           src={logo}
           alt="Company Logo"
-          className="h-[15rem] mx-10 rounded-full w-auto object-contain mt-1"
+          className="h-[10rem] md:h-[13rem] mx-10   rounded-full w-auto object-contain mt-12 md:mt-1"
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-5">

@@ -7,31 +7,31 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import AuthPage from "./pages/admin/authentication/AuthPage";
 import { useGetLoggedAdminQuery } from "./redux/api/AdminAPI";
 import { adminExist } from "./redux/reducer/AdminReducer";
 import { Admin } from "./types/types";
-import AuthPage from "./pages/admin/authentication/AuthPage";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
 const AdminHome = lazy(() => import("./pages/admin/home/AdminHome"));
 const Loader = lazy(() => import("./components/loader/Loader"));
 
-const SignInAddmin = lazy(
-  () => import("./components/admin/auth/sign-in /Sign-In-Admin")
-);
-const SignUpAddmin = lazy(
-  () => import("./components/admin/auth/sign-up/Sign-Up-Addmin")
-);
+// const SignInAddmin = lazy(
+//   () => import("./components/admin/auth/sign-in /Sign-In-Admin")
+// );
+// const SignUpAddmin = lazy(
+//   () => import("./components/admin/auth/sign-up/Sign-Up-Addmin")
+// );
 
 const SecureRoutes = lazy(() => import("./components/secure/SecureRoutes"));
 
 const AdminDashboard = lazy(
-  () => import("./pages/admin/admin-mannegment/dashboard/AdminDashboard")
+  () => import("./pages/admin/admin-dashboard/AdminDashboard")
 );
 
 const ProjectDashboard = lazy(
-  () => import("./pages/projects-management/ProjectDashboard")
+  () => import("./pages/admin/projects-dashboard/ProjectDashboard")
 );
 
 const EmployeeSignUp = lazy(
@@ -87,8 +87,6 @@ function AppRoutes() {
 
             {/* Admin Routes  */}
             <Route path="admin" element={<Structure />}>
-              {/* <Route path="sign-in" element={<SignInAddmin />} />
-              <Route path="sign-up" element={<SignUpAddmin />} /> */}
               <Route path="sign-in" element={<AuthPage />} />
               <Route path="sign-up" element={<AuthPage />} />
             </Route>
@@ -103,7 +101,7 @@ function AppRoutes() {
               />
             </Route>
             {/* dashboards */}
-            <Route path="projects" element={<ProjectDashboard />} />
+            <Route path="/admin/projects" element={<ProjectDashboard />} />
             <Route path="employee-management" element={<EmoployeeDash />} />
 
             {/* Employee Routes */}

@@ -86,7 +86,7 @@ function SignUpAddmin() {
         ToasterComponent({
           message: "Admin Registered Successfully !!",
           description: "Thanks for Authentication",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
         navigate("/admin/sign-in");
       } else if ("error" in res) {
@@ -97,14 +97,14 @@ function SignUpAddmin() {
         ToasterComponent({
           message: message,
           description: "Admin does not Registered",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
         setOTPTrigger(true);
       } else {
         ToasterComponent({
           message: "Unknown error occurred.",
           description: "Please contact support.",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
       }
     } else {
@@ -112,7 +112,7 @@ function SignUpAddmin() {
       ToasterComponent({
         message: "Fill OTP Here !!",
         description: "Thanks for Authentication",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
       setOTPTrigger(true);
     }
@@ -143,7 +143,7 @@ function SignUpAddmin() {
         ToasterComponent({
           message: "Admin Login Successfully  !!",
           description: "Thank's for Login",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
         dispatch(adminExist({ email, gender, name, profilePic, _id, role }));
         navigate("/");
@@ -152,7 +152,7 @@ function SignUpAddmin() {
         ToasterComponent({
           message: "Admin Login Failed  !!",
           description: "An error occurred during login.",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
       }
     } catch (error) {
@@ -160,7 +160,7 @@ function SignUpAddmin() {
       ToasterComponent({
         message: "Google Sign-In Failed",
         description: "Unable to authenticate with Google.",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
     }
     setLoading(false);
@@ -173,7 +173,7 @@ function SignUpAddmin() {
       ToasterComponent({
         message: "Email and OTP are required",
         description: "Please enter both fields",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
       setLoading(false);
       return;
@@ -187,7 +187,7 @@ function SignUpAddmin() {
       ToasterComponent({
         message: "OTP Verified Successfully",
         description: "You may proceed with registration",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
       setOTPSubmit(true);
     } else if ("error" in res) {
@@ -198,7 +198,7 @@ function SignUpAddmin() {
       ToasterComponent({
         message: message,
         description: "Failed to verify OTP",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
     }
   };

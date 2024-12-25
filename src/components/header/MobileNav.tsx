@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import NavBtn from "../nav-Btns/NavBtn";
+import NavBtn from "./NavBtn";
 import { Button } from "../ui/button";
 
 import ToasterComponent from "../toaster/Toaster";
@@ -16,7 +16,6 @@ const MobileNav = () => {
   const navigate = useNavigate();
 
   const handleSignIn = (data: string) => {
-    console.log("data : ", data);
     if (data === "Admin") {
       navigate("/admin/sign-in");
     }
@@ -30,8 +29,8 @@ const MobileNav = () => {
     ToasterComponent({
       message: "You clicked Log In",
       description: "How you wan't to login",
-      firstLable: "Admin",
-      secLable: "Employee",
+      firstLabel: "Admin",
+      secLabel: "Employee",
       caseHandler: handleSignIn,
     });
   };
@@ -50,21 +49,21 @@ const MobileNav = () => {
             {/* Home Navigation */}
             <Link to={"/"}>
               <SheetTrigger>
-                <NavBtn menue={"Home"} />
+                <NavBtn menu={"Home"} />
               </SheetTrigger>
             </Link>
 
             {/* Payroll Navigation */}
             <Link to={"/employee/payroll"}>
               <SheetTrigger>
-                <NavBtn menue={"Payroll"} />
+                <NavBtn menu={"Payroll"} />
               </SheetTrigger>
             </Link>
 
             {/* Projects Navigation */}
             <Link to={"/admin/projects"}>
               <SheetTrigger>
-                <NavBtn menue={"Projects"} />
+                <NavBtn menu={"Projects"} />
               </SheetTrigger>
             </Link>
 

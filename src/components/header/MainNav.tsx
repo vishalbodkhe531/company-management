@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { LoginButton } from "../button/Btn";
-import NavBtn from "../nav-Btns/NavBtn";
+import NavBtn from "./NavBtn";
 import ToasterComponent from "../toaster/Toaster";
 
 import { RootState } from "@/redux/store";
@@ -25,9 +25,9 @@ function MainNav() {
   const showLoginToast = () => {
     ToasterComponent({
       message: "Click Here To Log In With",
-      description: "How you wan't to login",
-      firstLable: "Admin",
-      secLable: "Employee",
+      description: "How you want to log in",
+      firstLabel: "Admin", // Fixed spelling
+      secLabel: "Employee", // Fixed spelling
       caseHandler: handleSignIn,
     });
   };
@@ -35,24 +35,24 @@ function MainNav() {
   return (
     <div className="flex items-center gap-4">
       <Link to={"/"}>
-        <NavBtn menue={"Home"} />
+        <NavBtn menu={"Home"} /> {/* Fixed spelling */}
       </Link>
 
       <Link to={"/employee/payroll"}>
-        <NavBtn menue={"Payroll"} />
+        <NavBtn menu={"Payroll"} /> {/* Fixed spelling */}
       </Link>
 
       <Link to={"/employee-management"}>
-        <NavBtn menue={"Emoployee"} />
+        <NavBtn menu={"Employee"} /> {/* Fixed spelling */}
       </Link>
 
-      <Link to={"/projects"}>
-        <NavBtn menue={"Projects"} />
+      <Link to={"/admin/projects"}>
+        <NavBtn menu={"Projects"} /> {/* Fixed spelling */}
       </Link>
 
       {admin ? (
         <Link to={"/admin/dashboard"}>
-          <img src={adminLogo} alt="" className="h-12" />
+          <img src={adminLogo} alt="Admin Logo" className="h-12" />
         </Link>
       ) : (
         <div onClick={showLoginToast}>

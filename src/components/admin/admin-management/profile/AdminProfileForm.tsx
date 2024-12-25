@@ -12,10 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 
-import {
-  adminSchema,
-  updateAdminSchema,
-} from "@/components/form-validation /Validation";
+import { updateAdminSchema } from "@/components/form-validation /Validation";
 import ToasterComponent from "@/components/toaster/Toaster";
 import {
   useLogoutAdminMutation,
@@ -82,14 +79,14 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
 
     try {
       if (admin?._id) {
-        const response = await updateAdmin({
+        await updateAdmin({
           id: admin._id,
           admin: data as Admin,
         }).unwrap();
         ToasterComponent({
           message: "Profile Updated Successfully!",
           description: "Your changes have been saved.",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
 
         const { name, email, gender } = data;
@@ -107,14 +104,14 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
         ToasterComponent({
           message: "Profile Update Failed!",
           description: "Your changes could not be saved.",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
       }
     } catch (error) {
       ToasterComponent({
         message: "Error Updating Profile",
         description: "Something went wrong. Please try again.",
-        firstLable: "Close",
+        firstLabel: "Close",
       });
     } finally {
       setIsLoading(false);
@@ -128,7 +125,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
         ToasterComponent({
           message: "Profile Update Failed!",
           description: "Your changes could not be saved.",
-          firstLable: "Close",
+          firstLabel: "Close",
         });
         dispatch(adminNotExist());
         switer(false);

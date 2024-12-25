@@ -4,25 +4,25 @@ import { toast } from "sonner";
 function ToasterComponent({
   message,
   description,
-  firstLable,
-  secLable,
+  firstLabel,
+  secLabel,
   caseHandler,
 }: ToastType) {
   if (message) {
     toast(message, {
       description,
       action: {
-        label: firstLable,
-        onClick: () => caseHandler && caseHandler(firstLable!),
+        label: firstLabel,
+        onClick: () => caseHandler && caseHandler(firstLabel!),
       },
     });
 
-    if (secLable) {
+    if (secLabel) {
       toast(message, {
         description,
         action: {
-          label: secLable,
-          onClick: () => caseHandler && caseHandler(secLable),
+          label: secLabel,
+          onClick: () => caseHandler && caseHandler(secLabel),
         },
       });
     }

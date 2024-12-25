@@ -1,8 +1,8 @@
 export type ToastType = {
   message: string;
   description: string;
-  firstLable?: string;
-  secLable?: string;
+  firstLabel?: string;
+  secLabel?: string;
   caseHandler?: (lable: string) => void;
 };
 

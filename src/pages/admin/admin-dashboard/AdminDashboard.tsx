@@ -1,10 +1,10 @@
+import ActivityLogs from "@/components/admin/admin-management/activity-logs/ActivityLogs";
+import AdminInfo from "@/components/admin/admin-management/admin-info/AdminInfo";
+import AdminProfile from "@/components/admin/admin-management/profile/AdminProfile";
+import Setting from "@/components/admin/admin-management/setting/Setting";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
-import ActivityLogs from "../activity-logs/ActivityLogs";
-import AdminInfo from "../admin-info/AdminInfo";
-import AdminProfile from "../profile/AdminProfile";
-import Setting from "../setting/Setting";
 
 function AdminDashboard() {
   const [edit, setEdit] = useState(false);

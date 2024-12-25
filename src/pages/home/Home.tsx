@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 function Home() {
   return (
     <>
-      <div className="flex items-center h-[40rem] flex-wrap  justify-center ">
+      <div className="flex items-center h-[35rem] md:h-[44rem] flex-wrap  justify-center ">
         <TextGenerateEffect
           words="Empower Your Business with Smart Management Tools ..."
           className="text-3xl  w-[50rem]"
@@ -17,7 +17,7 @@ function Home() {
           <img
             src={mainImage}
             alt="Main Image"
-            className="h-[19rem] md:h-[24rem]"
+            className="h-[14rem] md:h-[24rem]"
           />
         </motion.p>
       </div>

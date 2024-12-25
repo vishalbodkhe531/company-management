@@ -1,12 +1,10 @@
-// import { Button } from "../ui/button";
+type NavbtnProps = { menu: string };
 
-type NavbtnProps = { menue: string };
-
-function NavBtn({ menue }: NavbtnProps) {
+function NavBtn({ menu }: NavbtnProps) {
   return (
     <>
       <span className="font-bold  text-smallTitle  hover:text-heading cursor-pointer mx-5">
-        {menue}
+        {menu}
       </span>
     </>
   );
