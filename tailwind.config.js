@@ -27,7 +27,7 @@ module.exports = {
       fontSize: {
         title: "1.875rem",
         smallTitle: "1.12rem",
-        inputText: "0.93rem",
+        inputText: "0.95rem",
       },
 
       fontFamily: {

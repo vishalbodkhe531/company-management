@@ -30,14 +30,13 @@ const AuthPage = () => {
   };
 
   return (
-    // <div className="relative flex items-center justify-center h-screen bg-black overflow-hidden">
     <div className="relative overflow-hidden flex items-center justify-center bg-black ">
-      {[...Array(10)].map((_, index) => (
+      {[...Array(100)].map((_, index) => (
         <motion.div
           key={index}
-          className="absolute w-5 h-5 md:h-12 md:w-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+          className="absolute w-5 h-5 md:h-2 md:w-2  bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
           style={{
-            top: `${Math.random() * 100}%`,
+            top: `${Math.random() * 90}%`,
             left: `${Math.random() * 100}%`,
           }}
           initial={particleAnimation.initial}
