@@ -10,6 +10,10 @@ import {
 } from "../../ui/select";
 import { Separator } from "../../ui/separator";
 import { Input } from "../../ui/input";
+import { Form } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { projectSchema } from "@/components/form-validation /Validation";
 
 const ProjectSettings = () => {
   const [projects, setProjects] = useState([
@@ -27,83 +31,74 @@ const ProjectSettings = () => {
     },
   ]);
 
-  const [formData, setFormData] = useState({
-    projectName: "",
-    projectLeader: "Select Leader",
-    projectDescription: "",
-    startDate: "",
-    endDate: "",
-    budget: "",
-    projectManager: "Select Manager",
-  });
-
-  const leaders = ["None", "Shubham", "Ram", "Pavan", "Rahul", "Sumit"];
-  const managers = ["None", "Rahul", "Sumit", "Ajay", "Vikas"];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  const handleSelectChange = (key: string, value: string) => {
-    setFormData({ ...formData, [key]: value });
-  };
-
-  const handleCreate = () => {
-    const {
-      projectName,
-      projectLeader,
-      projectDescription,
-      startDate,
-      endDate,
-      budget,
-      projectManager,
-    } = formData;
-
-    if (
-      !projectName ||
-      projectLeader === "Select Leader" ||
-      !startDate ||
-      !endDate ||
-      !budget ||
-      projectManager === "Select Manager"
-    ) {
-      alert("Please fill out all fields!");
-      return;
-    }
-
-    if (new Date(startDate) >= new Date(endDate)) {
-      alert("Start date must be before the end date!");
-      return;
-    }
-
-    if (Number(budget) <= 0) {
-      alert("Budget must be a positive number!");
-      return;
-    }
-
-    const newProject = {
-      id: projects.length + 1,
-      name: projectName,
-      leader: projectLeader,
-      description: projectDescription,
-      startDate,
-      endDate,
-      budget: Number(budget),
-      projectManager,
-      status: "Planned",
-      createdDate: new Date().toISOString().split("T")[0],
-    };
-
-    setProjects([...projects, newProject]);
-    setFormData({
+  const form = useForm({
+    resolver: zodResolver(projectSchema),
+    defaultValues: {
       projectName: "",
-      projectLeader: "Select Leader",
       projectDescription: "",
       startDate: "",
       endDate: "",
-      budget: "",
+      budget: null,
       projectManager: "Select Manager",
-    });
+    },
+  });
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = form;
+
+  // console.log("errors : ", errors);
+
+  const selectedManager = watch("projectManager");
+
+  const managers = ["Select Manager", "Rahul", "Sumit", "Ajay", "Vikas"];
+
+  const handleCreate = () => {
+    // if (
+    //   !projectName ||
+    //   projectLeader === "Select Leader" ||
+    //   !startDate ||
+    //   !endDate ||
+    //   !budget ||
+    //   projectManager === "Select Manager"
+    // ) {
+    //   alert("Please fill out all fields!");
+    //   return;
+    // }
+    // if (new Date(startDate) >= new Date(endDate)) {
+    //   alert("Start date must be before the end date!");
+    //   return;
+    // }
+    // if (Number(budget) <= 0) {
+    //   alert("Budget must be a positive number!");
+    //   return;
+    // }
+    // const newProject = {
+    //   id: projects.length + 1,
+    //   name: projectName,
+    //   leader: projectLeader,
+    //   description: projectDescription,
+    //   startDate,
+    //   endDate,
+    //   budget: Number(budget),
+    //   projectManager,
+    //   status: "Planned",
+    //   createdDate: new Date().toISOString().split("T")[0],
+    // };
+    // setProjects([...projects, newProject]);
+    // setFormData({
+    //   projectName: "",
+    //   projectLeader: "Select Leader",
+    //   projectDescription: "",
+    //   startDate: "",
+    //   endDate: "",
+    //   budget: "",
+    //   projectManager: "Select Manager",
+    // });
   };
 
   const handleDelete = (id: number) => {
@@ -111,6 +106,10 @@ const ProjectSettings = () => {
       setProjects(projects.filter((project) => project.id !== id));
     }
   };
+
+  const handleForm = handleSubmit((data: any) => {
+    console.log(data);
+  });
 
   return (
     <div className="p-6 text-white min-h-screen">
@@ -120,114 +119,120 @@ const ProjectSettings = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Create/Update Project */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-10 gap-6">
-            <div>
-              <Label htmlFor="projectName">Project Name</Label>
-              <Input
-                id="projectName"
-                value={formData.projectName}
-                onChange={handleInputChange}
-                placeholder="Enter project name"
-                className="mt-2 border-2 h-12 !text-inputText"
-              />
-            </div>
 
-            <div>
-              <Label htmlFor="projectDescription">Description</Label>
-              <Input
-                id="projectDescription"
-                value={formData.projectDescription}
-                onChange={handleInputChange}
-                placeholder="Enter project description"
-                className="mt-2 border-2 h-12 !text-inputText"
-              />
-            </div>
+          <Form {...form}>
+            <form onSubmit={handleForm}>
+              <div className="grid grid-cols-1 md:grid-cols-3 md:gap-10 gap-6">
+                <div>
+                  <Label htmlFor="projectName">Project Name</Label>
+                  <Input
+                    id="projectName"
+                    placeholder="Enter project name"
+                    className="mt-2 border-2 h-12 !text-inputText"
+                    {...register("projectName")}
+                  />
+                  {errors.projectName && (
+                    <span className="text-red-500 font-bold text-sm">
+                      {errors.projectName.message}
+                    </span>
+                  )}
+                </div>
 
-            <div>
-              <Label htmlFor="leader">Project Leader</Label>
-              <Select
-                value={formData.projectLeader}
-                onValueChange={(value) =>
-                  handleSelectChange("projectLeader", value)
-                }
-              >
-                <SelectTrigger className="mt-2 border-2 h-12">
-                  <span>{formData.projectLeader}</span>
-                </SelectTrigger>
-                <SelectContent className="bg-contentBg text-white">
-                  {leaders.map((leader) => (
-                    <SelectItem key={leader} value={leader}>
-                      {leader}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+                <div>
+                  <Label htmlFor="projectDescription">Description</Label>
+                  <Input
+                    id="projectDescription"
+                    placeholder="Enter project description"
+                    className="mt-2 border-2 h-12 !text-inputText"
+                    {...register("projectDescription")}
+                  />
+                  {errors.projectDescription && (
+                    <span className="text-red-500 font-bold text-sm">
+                      {errors.projectDescription.message}
+                    </span>
+                  )}
+                </div>
 
-            <div>
-              <Label htmlFor="startDate">Start Date</Label>
-              <Input
-                id="startDate"
-                type="date"
-                value={formData.startDate}
-                onChange={handleInputChange}
-                className="mt-2 border-2 h-12"
-              />
-            </div>
+                <div>
+                  <Label htmlFor="startDate">Start Date</Label>
+                  <Input
+                    id="startDate"
+                    type="date"
+                    className="mt-2 border-2 h-12"
+                    {...register("startDate")}
+                  />
+                  {errors.startDate && (
+                    <span className="text-red-500 font-bold text-sm">
+                      {errors.startDate.message}
+                    </span>
+                  )}
+                </div>
 
-            <div>
-              <Label htmlFor="endDate">End Date</Label>
-              <Input
-                id="endDate"
-                type="date"
-                value={formData.endDate}
-                onChange={handleInputChange}
-                className="mt-2 border-2 h-12"
-              />
-            </div>
+                <div>
+                  <Label htmlFor="endDate">End Date</Label>
+                  <Input
+                    id="endDate"
+                    type="date"
+                    className="mt-2 border-2 h-12"
+                    {...register("endDate")}
+                  />
+                  {errors.endDate && (
+                    <span className="text-red-500 font-bold text-sm">
+                      {errors.endDate.message}
+                    </span>
+                  )}
+                </div>
 
-            <div>
-              <Label htmlFor="budget">Budget</Label>
-              <Input
-                id="budget"
-                type="number"
-                value={formData.budget}
-                onChange={handleInputChange}
-                placeholder="Enter project budget"
-                className="mt-2 border-2 h-12 !text-inputText"
-              />
-            </div>
+                <div>
+                  <Label htmlFor="budget">Budget</Label>
+                  <Input
+                    id="budget"
+                    type="number"
+                    placeholder="Enter project budget"
+                    className="mt-2 border-2 h-12 !text-inputText"
+                    {...register("budget")}
+                  />
+                  {errors.budget && (
+                    <span className="text-red-500 font-bold text-sm">
+                      {errors.budget.message}
+                    </span>
+                  )}
+                </div>
 
-            <div>
-              <Label htmlFor="projectManager">Project Manager</Label>
-              <Select
-                value={formData.projectManager}
-                onValueChange={(value) =>
-                  handleSelectChange("projectManager", value)
-                }
-              >
-                <SelectTrigger className="mt-2 border-2 h-12">
-                  <span>{formData.projectManager}</span>
-                </SelectTrigger>
-                <SelectContent className="bg-contentBg text-white">
-                  {managers.map((manager) => (
-                    <SelectItem key={manager} value={manager}>
-                      {manager}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="flex justify-end">
-            <Button
-              onClick={handleCreate}
-              className="bg-green-500 hover:bg-green-700 text-white"
-            >
-              Create Project
-            </Button>
-          </div>
+                <div>
+                  <Label htmlFor="projectManager">Project Manager</Label>
+                  <Select
+                    value={selectedManager}
+                    onValueChange={(value) => setValue("projectManager", value)}
+                  >
+                    <SelectTrigger className="mt-2 border-2 h-12">
+                      <span>{selectedManager || "Select Manager"}</span>
+                    </SelectTrigger>
+                    <SelectContent className="bg-contentBg text-white">
+                      {managers.map((manager) => (
+                        <SelectItem key={manager} value={manager}>
+                          {manager}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {errors.projectManager && (
+                    <span className="text-red-500 font-bold text-sm">
+                      {errors.projectManager.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end my-10">
+                <Button
+                  onClick={handleCreate}
+                  className="bg-green-500 hover:bg-green-700 text-white"
+                >
+                  Create Project
+                </Button>
+              </div>
+            </form>
+          </Form>
 
           <Separator />
 

@@ -1,5 +1,6 @@
 import z from "zod";
 
+// Admin Form
 export const adminSchema = z.object({
   name: z
     .string()
@@ -130,3 +131,45 @@ export const OTPSchema = z.object({
     })
     .regex(/^\d+$/, { message: "OTP must contain only numbers." }),
 });
+
+// Admin Project Form
+
+export const projectSchema = z
+  .object({
+    projectName: z.string().min(1, "Project Name is required"),
+    projectDescription: z.string().optional(),
+    startDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format. Use 'YYYY-MM-DD'.")
+      .refine(
+        (date) => new Date(date) > new Date(),
+        "Start date cannot be in the past"
+      )
+      .transform((date) => new Date(date)),
+    endDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format. Use 'YYYY-MM-DD'.")
+      .transform((date) => new Date(date)),
+    budget: z
+      .string()
+      .refine(
+        (val) => !isNaN(Number(val)) && Number(val) > 10000,
+        "Budget must be greater than 10000"
+      )
+      .transform((val) => Number(val)),
+    projectManager: z
+      .string()
+      .refine(
+        (val) => val !== "Select Manager",
+        "Please select a project manager"
+      ),
+  })
+  .superRefine(({ startDate, endDate }, ctx) => {
+    if (endDate <= startDate) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["endDate"],
+        message: "End date must be greater than the start date",
+      });
+    }
+  });
