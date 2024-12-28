@@ -32,9 +32,7 @@ export const adminAPI = createApi({
     }),
 
     getLoggedAdmin: builder.query<adminLoginResponce, void>({
-      query: () => ({
-        url: "logged",
-      }),
+      query: () => ({ url: "logged" }),
     }),
 
     logoutAdmin: builder.mutation<messageResponce, void>({

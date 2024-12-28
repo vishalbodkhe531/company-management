@@ -1,3 +1,4 @@
+import { adminProjectType } from "./reducer-types";
 import { Admin } from "./types";
 
 export type messageResponce = {
@@ -24,4 +25,8 @@ export type createProject = {
   budget: number | null;
   projectManager: string;
   projectDescription?: string;
+};
+
+export type ProjectsResponse = {
+  allProjects: adminProjectType[];
 };

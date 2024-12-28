@@ -1,4 +1,4 @@
-import { messageResponce } from "@/types/api-types";
+import { ProjectsResponse, messageResponce } from "@/types/api-types";
 import { Project } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -17,7 +17,12 @@ export const adminProjectAPI = createApi({
         body: JSON.stringify(data),
       }),
     }),
+
+    allProjects: builder.query<ProjectsResponse, void>({
+      query: () => ({ url: "all" }),
+    }),
   }),
 });
 
-export const { useCreateProjectMutation } = adminProjectAPI;
+export const { useCreateProjectMutation, useAllProjectsQuery } =
+  adminProjectAPI;

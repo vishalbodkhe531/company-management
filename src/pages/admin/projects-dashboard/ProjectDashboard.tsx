@@ -6,18 +6,10 @@ import ProjectSettings from "@/components/admin/project-management/Setting";
 import TeamManagement from "@/components/admin/project-management/Team";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { RootState } from "@/redux/store";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 
 const ProjectDashboard = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
-
-  const { projects, loading } = useSelector(
-    (state: RootState) => state.adminProjectReducers
-  );
-
-  console.log("project reducers : ", projects, loading);
 
   return (
     <div className="flex h-screen bg-black text-mainHeading">

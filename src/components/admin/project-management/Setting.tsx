@@ -22,6 +22,7 @@ import {
   SelectTrigger,
 } from "../../ui/select";
 import { Separator } from "../../ui/separator";
+import SettingProjectList from "./SettingProjectList";
 
 const ProjectSettings = () => {
   const [projects, setProjects] = useState([
@@ -233,7 +234,7 @@ const ProjectSettings = () => {
           <Separator />
 
           {/* Project List */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h2 className="text-xl font-bold">Existing Projects</h2>
             {projects.map((project) => (
               <Card key={project.id} className="bg-contentBg p-4 border-none">
@@ -260,7 +261,8 @@ const ProjectSettings = () => {
                 </div>
               </Card>
             ))}
-          </div>
+          </div> */}
+          <SettingProjectList />
         </CardContent>
       </Card>
     </div>

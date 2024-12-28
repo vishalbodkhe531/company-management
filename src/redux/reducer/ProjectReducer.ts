@@ -34,7 +34,6 @@ export const adminProjectReducers = createSlice({
   initialState,
   reducers: {
     addProject: (state, action: PayloadAction<adminProjectType>) => {
-      // Push a single project into the projects array
       state.projects.push(action.payload);
     },
   },
