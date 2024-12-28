@@ -4,3 +4,17 @@ export interface adminReducerInitialState {
   admin: Admin | null;
   loading: boolean;
 }
+
+export interface adminProjectType {
+  projectName: string;
+  startDate: string;
+  endDate: string;
+  budget: number;
+  projectManager: string;
+  projectDescription?: string | undefined;
+}
+
+export type adminProjectInitialState = {
+  projects: adminProjectType[];
+  loading: boolean;
+};

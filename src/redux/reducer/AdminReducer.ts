@@ -16,7 +16,7 @@ export const adminReducers = createSlice({
       state.loading = false;
     },
     adminNotExist: (state) => {
-      state.admin = null;
+      state.admin = null; 
       state.loading = false;
     },
   },

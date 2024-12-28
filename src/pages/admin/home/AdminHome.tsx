@@ -9,6 +9,8 @@ const Table = ({ children }: TableProps) => (
   <table className="w-full text-left text-white">{children}</table>
 );
 
+// const { admin } = useSelector((state: RootState) => state.adminReducers);
+
 interface SearchBarProps {
   className?: string;
   placeholder: string;

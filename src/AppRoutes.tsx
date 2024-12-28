@@ -8,9 +8,10 @@ import {
   Routes,
 } from "react-router-dom";
 import AuthPage from "./pages/admin/authentication/AuthPage";
-import { useGetLoggedAdminQuery } from "./redux/api/AdminAPI";
+import { useGetLoggedAdminQuery } from "./redux/api/admin-API/AdminAPI";
 import { adminExist } from "./redux/reducer/AdminReducer";
 import { Admin } from "./types/types";
+import { Toaster } from "./components/ui/sonner";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -102,7 +103,7 @@ function AppRoutes() {
             </Route>
             {/* dashboards */}
             <Route path="/admin/projects" element={<ProjectDashboard />} />
-            <Route path="employee-management" element={<EmoployeeDash />} />
+            <Route path="/employee-management" element={<EmoployeeDash />} />
 
             {/* Employee Routes */}
             <Route path="employee" element={<Structure />}>
@@ -113,6 +114,7 @@ function AppRoutes() {
             <Route path="*" element={<Navigate to={"/"} />} />
           </Routes>
         </Router>
+        <Toaster toastOptions={{ duration: 3000 }} />
       </Suspense>
     </>
   );

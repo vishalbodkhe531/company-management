@@ -1,8 +1,8 @@
-import logo from "../../assets/logo.webp";
+import logo from "../../assets/logo2.webp";
 
 const Footer = () => {
   return (
-    <footer className="bg-navFoot text-heading">
+    <footer className="bg-navFoot text-heading select-none">
       <div className="flex items-center text-navFoot  flex-wrap justify-center ">
         <img
           src={logo}

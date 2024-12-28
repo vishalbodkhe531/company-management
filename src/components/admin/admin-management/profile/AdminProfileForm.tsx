@@ -17,7 +17,7 @@ import ToasterComponent from "@/components/toaster/Toaster";
 import {
   useLogoutAdminMutation,
   useUpdateAdminMutation,
-} from "@/redux/api/AdminAPI";
+} from "@/redux/api/admin-API/AdminAPI";
 import { adminExist, adminNotExist } from "@/redux/reducer/AdminReducer";
 import { RootState } from "@/redux/store";
 import { Admin } from "@/types/types";

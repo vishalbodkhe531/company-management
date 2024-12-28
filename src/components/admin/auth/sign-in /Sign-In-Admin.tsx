@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import {
   useGoogleSignInMutation,
   useLoginMutation,
-} from "@/redux/api/AdminAPI";
+} from "@/redux/api/admin-API/AdminAPI";
 import { adminExist } from "@/redux/reducer/AdminReducer";
 import { messageResponce } from "@/types/api-types";
 import { AdminFormValues } from "@/types/validation-types";

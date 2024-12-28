@@ -42,3 +42,14 @@ export type OTPRequest = {
   email: string;
   verificationCode?: string;
 };
+
+// Admin Project
+
+export type Project = {
+  projectName: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  budget: number | null;
+  projectManager: string;
+  projectDescription?: string;
+};

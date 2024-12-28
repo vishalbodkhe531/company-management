@@ -1,6 +1,19 @@
+import { projectSchema } from "@/components/form-validation /Validation";
+import ToasterComponent from "@/components/toaster/Toaster";
+import { Form } from "@/components/ui/form";
+import { useCreateProjectMutation } from "@/redux/api/admin-API/ProjectAPI";
+import { addProject } from "@/redux/reducer/ProjectReducer";
+import { messageResponce } from "@/types/api-types";
+import { adminProjectType } from "@/types/reducer-types";
+import { ProjectFormValue } from "@/types/validation-types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Button } from "../../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import {
   Select,
@@ -9,11 +22,6 @@ import {
   SelectTrigger,
 } from "../../ui/select";
 import { Separator } from "../../ui/separator";
-import { Input } from "../../ui/input";
-import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { projectSchema } from "@/components/form-validation /Validation";
 
 const ProjectSettings = () => {
   const [projects, setProjects] = useState([
@@ -31,15 +39,19 @@ const ProjectSettings = () => {
     },
   ]);
 
-  const form = useForm({
+  const [createProject] = useCreateProjectMutation();
+
+  const dispatch = useDispatch();
+
+  const form = useForm<ProjectFormValue>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
       projectName: "",
-      projectDescription: "",
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
       budget: null,
-      projectManager: "Select Manager",
+      projectManager: "",
+      projectDescription: "",
     },
   });
 
@@ -47,59 +59,14 @@ const ProjectSettings = () => {
     register,
     setValue,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = form;
 
-  // console.log("errors : ", errors);
-
   const selectedManager = watch("projectManager");
 
   const managers = ["Select Manager", "Rahul", "Sumit", "Ajay", "Vikas"];
-
-  const handleCreate = () => {
-    // if (
-    //   !projectName ||
-    //   projectLeader === "Select Leader" ||
-    //   !startDate ||
-    //   !endDate ||
-    //   !budget ||
-    //   projectManager === "Select Manager"
-    // ) {
-    //   alert("Please fill out all fields!");
-    //   return;
-    // }
-    // if (new Date(startDate) >= new Date(endDate)) {
-    //   alert("Start date must be before the end date!");
-    //   return;
-    // }
-    // if (Number(budget) <= 0) {
-    //   alert("Budget must be a positive number!");
-    //   return;
-    // }
-    // const newProject = {
-    //   id: projects.length + 1,
-    //   name: projectName,
-    //   leader: projectLeader,
-    //   description: projectDescription,
-    //   startDate,
-    //   endDate,
-    //   budget: Number(budget),
-    //   projectManager,
-    //   status: "Planned",
-    //   createdDate: new Date().toISOString().split("T")[0],
-    // };
-    // setProjects([...projects, newProject]);
-    // setFormData({
-    //   projectName: "",
-    //   projectLeader: "Select Leader",
-    //   projectDescription: "",
-    //   startDate: "",
-    //   endDate: "",
-    //   budget: "",
-    //   projectManager: "Select Manager",
-    // });
-  };
 
   const handleDelete = (id: number) => {
     if (confirm("Are you sure you want to delete this project?")) {
@@ -107,19 +74,51 @@ const ProjectSettings = () => {
     }
   };
 
-  const handleForm = handleSubmit((data: any) => {
+  const handleForm = handleSubmit(async (data: ProjectFormValue) => {
     console.log(data);
+
+    const res = await createProject(data);
+
+    if (res.data) {
+      const formattedData = {
+        ...data,
+        startDate: data.startDate
+          ? data.startDate.toISOString()
+          : data.startDate || "",
+        endDate: data.endDate ? data.endDate.toISOString() : data.endDate || "",
+      };
+
+      dispatch(addProject(formattedData as adminProjectType));
+      ToasterComponent({
+        message: res.data.message,
+        description: "Project activate...",
+        firstLabel: "Close",
+      });
+
+      reset();
+    }
+
+    if (res.error) {
+      const error = res.error as FetchBaseQueryError;
+      const message = error?.data
+        ? (error.data as messageResponce).message
+        : "An unknown error occurred";
+
+      ToasterComponent({
+        message: message,
+        description: "Create another project...",
+        firstLabel: "Close",
+      });
+    }
   });
 
   return (
     <div className="p-6 text-white min-h-screen">
-      <Card className="border-none">
+      <Card className="border-none ">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Project Settings</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Create/Update Project */}
-
           <Form {...form}>
             <form onSubmit={handleForm}>
               <div className="grid grid-cols-1 md:grid-cols-3 md:gap-10 gap-6">
@@ -224,10 +223,7 @@ const ProjectSettings = () => {
                 </div>
               </div>
               <div className="flex justify-end my-10">
-                <Button
-                  onClick={handleCreate}
-                  className="bg-green-500 hover:bg-green-700 text-white"
-                >
+                <Button className="bg-green-500 hover:bg-green-700 text-white">
                   Create Project
                 </Button>
               </div>

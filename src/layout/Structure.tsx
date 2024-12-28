@@ -12,12 +12,11 @@ function Structure({ children }: { children?: React.ReactNode }) {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-grow bg-background text-mainHeading">
-        <div className=" mx-auto w-full h-full">{children || <Outlet />}</div>
+      <main className="flex-grow bg-background text-mainHeading ">
+        <div className=" mx-auto w-full h-full select-none">
+          {children || <Outlet />}
+        </div>
       </main>
-
-      {/* Toaster Notifications */}
-      <Toaster toastOptions={{ duration: 3000 }} />
 
       {/* Footer */}
       <footer className="bg-footer text-footerHeading">

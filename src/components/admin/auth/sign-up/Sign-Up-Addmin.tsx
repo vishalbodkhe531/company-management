@@ -20,7 +20,7 @@ import {
   useGoogleSignInMutation,
   useSendOTPMutation,
   useVerifyOTPMutation,
-} from "@/redux/api/AdminAPI";
+} from "@/redux/api/admin-API/AdminAPI";
 import { adminExist } from "@/redux/reducer/AdminReducer";
 import { messageResponce } from "@/types/api-types";
 import { Admin } from "@/types/types";
