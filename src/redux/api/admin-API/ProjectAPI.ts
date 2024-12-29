@@ -8,6 +8,9 @@ export const adminProjectAPI = createApi({
     baseUrl: `${import.meta.env.VITE_SERVER}/api/admin/project/`,
     credentials: "include",
   }),
+
+  tagTypes: ["project"],
+
   endpoints: (builder) => ({
     createProject: builder.mutation<messageResponce, Project>({
       query: (data) => ({
@@ -16,10 +19,12 @@ export const adminProjectAPI = createApi({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }),
+      invalidatesTags: ["project"],
     }),
 
     allProjects: builder.query<ProjectsResponse, void>({
       query: () => ({ url: "all" }),
+      providesTags: ["project"],
     }),
   }),
 });

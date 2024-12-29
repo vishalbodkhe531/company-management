@@ -28,5 +28,5 @@ export type createProject = {
 };
 
 export type ProjectsResponse = {
-  allProjects: adminProjectType[];
+  projects: adminProjectType[];
 };
