@@ -1,5 +1,5 @@
 import { adminProjectType } from "./reducer-types";
-import { Admin } from "./types";
+import { Admin, UpdateProject } from "./types";
 
 export type messageResponce = {
   success: boolean;
@@ -29,4 +29,9 @@ export type createProject = {
 
 export type ProjectsResponse = {
   projects: adminProjectType[];
+};
+
+export type updateRequest = {
+  id: string;
+  data: UpdateProject;
 };

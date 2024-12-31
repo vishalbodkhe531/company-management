@@ -29,8 +29,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { messageResponce } from "@/types/api-types";
 function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,10 +72,6 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
 
   const onSubmit = handleSubmit(async (data: AdminFormValues) => {
     setIsLoading(true);
-
-    console.log("data : ", data);
-
-    console.log("admin : ", admin);
 
     try {
       if (admin?._id) {
@@ -132,21 +126,8 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
         dispatch(adminNotExist());
         switer(false);
       }
-
-      if (res.error) {
-        const error = res.error as FetchBaseQueryError;
-        const message = error?.data
-          ? (error.data as messageResponce).message
-          : "An unknown error occurred";
-
-        ToasterComponent({
-          message: message,
-          description: "Something went wrong !!",
-          firstLabel: "Close",
-        });
-      }
     } catch (error) {
-      console.log(`logout error : ${error}`);
+      console.log(`error : `, error);
     }
   };
 

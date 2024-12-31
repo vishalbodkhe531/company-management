@@ -53,3 +53,13 @@ export type Project = {
   projectManager: string;
   projectDescription?: string;
 };
+
+export interface UpdateProject {
+  projectName?: string;
+  startDate?: string;
+  endDate?: string;
+  budget?: number;
+  projectManager?: string;
+  projectDescription?: string;
+  _id: string;
+}

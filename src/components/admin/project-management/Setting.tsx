@@ -1,14 +1,12 @@
-import { projectSchema } from "@/components/form-validation /Validation";
-import ToasterComponent from "@/components/toaster/Toaster";
+import ToasterComponent, {
+  getErrorMessage,
+} from "@/components/toaster/Toaster";
 import { Form } from "@/components/ui/form";
 import { useCreateProjectMutation } from "@/redux/api/admin-API/ProjectAPI";
 import { addProject } from "@/redux/reducer/ProjectReducer";
-import { messageResponce } from "@/types/api-types";
 import { adminProjectType } from "@/types/reducer-types";
 import { ProjectFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Button } from "../../ui/button";
@@ -23,25 +21,11 @@ import {
 } from "../../ui/select";
 import { Separator } from "../../ui/separator";
 import SettingProjectList from "./SettingProjectList";
+import { Textarea } from "@/components/ui/textarea";
+import { projectSchema } from "@/components/form-validation /Validation";
 
 const ProjectSettings = () => {
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      name: "Website Redesign",
-      leader: "Shubham",
-      description: "Improving the website's design for better user experience.",
-      startDate: "2024-12-01",
-      endDate: "2025-01-31",
-      budget: 50000,
-      projectManager: "Rahul",
-      status: "Active",
-      createdDate: "2024-12-01",
-    },
-  ]);
-
   const [createProject] = useCreateProjectMutation();
-
   const dispatch = useDispatch();
 
   const form = useForm<ProjectFormValue>({
@@ -50,7 +34,7 @@ const ProjectSettings = () => {
       projectName: "",
       startDate: null,
       endDate: null,
-      budget: null,
+      budget: undefined,
       projectManager: "",
       projectDescription: "",
     },
@@ -69,44 +53,22 @@ const ProjectSettings = () => {
 
   const managers = ["Select Manager", "Rahul", "Sumit", "Ajay", "Vikas"];
 
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this project?")) {
-      setProjects(projects.filter((project) => project.id !== id));
-    }
-  };
-
   const handleForm = handleSubmit(async (data: ProjectFormValue) => {
     console.log(data);
-
     const res = await createProject(data);
-
     if (res.data) {
-      const formattedData = {
-        ...data,
-        startDate: data.startDate
-          ? data.startDate.toISOString()
-          : data.startDate || "",
-        endDate: data.endDate ? data.endDate.toISOString() : data.endDate || "",
-      };
-
-      dispatch(addProject(formattedData as adminProjectType));
+      dispatch(addProject(data as adminProjectType));
       ToasterComponent({
         message: res.data.message,
-        description: "Project activate...",
+        description: "Project activated successfully.",
         firstLabel: "Close",
       });
 
       reset();
-    }
-
-    if (res.error) {
-      const error = res.error as FetchBaseQueryError;
-      const message = error?.data
-        ? (error.data as messageResponce).message
-        : "An unknown error occurred";
-
+    } else if (res.error) {
+      const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
-        message: message,
+        message: errorMessage,
         description: "Create another project...",
         firstLabel: "Close",
       });
@@ -114,154 +76,141 @@ const ProjectSettings = () => {
   });
 
   return (
-    <div className="p-6 text-white min-h-screen">
-      <Card className="border-none ">
+    <div className="p-0 bg-slate700 min-h-screen text-white">
+      <Card className="border-none shadow-lg rounded-xl p-6 bg-gradient-to-r from-gray-900 to-gray-800 min-h-screen text-white">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Project Settings</CardTitle>
+          <CardTitle className="text-3xl font-extrabold text-center text-white">
+            Project Settings
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-8">
           <Form {...form}>
             <form onSubmit={handleForm}>
-              <div className="grid grid-cols-1 md:grid-cols-3 md:gap-10 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                  <Label htmlFor="projectName">Project Name</Label>
+                  <Label htmlFor="projectName" className="font-medium">
+                    Project Name
+                  </Label>
                   <Input
                     id="projectName"
                     placeholder="Enter project name"
-                    className="mt-2 border-2 h-12 !text-inputText"
+                    className="mt-2 border-2 border-blue-500 h-12 !text-[1.10rem]"
                     {...register("projectName")}
                   />
                   {errors.projectName && (
-                    <span className="text-red-500 font-bold text-sm">
+                    <p className="text-red-500 font-bold  text-sm mt-1">
                       {errors.projectName.message}
-                    </span>
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="projectDescription">Description</Label>
-                  <Input
-                    id="projectDescription"
-                    placeholder="Enter project description"
-                    className="mt-2 border-2 h-12 !text-inputText"
-                    {...register("projectDescription")}
-                  />
-                  {errors.projectDescription && (
-                    <span className="text-red-500 font-bold text-sm">
-                      {errors.projectDescription.message}
-                    </span>
-                  )}
-                </div>
-
-                <div>
-                  <Label htmlFor="startDate">Start Date</Label>
+                  <Label htmlFor="startDate" className="font-medium">
+                    Start Date
+                  </Label>
                   <Input
                     id="startDate"
                     type="date"
-                    className="mt-2 border-2 h-12"
+                    className="mt-2 border-2 border-blue-500 h-12 !text-[1rem]"
                     {...register("startDate")}
                   />
                   {errors.startDate && (
-                    <span className="text-red-500 font-bold text-sm">
+                    <p className="text-red-500 font-bold text-sm mt-1">
                       {errors.startDate.message}
-                    </span>
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="endDate">End Date</Label>
+                  <Label htmlFor="endDate" className="font-medium">
+                    End Date
+                  </Label>
                   <Input
                     id="endDate"
                     type="date"
-                    className="mt-2 border-2 h-12"
+                    className="mt-2 border-2 border-blue-500 h-12 !text-[1rem]"
                     {...register("endDate")}
                   />
                   {errors.endDate && (
-                    <span className="text-red-500 font-bold text-sm">
+                    <p className="text-red-500 font-bold  text-sm mt-1">
                       {errors.endDate.message}
-                    </span>
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="budget">Budget</Label>
+                  <Label htmlFor="budget" className="font-medium">
+                    Budget
+                  </Label>
                   <Input
                     id="budget"
                     type="number"
                     placeholder="Enter project budget"
-                    className="mt-2 border-2 h-12 !text-inputText"
+                    className="mt-2 border-2 border-blue-500 h-12 !text-[1rem]"
                     {...register("budget")}
                   />
                   {errors.budget && (
-                    <span className="text-red-500 font-bold text-sm">
+                    <p className="text-red-500 font-bold  text-sm mt-1">
                       {errors.budget.message}
-                    </span>
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="projectManager">Project Manager</Label>
+                  <Label htmlFor="projectManager" className="font-medium">
+                    Project Manager
+                  </Label>
                   <Select
-                    value={selectedManager}
-                    onValueChange={(value) => setValue("projectManager", value)}
+                    value={selectedManager || ""}
+                    onValueChange={(value) =>
+                      setValue("projectManager", value, {
+                        shouldValidate: true,
+                      })
+                    }
                   >
-                    <SelectTrigger className="mt-2 border-2 h-12">
+                    <SelectTrigger className="mt-2 border-2 border-blue-500 h-12 !text-[1rem]">
                       <span>{selectedManager || "Select Manager"}</span>
                     </SelectTrigger>
-                    <SelectContent className="bg-contentBg text-white">
-                      {managers.map((manager) => (
-                        <SelectItem key={manager} value={manager}>
+                    <SelectContent className="bg-gray-800 text-white !text-[1.10rem]">
+                      {managers.map((manager, index) => (
+                        <SelectItem key={index} value={manager}>
                           {manager}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   {errors.projectManager && (
-                    <span className="text-red-500 font-bold text-sm">
+                    <p className="text-red-500 font-bold text-sm mt-1">
                       {errors.projectManager.message}
-                    </span>
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <Label htmlFor="projectDescription" className="font-medium">
+                    Description
+                  </Label>
+                  <Textarea
+                    id="projectDescription"
+                    placeholder="Enter project description"
+                    className="mt-2 border-2 border-blue-500 !text-[1.10rem]"
+                    {...register("projectDescription")}
+                  />
+                  {errors.projectDescription && (
+                    <p className="text-red-500 font-bold  text-sm mt-1">
+                      {errors.projectDescription.message}
+                    </p>
                   )}
                 </div>
               </div>
-              <div className="flex justify-end my-10">
-                <Button className="bg-green-500 hover:bg-green-700 text-white">
+              <div className="flex justify-end mt-8">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">
                   Create Project
                 </Button>
               </div>
             </form>
           </Form>
-
-          <Separator />
-
-          {/* Project List */}
-          {/* <div className="space-y-4">
-            <h2 className="text-xl font-bold">Existing Projects</h2>
-            {projects.map((project) => (
-              <Card key={project.id} className="bg-contentBg p-4 border-none">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-bold">{project.name}</h3>
-                    <p>Description: {project.description}</p>
-                    <p>Leader: {project.leader}</p>
-                    <p>Start Date: {project.startDate}</p>
-                    <p>End Date: {project.endDate}</p>
-                    <p>Budget: ${project.budget}</p>
-                    <p>Manager: {project.projectManager}</p>
-                    <p>Status: {project.status}</p>
-                    <p>Created Date: {project.createdDate}</p>
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <Button
-                    onClick={() => handleDelete(project.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white"
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div> */}
+          <Separator className="border-t border-gray-700" />
           <SettingProjectList />
         </CardContent>
       </Card>

@@ -1,4 +1,8 @@
-import { ProjectsResponse, messageResponce } from "@/types/api-types";
+import {
+  ProjectsResponse,
+  messageResponce,
+  updateRequest,
+} from "@/types/api-types";
 import { Project } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -26,8 +30,22 @@ export const adminProjectAPI = createApi({
       query: () => ({ url: "all" }),
       providesTags: ["project"],
     }),
+
+    deleteProject: builder.mutation<messageResponce, string>({
+      query: (id) => ({ url: `${id}`, method: "DELETE" }),
+      invalidatesTags: ["project"],
+    }),
+
+    updateProduct: builder.mutation<string, updateRequest>({
+      query: ({ id, data }) => ({ url: `${id}`, method: "PUT", body: data }),
+      invalidatesTags: ["project"],
+    }),
   }),
 });
 
-export const { useCreateProjectMutation, useAllProjectsQuery } =
-  adminProjectAPI;
+export const {
+  useCreateProjectMutation,
+  useAllProjectsQuery,
+  useDeleteProjectMutation,
+  useUpdateProductMutation,
+} = adminProjectAPI;

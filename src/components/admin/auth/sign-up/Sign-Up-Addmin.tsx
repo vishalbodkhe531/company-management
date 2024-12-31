@@ -13,7 +13,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import OTPdrower from "@/components/OTP/OTPdrover";
 import { adminSchema } from "@/components/form-validation /Validation";
-import ToasterComponent from "@/components/toaster/Toaster";
+import ToasterComponent, {
+  getErrorMessage,
+} from "@/components/toaster/Toaster";
 import { auth } from "@/firebase";
 import {
   useAdminRegisterMutation,
@@ -22,11 +24,9 @@ import {
   useVerifyOTPMutation,
 } from "@/redux/api/admin-API/AdminAPI";
 import { adminExist } from "@/redux/reducer/AdminReducer";
-import { messageResponce } from "@/types/api-types";
 import { Admin } from "@/types/types";
 import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -90,22 +90,13 @@ function SignUpAddmin() {
         });
         navigate("/admin/sign-in");
       } else if ("error" in res) {
-        const error = res.error as FetchBaseQueryError;
-        const message = error?.data
-          ? (error.data as messageResponce).message
-          : "An unknown error occurred";
+        const errorMessage = getErrorMessage(res.error);
         ToasterComponent({
-          message: message,
+          message: errorMessage,
           description: "Admin does not Registered",
           firstLabel: "Close",
         });
         setOTPTrigger(true);
-      } else {
-        ToasterComponent({
-          message: "Unknown error occurred.",
-          description: "Please contact support.",
-          firstLabel: "Close",
-        });
       }
     } else {
       if (email) sendOTP({ email });
@@ -120,46 +111,37 @@ function SignUpAddmin() {
   });
 
   const handleSignWithGoogle = async () => {
-    try {
-      setLoading(true);
-      const provider = new GoogleAuthProvider();
-      const { user } = await signInWithPopup(auth, provider);
+    setLoading(true);
+    const provider = new GoogleAuthProvider();
+    const { user } = await signInWithPopup(auth, provider);
 
-      const { displayName, email, photoURL, uid } = user;
+    const { displayName, email, photoURL, uid } = user;
 
-      const adminData: Admin = {
-        name: displayName || "Anonymous",
-        email: email || "",
-        password: "",
-        profilePic: photoURL || "",
-        gender: "other",
-        _id: uid,
-      };
+    const adminData: Admin = {
+      name: displayName || "Anonymous",
+      email: email || "",
+      password: "",
+      profilePic: photoURL || "",
+      gender: "other",
+      _id: uid,
+    };
 
-      const res = await googleSignIn(adminData);
+    const res = await googleSignIn(adminData);
 
-      if ("data" in res && res.data) {
-        const { email, gender, name, profilePic, _id, role } = res.data;
-        ToasterComponent({
-          message: "Admin Login Successfully  !!",
-          description: "Thank's for Login",
-          firstLabel: "Close",
-        });
-        dispatch(adminExist({ email, gender, name, profilePic, _id, role }));
-        navigate("/");
-      } else if ("error" in res) {
-        console.error("Google Sign-In Error:", res.error);
-        ToasterComponent({
-          message: "Admin Login Failed  !!",
-          description: "An error occurred during login.",
-          firstLabel: "Close",
-        });
-      }
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
+    if ("data" in res && res.data) {
+      const { email, gender, name, profilePic, _id, role } = res.data;
       ToasterComponent({
-        message: "Google Sign-In Failed",
-        description: "Unable to authenticate with Google.",
+        message: "Admin Login Successfully  !!",
+        description: "Thank's for Login",
+        firstLabel: "Close",
+      });
+      dispatch(adminExist({ email, gender, name, profilePic, _id, role }));
+      navigate("/");
+    } else if ("error" in res) {
+      const errorMessage = getErrorMessage(res.error);
+      ToasterComponent({
+        message: "Admin Login Failed  !!",
+        description: errorMessage,
         firstLabel: "Close",
       });
     }
@@ -181,8 +163,6 @@ function SignUpAddmin() {
 
     const res = await verifyOTP({ email, verificationCode });
 
-    console.log("res : ", res);
-
     if ("data" in res && res.data) {
       ToasterComponent({
         message: "OTP Verified Successfully",
@@ -191,12 +171,9 @@ function SignUpAddmin() {
       });
       setOTPSubmit(true);
     } else if ("error" in res) {
-      const error = res.error as FetchBaseQueryError;
-      const message = error?.data
-        ? (error.data as messageResponce).message
-        : "An unknown error occurred";
+      const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
-        message: message,
+        message: errorMessage,
         description: "Failed to verify OTP",
         firstLabel: "Close",
       });

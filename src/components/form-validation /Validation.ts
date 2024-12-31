@@ -141,32 +141,37 @@ export const projectSchema = z
       .min(3, { message: "Project name must be at least 3 characters long." })
       .max(50, { message: "Project name cannot exceed 50 characters." })
       .nonempty({ message: "Project name is required." }),
+
     projectDescription: z.string().optional(),
+
     startDate: z
       .string()
-      .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format. Use 'YYYY-MM-DD'.")
-      .nullable()
-      .refine(
-        (date) => date === null || new Date(date) > new Date(),
-        "Start date cannot be in the past"
-      )
+      .min(1, { message: "Start date is required." })
+      .refine((date) => date === null || new Date(date) >= new Date(), {
+        message: "Start date cannot be in the past",
+      })
       .transform((date) => (date === null ? null : new Date(date))),
+
     endDate: z
       .string()
-      .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format. Use 'YYYY-MM-DD'.")
-      .nullable()
+      .min(1, { message: "End date is required." })
+      .refine((date) => date === null || new Date(date) >= new Date(), {
+        message: "End date cannot be in the past",
+      })
       .transform((date) => (date === null ? null : new Date(date))),
+
     budget: z
       .string()
       .nullable()
       .refine(
         (val) => val === null || (!isNaN(Number(val)) && Number(val) > 10000),
-        "Budget must be greater than 10000"
+        { message: "Budget must be greater than 10000" }
       )
       .transform((val) => (val === null ? null : Number(val))),
+
     projectManager: z
       .string()
-      .nonempty({ message: "Project manager is required." })
+      .nonempty("Please select a valid project manager.")
       .refine((manager) => manager !== "Select Manager", {
         message: "Please select a valid project manager.",
       }),
@@ -180,6 +185,3 @@ export const projectSchema = z
       });
     }
   });
-
-// Default values extracted from schema
-// export const schemaDefaults = projectSchema.parse({});

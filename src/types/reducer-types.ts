@@ -7,11 +7,12 @@ export interface adminReducerInitialState {
 
 export interface adminProjectType {
   projectName: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date | null;
+  endDate: Date | null;
   budget: number;
   projectManager: string;
-  projectDescription?: string | undefined;
+  projectDescription?: string;
+  _id: string;
 }
 
 export type adminProjectInitialState = {

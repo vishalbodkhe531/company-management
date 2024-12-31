@@ -1,4 +1,6 @@
-import ToasterComponent from "@/components/toaster/Toaster";
+import ToasterComponent, {
+  getErrorMessage,
+} from "@/components/toaster/Toaster";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -73,15 +75,11 @@ function SignInAddmin() {
       navigate("/");
     }
 
-    if (res.error) {
-      const error = res.error as FetchBaseQueryError;
-      const message = error?.data
-        ? (error.data as messageResponce).message
-        : "An unknown error occurred";
-
+    if ("error" in res) {
+      const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
         message: "Admin Not Logged  !!",
-        description: message,
+        description: errorMessage,
         firstLabel: "Close",
       });
     }
