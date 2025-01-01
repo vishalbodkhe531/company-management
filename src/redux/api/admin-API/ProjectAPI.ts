@@ -36,7 +36,7 @@ export const adminProjectAPI = createApi({
       invalidatesTags: ["project"],
     }),
 
-    updateProduct: builder.mutation<string, updateRequest>({
+    updateProject: builder.mutation<string, updateRequest>({
       query: ({ id, data }) => ({ url: `${id}`, method: "PUT", body: data }),
       invalidatesTags: ["project"],
     }),
@@ -47,5 +47,5 @@ export const {
   useCreateProjectMutation,
   useAllProjectsQuery,
   useDeleteProjectMutation,
-  useUpdateProductMutation,
+  useUpdateProjectMutation,
 } = adminProjectAPI;

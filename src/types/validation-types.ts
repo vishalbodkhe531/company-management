@@ -23,5 +23,3 @@ export type OTPFormValues = z.infer<typeof OTPSchema>;
 // Admin Project Form
 
 export type ProjectFormValue = z.infer<typeof projectSchema>;
-
-// export type UpdateProjectFormValue = z.infer<typeof projectSchema>;

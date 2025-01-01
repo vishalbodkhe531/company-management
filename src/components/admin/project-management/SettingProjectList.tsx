@@ -5,23 +5,25 @@ import ToasterComponent, {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { SelectContent, SelectItem } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
   useAllProjectsQuery,
   useDeleteProjectMutation,
-  useUpdateProductMutation,
+  useUpdateProjectMutation,
 } from "@/redux/api/admin-API/ProjectAPI";
 import { adminProjectType } from "@/types/reducer-types";
 import { UpdateProject } from "@/types/types";
 import { ProjectFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Select, SelectTrigger } from "@radix-ui/react-select";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 function SettingProjectList() {
   const { data } = useAllProjectsQuery();
   const [deleteProject] = useDeleteProjectMutation();
-  const [updateProduct] = useUpdateProductMutation();
+  const [updateProject] = useUpdateProjectMutation();
 
   const [toggle, setToggle] = useState("");
 
@@ -32,7 +34,7 @@ function SettingProjectList() {
       projectDescription: "",
       startDate: "",
       endDate: "",
-      budget: 0,
+      budget: null,
       projectManager: "",
     },
   });
@@ -41,10 +43,16 @@ function SettingProjectList() {
     handleSubmit,
     register,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = form;
 
   const allProjects: adminProjectType[] = data?.projects || [];
+
+  const selectedManager = watch("projectManager");
+
+  const managers = ["Rahul", "Sumit", "Ajay", "Vikas"];
 
   const formattedProjects = allProjects.map((project) => ({
     ...project,
@@ -71,32 +79,53 @@ function SettingProjectList() {
   };
 
   const handleUpdate = (project: UpdateProject) => {
-    setToggle(project._id);
+    project._id && setToggle(project._id);
 
-    const formattedProduct = {
-      ...data,
-      startDate: project.startDate.split("T")[0],
-      endDate: project.endDate.split("T")[0],
+    const formattedProject = {
+      ...project,
+      startDate: project.startDate && project.startDate.split("T")[0],
+      endDate: project.endDate && project.endDate.split("T")[0],
     };
-
-    console.log("project : ", formattedProduct);
-
-    console.log(
-      project.endDate ? new Date(project.endDate).toLocaleDateString() : "N/A"
-    );
 
     reset({
       projectName: project.projectName,
       projectDescription: project.projectDescription,
-      startDate: formattedProduct.startDate,
-      endDate: formattedProduct.endDate,
-      budget: project.budget,
+      startDate: formattedProject.startDate,
+      endDate: formattedProject.endDate,
+      budget: project.budget || null, // Ensure budget is set to a number or null
       projectManager: project.projectManager,
     });
   };
 
-  const onSubmit = async (data: ProjectFormValue) => {
-    console.log(data);
+  const onSubmit = async (formData: ProjectFormValue) => {
+    // const formattedData = {
+    //   ...formData,
+    //   budget: formData.budget ?? null,
+    // };
+
+    // console.log(formattedData);
+    console.log(formData);
+    console.log(toggle);
+
+    const res = await updateProject({ id: toggle, data: formData });
+
+    console.log(res);
+
+    // if (res.data) {
+    //   ToasterComponent({
+    //     message: res.data.message,
+    //     description: "Project updated successfully.",
+    //     firstLabel: "Close",
+    //   });
+    //   setToggle("");
+    // } else if ("error" in res) {
+    //   const errorMessage = getErrorMessage(res.error);
+    //   ToasterComponent({
+    //     message: errorMessage,
+    //     description: "Could not update the project.",
+    //     firstLabel: "Close",
+    //   });
+    // }
   };
 
   return (
@@ -107,7 +136,7 @@ function SettingProjectList() {
           toggle === project._id ? (
             <Card
               key={project._id}
-              className={`font-semibold text-white shadow-xl rounded-lg p-6 transition-transform transform hover:scale-105 h-auto hover:shadow-2xl border border-gray-800 bg-gradient-to-r from-blue-600 to-purple-600`}
+              className="font-semibold text-white shadow-xl rounded-lg p-6 transition-transform transform hover:scale-105 h-auto hover:shadow-2xl border border-gray-800 bg-gradient-to-r from-blue-600 to-purple-600"
             >
               <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -161,14 +190,17 @@ function SettingProjectList() {
                   <label className="block text-white">Budget</label>
                   <Input
                     type="number"
-                    {...register("budget")}
+                    {...register("budget", {
+                      setValueAs: (value) => (value ? parseFloat(value) : 0),
+                    })}
                     className="!text-inputText"
                   />
                   {errors.budget && (
                     <p className="text-red-500">{errors.budget.message}</p>
                   )}
                 </div>
-                <div>
+
+                {/* <div>
                   <label className="block text-white">Project Manager</label>
                   <Input
                     {...register("projectManager")}
@@ -179,7 +211,32 @@ function SettingProjectList() {
                       {errors.projectManager.message}
                     </p>
                   )}
+                </div> */}
+                <div className="w-full py-1">
+                  <label className="block text-white">projectManager</label>
+                  <Select
+                    value={selectedManager || ""}
+                    onValueChange={(value) =>
+                      setValue("projectManager", value, {
+                        shouldValidate: true,
+                      })
+                    }
+                  >
+                    <SelectTrigger className=" h-10 !text-[1rem] w-full">
+                      <div className="border rounded-md px-4 p-1 text-start">
+                        {selectedManager || "Select Manager"}
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 text-white !text-[1.10rem]">
+                      {managers.map((manager, index) => (
+                        <SelectItem key={index} value={manager}>
+                          {manager}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
+
                 <div className="flex justify-between">
                   <Button type="submit" className="bg-green-500 text-white">
                     Save
@@ -197,7 +254,7 @@ function SettingProjectList() {
           ) : (
             <Card
               key={project._id}
-              className={`shadow-xl rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-2xl h-[30rem] border border-gray-800 bg-gradient-to-r from-blue-800 to-purple-600`}
+              className="shadow-xl rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-2xl h-[30rem] border border-gray-800 bg-gradient-to-r from-blue-800 to-purple-600"
             >
               <div className="flex flex-col justify-between h-full text-md">
                 <h3 className="text-2xl font-semibold text-white mb-2">

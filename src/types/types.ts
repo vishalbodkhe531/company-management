@@ -56,10 +56,10 @@ export type Project = {
 
 export interface UpdateProject {
   projectName?: string;
-  startDate: string;
-  endDate: string;
-  budget?: number;
+  startDate?: string;
+  endDate?: string;
+  budget?: number | null;
   projectManager?: string;
   projectDescription?: string;
-  _id: string;
+  _id?: string;
 }

@@ -147,7 +147,9 @@ const ProjectSettings = () => {
                     type="number"
                     placeholder="Enter project budget"
                     className="mt-2 border-2 border-blue-500 h-12 !text-[1rem]"
-                    {...register("budget")}
+                    {...register("budget", {
+                      setValueAs: (value) => (value ? parseFloat(value) : 0),
+                    })}
                   />
                   {errors.budget && (
                     <p className="text-red-500 font-bold  text-sm mt-1">

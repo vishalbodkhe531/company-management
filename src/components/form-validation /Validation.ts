@@ -148,13 +148,11 @@ export const projectSchema = z
     endDate: z.string().nonempty({ message: "End date is required." }),
 
     budget: z
-      .string()
+      .number()
       .nullable()
-      .refine(
-        (val) => val === null || (!isNaN(Number(val)) && Number(val) > 10000),
-        { message: "Budget must be greater than 10000" }
-      )
-      .transform((val) => (val === null ? null : Number(val))),
+      .refine((val) => val === null || val > 10000, {
+        message: "Budget must be greater than 10000",
+      }),
 
     projectManager: z
       .string()
