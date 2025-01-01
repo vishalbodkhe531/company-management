@@ -32,8 +32,8 @@ const ProjectSettings = () => {
     resolver: zodResolver(projectSchema),
     defaultValues: {
       projectName: "",
-      startDate: null,
-      endDate: null,
+      startDate: "",
+      endDate: "",
       budget: undefined,
       projectManager: "",
       projectDescription: "",

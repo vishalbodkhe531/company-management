@@ -144,8 +144,8 @@ export const projectSchema = z
 
     projectDescription: z.string().optional(),
 
-    startDate: z.string(),
-    endDate: z.string(),
+    startDate: z.string().nonempty({ message: "Start date is required." }),
+    endDate: z.string().nonempty({ message: "End date is required." }),
 
     budget: z
       .string()
@@ -158,7 +158,7 @@ export const projectSchema = z
 
     projectManager: z
       .string()
-      .nonempty("Please select a valid project manager.")
+      .nonempty({ message: "Please select a valid project manager." })
       .refine((manager) => manager !== "Select Manager", {
         message: "Please select a valid project manager.",
       }),

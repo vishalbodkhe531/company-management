@@ -46,13 +46,6 @@ function SettingProjectList() {
 
   const allProjects: adminProjectType[] = data?.projects || [];
 
-  // const formattedProjects = allProjects.map((project) => ({
-  //   ...project,
-  //   startDate: project.startDate ? new Date(project.startDate) : null,
-  //   endDate: project.endDate ? new Date(project.endDate) : null,
-  // }));
-
-  //
   const formattedProjects = allProjects.map((project) => ({
     ...project,
     startDate: project.startDate && project.startDate.split("T")[0],
@@ -91,8 +84,6 @@ function SettingProjectList() {
     console.log(
       project.endDate ? new Date(project.endDate).toLocaleDateString() : "N/A"
     );
-
-    // const fo = project.startDate.toISOString().split("T")[0];
 
     reset({
       projectName: project.projectName,
@@ -168,7 +159,11 @@ function SettingProjectList() {
                 </div>
                 <div>
                   <label className="block text-white">Budget</label>
-                  <Input {...register("budget")} className="!text-inputText" />
+                  <Input
+                    type="number"
+                    {...register("budget")}
+                    className="!text-inputText"
+                  />
                   {errors.budget && (
                     <p className="text-red-500">{errors.budget.message}</p>
                   )}
@@ -223,7 +218,6 @@ function SettingProjectList() {
                   </div>
                   <div>
                     <span className="font-bold uppercase">Start Date: </span>
-                    {/* {project.startDate} */}
                     {project.startDate}
                   </div>
                   <div>
