@@ -144,21 +144,8 @@ export const projectSchema = z
 
     projectDescription: z.string().optional(),
 
-    startDate: z
-      .string()
-      .min(1, { message: "Start date is required." })
-      .refine((date) => date === null || new Date(date) >= new Date(), {
-        message: "Start date cannot be in the past",
-      })
-      .transform((date) => (date === null ? null : new Date(date))),
-
-    endDate: z
-      .string()
-      .min(1, { message: "End date is required." })
-      .refine((date) => date === null || new Date(date) >= new Date(), {
-        message: "End date cannot be in the past",
-      })
-      .transform((date) => (date === null ? null : new Date(date))),
+    startDate: z.string(),
+    endDate: z.string(),
 
     budget: z
       .string()
@@ -176,12 +163,15 @@ export const projectSchema = z
         message: "Please select a valid project manager.",
       }),
   })
-  .superRefine(({ startDate, endDate }, ctx) => {
-    if (startDate && endDate && endDate <= startDate) {
+  .superRefine((data, ctx) => {
+    const start = new Date(data.startDate);
+    const end = new Date(data.endDate);
+
+    if (end < start) {
       ctx.addIssue({
         code: "custom",
         path: ["endDate"],
-        message: "End date must be greater than the start date",
+        message: "End date must be after the start date.",
       });
     }
   });

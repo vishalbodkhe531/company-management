@@ -7,8 +7,8 @@ export interface adminReducerInitialState {
 
 export interface adminProjectType {
   projectName: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string;
   budget: number;
   projectManager: string;
   projectDescription?: string;

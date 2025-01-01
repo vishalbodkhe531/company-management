@@ -46,10 +46,17 @@ function SettingProjectList() {
 
   const allProjects: adminProjectType[] = data?.projects || [];
 
+  // const formattedProjects = allProjects.map((project) => ({
+  //   ...project,
+  //   startDate: project.startDate ? new Date(project.startDate) : null,
+  //   endDate: project.endDate ? new Date(project.endDate) : null,
+  // }));
+
+  //
   const formattedProjects = allProjects.map((project) => ({
     ...project,
-    startDate: project.startDate.split("T")[0],
-    endDate: project.endDate.split("T")[0],
+    startDate: project.startDate && project.startDate.split("T")[0],
+    endDate: project.endDate && project.endDate.split("T")[0],
   }));
 
   const handleDelete = async (projectId: string) => {
@@ -73,17 +80,25 @@ function SettingProjectList() {
   const handleUpdate = (project: UpdateProject) => {
     setToggle(project._id);
 
-    // const formattedProduct = {
-    //   ...data,
-    //   startDate: project.startDate ? new Date(project.startDate) : null,
-    //   endDate: project.endDate ? new Date(project.endDate) : null,
-    // };
+    const formattedProduct = {
+      ...data,
+      startDate: project.startDate.split("T")[0],
+      endDate: project.endDate.split("T")[0],
+    };
+
+    console.log("project : ", formattedProduct);
+
+    console.log(
+      project.endDate ? new Date(project.endDate).toLocaleDateString() : "N/A"
+    );
+
+    // const fo = project.startDate.toISOString().split("T")[0];
 
     reset({
       projectName: project.projectName,
       projectDescription: project.projectDescription,
-      startDate: project.startDate,
-      endDate: project.endDate,
+      startDate: formattedProduct.startDate,
+      endDate: formattedProduct.endDate,
       budget: project.budget,
       projectManager: project.projectManager,
     });
@@ -208,6 +223,7 @@ function SettingProjectList() {
                   </div>
                   <div>
                     <span className="font-bold uppercase">Start Date: </span>
+                    {/* {project.startDate} */}
                     {project.startDate}
                   </div>
                   <div>

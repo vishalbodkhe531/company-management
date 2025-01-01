@@ -47,8 +47,8 @@ export type OTPRequest = {
 
 export type Project = {
   projectName: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string;
   budget: number | null;
   projectManager: string;
   projectDescription?: string;
@@ -56,8 +56,8 @@ export type Project = {
 
 export interface UpdateProject {
   projectName?: string;
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
   budget?: number;
   projectManager?: string;
   projectDescription?: string;
