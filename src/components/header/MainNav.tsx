@@ -42,7 +42,7 @@ function MainNav() {
         <NavBtn menu={"Payroll"} /> {/* Fixed spelling */}
       </Link>
 
-      <Link to={"/employee-management"}>
+      <Link to={"/admin/employee-management"}>
         <NavBtn menu={"Employee"} /> {/* Fixed spelling */}
       </Link>
 

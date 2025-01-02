@@ -12,6 +12,7 @@ export interface adminProjectType {
   budget: number;
   projectManager: string;
   projectDescription?: string;
+  projectStatus: string;
   _id: string;
 }
 

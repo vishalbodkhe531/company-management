@@ -100,10 +100,10 @@ function AppRoutes() {
                   </Structure>
                 }
               />
+              <Route path="projects" element={<ProjectDashboard />} />
+              <Route path="employee-management" element={<EmoployeeDash />} />
             </Route>
             {/* dashboards */}
-            <Route path="/admin/projects" element={<ProjectDashboard />} />
-            <Route path="/employee-management" element={<EmoployeeDash />} />
 
             {/* Employee Routes */}
             <Route path="employee" element={<Structure />}>
