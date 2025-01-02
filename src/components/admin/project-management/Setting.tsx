@@ -1,7 +1,9 @@
+import { projectSchema } from "@/components/form-validation /Validation";
 import ToasterComponent, {
   getErrorMessage,
 } from "@/components/toaster/Toaster";
 import { Form } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { useCreateProjectMutation } from "@/redux/api/admin-API/ProjectAPI";
 import { addProject } from "@/redux/reducer/ProjectReducer";
 import { adminProjectType } from "@/types/reducer-types";
@@ -21,8 +23,6 @@ import {
 } from "../../ui/select";
 import { Separator } from "../../ui/separator";
 import SettingProjectList from "./SettingProjectList";
-import { Textarea } from "@/components/ui/textarea";
-import { projectSchema } from "@/components/form-validation /Validation";
 
 const ProjectSettings = () => {
   const [createProject] = useCreateProjectMutation();
@@ -54,7 +54,6 @@ const ProjectSettings = () => {
   const managers = ["Select Manager", "Rahul", "Sumit", "Ajay", "Vikas"];
 
   const handleForm = handleSubmit(async (data: ProjectFormValue) => {
-    console.log(data);
     const res = await createProject(data);
     if (res.data) {
       dispatch(addProject(data as adminProjectType));

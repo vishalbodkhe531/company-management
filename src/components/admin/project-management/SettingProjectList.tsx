@@ -12,6 +12,7 @@ import {
   useDeleteProjectMutation,
   useUpdateProjectMutation,
 } from "@/redux/api/admin-API/ProjectAPI";
+import { addProject } from "@/redux/reducer/ProjectReducer";
 import { adminProjectType } from "@/types/reducer-types";
 import { UpdateProject } from "@/types/types";
 import { ProjectFormValue } from "@/types/validation-types";
@@ -19,11 +20,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectTrigger } from "@radix-ui/react-select";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 function SettingProjectList() {
   const { data } = useAllProjectsQuery();
   const [deleteProject] = useDeleteProjectMutation();
   const [updateProject] = useUpdateProjectMutation();
+
+  const dispatch = useDispatch();
 
   const [toggle, setToggle] = useState("");
 
@@ -92,40 +96,32 @@ function SettingProjectList() {
       projectDescription: project.projectDescription,
       startDate: formattedProject.startDate,
       endDate: formattedProject.endDate,
-      budget: project.budget || null, // Ensure budget is set to a number or null
+      budget: project.budget || null,
       projectManager: project.projectManager,
     });
   };
 
   const onSubmit = async (formData: ProjectFormValue) => {
-    // const formattedData = {
-    //   ...formData,
-    //   budget: formData.budget ?? null,
-    // };
-
-    // console.log(formattedData);
-    console.log(formData);
-    console.log(toggle);
-
     const res = await updateProject({ id: toggle, data: formData });
 
     console.log(res);
 
-    // if (res.data) {
-    //   ToasterComponent({
-    //     message: res.data.message,
-    //     description: "Project updated successfully.",
-    //     firstLabel: "Close",
-    //   });
-    //   setToggle("");
-    // } else if ("error" in res) {
-    //   const errorMessage = getErrorMessage(res.error);
-    //   ToasterComponent({
-    //     message: errorMessage,
-    //     description: "Could not update the project.",
-    //     firstLabel: "Close",
-    //   });
-    // }
+    if (res.data) {
+      dispatch(addProject(res.data as adminProjectType));
+      ToasterComponent({
+        message: "Let work with updated Project",
+        description: "Project updated successfully.",
+        firstLabel: "Close",
+      });
+      setToggle("");
+    } else if ("error" in data!) {
+      const errorMessage = getErrorMessage(res.error);
+      ToasterComponent({
+        message: errorMessage,
+        description: "Could not update the project.",
+        firstLabel: "Close",
+      });
+    }
   };
 
   return (
@@ -199,19 +195,6 @@ function SettingProjectList() {
                     <p className="text-red-500">{errors.budget.message}</p>
                   )}
                 </div>
-
-                {/* <div>
-                  <label className="block text-white">Project Manager</label>
-                  <Input
-                    {...register("projectManager")}
-                    className="!text-inputText"
-                  />
-                  {errors.projectManager && (
-                    <p className="text-red-500">
-                      {errors.projectManager.message}
-                    </p>
-                  )}
-                </div> */}
                 <div className="w-full py-1">
                   <label className="block text-white">projectManager</label>
                   <Select
