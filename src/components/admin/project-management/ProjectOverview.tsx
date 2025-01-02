@@ -1,113 +1,129 @@
-import LineChart from "@/components/charts/LineChart";
-import { DoughnutChart } from "../../charts/DoughnutChart";
-import { Pie } from "react-chartjs-2";
+import React, { useEffect, useState } from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  BarElement,
+  RadialLinearScale,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line, Pie, Doughnut, Bar, Radar } from "react-chartjs-2";
 
-export const gridColor = "rgba(255, 255, 255, 0.2)";
-export const textColor = "#fff";
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  BarElement,
+  RadialLinearScale,
+  Tooltip,
+  Legend
+);
 
-// Budget Used Percentage=(
-//   50,000
-//   20,000
-//   ​
-//    )×100=0.4×100=40%
+export default function ProjectOverview() {
+  const [backendData, setBackendData] = useState({
+    activeProjects: 0,
+    completedTasks: 0,
+    budgetUsed: 0,
+    totalProjects: 0,
+    salesData: [10, 50, 15, 30, 25, 40],
+    attendanceData: [200, 15, 5],
+  });
 
-function ProjectOverview() {
-  const pieOptions = {
-    plugins: {
-      legend: {
-        labels: {
-          boxWidth: 60,
-          padding: 29,
-          font: {
-            size: 14,
-            color: "#FFFFFF",
-          },
-          color: "#FFFFFF",
-        },
-        position: "right" as const,
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/project-overview");
+        const data = await response.json();
+        setBackendData({
+          activeProjects: data.activeProjects || 0,
+          completedTasks: data.completedTasks || 0,
+          budgetUsed: data.budgetUsed || 0,
+          totalProjects: data.totalProjects || 0,
+          salesData: data.salesData || [10, 50, 15, 30, 25, 40],
+          attendanceData: data.attendanceData || [200, 15, 5],
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // Chart configurations
+  const lineData = {
+    labels: ["January", "February", "March", "April", "May", "June"],
+    datasets: [
+      {
+        label: "Monthly Sales",
+        data: backendData.salesData,
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        tension: 0.4,
       },
-    },
-    maintainAspectRatio: false,
-    responsive: true,
-    scales: {
-      y: {
-        ticks: {
-          color: "#FFFFFF",
-        },
-      },
-      x: {
-        ticks: {
-          color: "#FFFFFF",
-        },
-      },
-    },
+    ],
   };
 
   const pieData = {
     labels: ["Active", "On Leave", "Absent"],
     datasets: [
       {
-        data: [200, 15, 5],
-        backgroundColor: ["#22C55E", "#FACC15", "#EF4444"],
+        data: backendData.attendanceData,
+        backgroundColor: ["#4CAF50", "#FFC107", "#F44336"],
         borderWidth: 1,
       },
     ],
   };
 
-  // lign-chart options
-  const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+  const barData = {
+    labels: ["Product A", "Product B", "Product C", "Product D"],
     datasets: [
       {
-        label: "Sales",
-        data: [10, 50, 15, 30, 25, 40],
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        tension: 0.4, // Makes the line smooth
-        textColor: "#fff",
+        label: "Sales Count",
+        data: [50, 75, 100, 125],
+        backgroundColor: ["#4CAF50", "#3F51B5", "#FFC107", "#F44336"],
       },
     ],
   };
 
-  const options = {
-    responsive: true,
+  const radarData = {
+    labels: ["Quality", "Speed", "Reliability", "Price", "Customer Service"],
+    datasets: [
+      {
+        label: "Product Performance",
+        data: [3, 4, 4, 2, 5],
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+      },
+    ],
+  };
+
+  const chartOptions = {
     plugins: {
       legend: {
-        position: "top" as const,
         labels: {
-          color: "#fff", // Set legend text color
+          color: "#FFFFFF",
           font: {
-            weight: "bold", // Apply font-bold
-            size: 12, // Set font size (text-xl equivalent)
+            size: 14,
+            weight: "bold",
           },
-        },
-      },
-      title: {
-        display: true,
-        text: "Monthly Sales Data",
-        color: "#fff",
-        font: {
-          weight: "bold", // Apply font-bold
-          size: 12, // Set font size (text-xl equivalent)
         },
       },
     },
     scales: {
-      y: {
-        beginAtZero: true,
-        grid: {
-          color: gridColor,
-        },
+      x: {
         ticks: {
-          color: textColor,
+          color: "#FFFFFF",
         },
       },
-      x: {
-        grid: {
-          color: gridColor,
-        },
+      y: {
         ticks: {
-          color: textColor,
+          color: "#FFFFFF",
         },
       },
     },
@@ -115,105 +131,48 @@ function ProjectOverview() {
 
   return (
     <section>
-      <h3 className="text-lg font-bold mb-4 ">Project Overview</h3>
-      <div className="flex flex-col space-y-14 ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          <div className="p-4 bg-gray-800 rounded h-[10rem] flex flex-row justify-between">
-            <div className="">
-              <h4 className="text-lg font-semibold">Active Projects</h4>
-              <p className="text-2xl font-bold">12</p>
-            </div>
-            <div className="">
-              <DoughnutChart
-                activeProjects={35}
-                budgetUsed={65}
-                cutout="80%"
-                showLabels={false}
-                containerStyle={{
-                  marginTop: "0",
-                  justifyContent: "center",
-                  width: "100%",
-                  height: "7rem",
-                }}
-              />
-            </div>
-          </div>
-          <div className="p-4 bg-gray-800 rounded h-[10rem] flex flex-row justify-between">
-            <div className="">
-              <h4 className="text-lg font-semibold">Completed Tasks</h4>
-              <p className="text-2xl font-bold">243</p>
-            </div>
-            <div className="">
-              <DoughnutChart
-                activeProjects={35}
-                cutout="80%"
-                showLabels={false}
-                containerStyle={{
-                  marginTop: "0",
-                  justifyContent: "center",
-                  width: "100%",
-                  height: "7rem",
-                }}
-              />
-            </div>
-          </div>
-          <div className="p-4 bg-gray-800 rounded h-[10rem] flex flex-row justify-between">
-            <div className="">
-              <h4 className="text-lg font-semibold">Budget Used</h4>
-              <p className="text-2xl font-bold">$45,000</p>
-            </div>
-            <div className="">
-              <DoughnutChart
-                activeProjects={35}
-                budgetUsed={15}
-                cutout="80%"
-                showLabels={false}
-                containerStyle={{
-                  marginTop: "0",
-                  justifyContent: "center",
-                  width: "100%",
-                  height: "7rem",
-                }}
-              />
-            </div>
-          </div>
-          <div className="p-4 bg-gray-800 rounded h-[10rem] flex flex-row justify-between">
-            <div className="">
-              <h4 className="text-lg font-semibold">Total Projects</h4>
-              <p className="text-2xl font-bold">5</p>
-            </div>
-            <div className="">
-              <DoughnutChart
-                // activeProjects={32}
-                budgetUsed={15}
-                cutout="80%"
-                showLabels={false}
-                containerStyle={{
-                  marginTop: "0",
-                  justifyContent: "center",
-                  width: "100%",
-                  height: "7rem",
-                }}
-              />
-            </div>
+      <h3 className="text-lg font-bold mb-4">Project Overview</h3>
+      <div className="flex flex-col space-y-8">
+        {/* Line Chart */}
+        <div className="bg-gray-800 shadow rounded-md p-4 text-center">
+          <h4 className="text-xl font-bold mb-4 text-white">Line Chart</h4>
+          <div style={{ height: "250px" }}>
+            <Line data={lineData} />
           </div>
         </div>
-        <div className="bg-gray-800 shadow rounded-md p-4 text-center flex justify-center">
-          <LineChart data={data} options={options} />
+
+        {/* Pie Chart */}
+        <div className="bg-gray-800 shadow rounded-md p-4 text-center">
+          <h4 className="text-xl font-bold mb-4 text-white">Pie Chart</h4>
+          <div style={{ height: "550px" }}>
+            <Pie data={pieData} />
+          </div>
         </div>
-        <div className="bg-gray-800 shadow rounded-md p-4 text-center flex justify-center">
-          <div className="w-[60%]">
-            <h2 className="text-2xl font-bold mb-6 text-white">
-              Attendance Overview
-            </h2>
-            <div className="w-full h-[50vh] flex justify-center mt-6">
-              <Pie data={pieData} options={pieOptions} />
-            </div>
+
+        {/* Doughnut Chart */}
+        <div className="bg-gray-800 shadow rounded-md p-4 text-center">
+          <h4 className="text-xl font-bold mb-4 text-white">Doughnut Chart</h4>
+          <div style={{ height: "550px" }}>
+            <Doughnut data={pieData} />
+          </div>
+        </div>
+
+        {/* Bar Chart */}
+        <div className="bg-gray-800 shadow rounded-md p-4 text-center">
+          <h4 className="text-xl font-bold mb-4 text-white">Bar Chart</h4>
+          <div style={{ height: "550px" }}>
+            <Bar data={barData} />
+          </div>
+        </div>
+
+        {/* Radar Chart */}
+        <div className="bg-gray-800 shadow rounded-md p-4 text-center">
+          <h4 className="text-xl font-bold mb-4 text-white">Radar Chart</h4>
+          <div style={{ height: "800px" }}>
+            <Radar data={radarData} />
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-export default ProjectOverview;
