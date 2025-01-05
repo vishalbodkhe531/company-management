@@ -15,7 +15,7 @@ module.exports = {
       },
       colors: {
         heading: " #f97316",
-        mainHeading: "#fff",
+        mainHeading: "#000",
         inputTitle: "#000",
         errorText: "red",
         navFoot: "#000",

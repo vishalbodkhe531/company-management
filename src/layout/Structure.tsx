@@ -1,6 +1,5 @@
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
-import { Toaster } from "@/components/ui/sonner";
 import { Outlet } from "react-router-dom";
 
 function Structure({ children }: { children?: React.ReactNode }) {
@@ -12,7 +11,7 @@ function Structure({ children }: { children?: React.ReactNode }) {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-grow bg-background text-mainHeading ">
+      <main className="flex-grow text-mainHeading ">
         <div className=" mx-auto w-full h-full select-none">
           {children || <Outlet />}
         </div>
