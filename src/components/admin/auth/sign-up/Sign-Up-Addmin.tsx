@@ -31,6 +31,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { FcGoogle } from "react-icons/fc";
 
 function SignUpAddmin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -196,7 +197,7 @@ function SignUpAddmin() {
               <Input
                 id="name"
                 placeholder="Name"
-                className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                className="border-none bg-inputBg font-semibold text-inputTitle p-5 !text-inputText"
                 {...register("name")}
               />
               {errors.name && (
@@ -211,7 +212,7 @@ function SignUpAddmin() {
                 id="email"
                 placeholder="Email"
                 type="email"
-                className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                className="border-none bg-inputBg font-semibold text-inputTitle p-5 !text-inputText"
                 {...register("email")}
               />
               {errors.email && (
@@ -227,7 +228,7 @@ function SignUpAddmin() {
                   id="password"
                   placeholder="Password"
                   type={showPassword ? "text" : "password"}
-                  className="border-none bg-inputBg text-inputTitle p-5 pr-10 !text-inputText"
+                  className="border-none bg-inputBg font-semibold text-inputTitle p-5 pr-10 !text-inputText"
                   {...register("password")}
                 />
                 <button
@@ -322,6 +323,7 @@ function SignUpAddmin() {
               onClick={handleSignWithGoogle}
               disabled={loading}
             >
+              <FcGoogle className="bg-white rounded-md" />
               {loading ? "Loading..." : "Sign With Google"}
             </Button>
             <div className="text-start text-xl mt-9 font-bold cursor-pointer">

@@ -24,6 +24,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
 import { adminSchema } from "@/components/form-validation /Validation";
 import { auth } from "@/firebase";
@@ -132,7 +133,7 @@ function SignInAddmin() {
     <>
       <Form {...form}>
         <form onSubmit={handleForm}>
-          <Card className="border-none">
+          <Card className="border-white">
             <CardHeader>
               <CardTitle className="text-xl font-bold">Account</CardTitle>
               <CardDescription>
@@ -146,7 +147,7 @@ function SignInAddmin() {
                   id="email"
                   type="email"
                   placeholder="email"
-                  className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                  className="border-none bg-inputBg font-semibold text-inputTitle p-5 !text-inputText"
                   {...register("email")}
                 />
                 {errors.email && (
@@ -162,7 +163,7 @@ function SignInAddmin() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="password"
-                    className="border-none bg-inputBg text-inputTitle p-5 !text-inputText"
+                    className="border-none bg-inputBg font-semibold text-inputTitle p-5 !text-inputText"
                     {...register("password")}
                   />
                   <button
@@ -194,6 +195,7 @@ function SignInAddmin() {
                 onClick={handleSignWithGoogle}
                 disabled={loading}
               >
+                <FcGoogle className="bg-white rounded-md" />
                 {loading ? "Loading..." : "Sign With Google"}
               </Button>
               <div className="text-start mt-9 text-xl font-bold cursor-pointer">
