@@ -12,6 +12,7 @@ import { useGetLoggedAdminQuery } from "./redux/api/admin-API/AdminAPI";
 import { adminExist } from "./redux/reducer/AdminReducer";
 import { Admin } from "./types/types";
 import { Toaster } from "./components/ui/sonner";
+import AuthEmpPage from "./pages/employee/authentication/AuthPage";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -36,14 +37,14 @@ const ProjectDashboard = lazy(
 );
 
 const EmployeeSignUp = lazy(
-  () => import("./pages/employee/sign-up/Sign-Up-Emp")
+  () => import("./components/employee/auth/sign-up/Sign-Up-Emp")
 );
 
 const Payroll = lazy(
   () => import("./components/admin/emp-management/EmpPayroll")
 );
 const EmployeeSignIn = lazy(
-  () => import("./pages/employee/sign-in/Sign-In-Emp")
+  () => import("./components/employee/auth/sign-in/Sign-In-Emp")
 );
 
 const EmoployeeDash = lazy(
@@ -107,8 +108,8 @@ function AppRoutes() {
 
             {/* Employee Routes */}
             <Route path="employee" element={<Structure />}>
-              <Route path="sign-in" element={<EmployeeSignIn />} />
-              <Route path="sign-up" element={<EmployeeSignUp />} />
+              <Route path="sign-in" element={<AuthEmpPage />} />
+              <Route path="sign-up" element={<AuthEmpPage />} />
               <Route path="payroll" element={<Payroll />} />
             </Route>
             <Route path="*" element={<Navigate to={"/"} />} />
