@@ -18,10 +18,8 @@ import {
   useLoginMutation,
 } from "@/redux/api/admin-API/AdminAPI";
 import { adminExist } from "@/redux/reducer/AdminReducer";
-import { messageResponce } from "@/types/api-types";
 import { AdminFormValues } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -210,6 +208,3 @@ function SignInAddmin() {
 }
 
 export default SignInAddmin;
-
-// asdfasdf
-// adsfsadf
