@@ -233,7 +233,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="relative overflow-hidden h-[100vh] flex items-center justify-center ">
+    <div className="relative overflow-hidden h-[150vh] lg:h-[100vh] lg:items-center flex items-start justify-center ">
       {[...Array(100)].map((_, index) => (
         <motion.div
           key={index}
@@ -253,9 +253,9 @@ const AuthPage = () => {
         transition={{ duration: 0.8 }}
         className="text-white w-full font-bold z-10"
       >
-        <div className="flex p-2 text-black w-full bg-red-500 flex-wrap gap-10 h-[80vh] px-4 md:px-0 font-system ">
+        <div className="flex p-2 text-black w-full flex-wrap gap-10 h-[full] lg:h-[100vh] items-center justify-center px-0 lg:justify-start md:px-0  font-system ">
           <motion.div
-            className="bg-gradient-to-r rounded-r-[20rem] w-full lg:w-[43%] flex flex-col justify-center items-center p-6 from-purple-500 to-blue-500"
+            className="bg-gradient-to-r rounded-r-[20rem] h-[40rem] w-full lg:w-[47%] flex flex-col justify-center items-center p-6 from-purple-500 to-blue-500"
             initial={{ x: "-90vw", scale: 0.2 }}
             animate={{ x: 0, scale: 1 }}
             transition={{
@@ -295,7 +295,8 @@ const AuthPage = () => {
                 </Card>
               </TabsContent>
             </Tabs>
-            <div className="hidden  md:block relative">
+            {/* <div className="hidden  xl:block relative"> */}
+            <div className="hidden [@media(min-width:1450px)]:block relative">
               <motion.img
                 src={pathName === "/admin/sign-in" ? pngLogo1 : pngLogo2}
                 alt="PNG"
