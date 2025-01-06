@@ -107,7 +107,7 @@ function AppRoutes() {
             {/* dashboards */}
 
             {/* Employee Routes */}
-            <Route path="employee" element={<Structure />}>
+            <Route path="emp" element={<Structure />}>
               <Route path="sign-in" element={<AuthEmpPage />} />
               <Route path="sign-up" element={<AuthEmpPage />} />
               <Route path="payroll" element={<Payroll />} />
