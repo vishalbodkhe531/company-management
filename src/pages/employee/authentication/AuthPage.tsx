@@ -56,10 +56,9 @@ function AuthEmpPage() {
                 <Input
                   id="firstName"
                   placeholder="First Name"
-                  className="!text-inputText "
+                  className="!text-inputText"
                 />
               </div>
-
               {/* Last Name */}
               <div className="space-y-2">
                 <Label htmlFor="lastName" className="font-semibold">
@@ -71,7 +70,6 @@ function AuthEmpPage() {
                   className=" !text-inputText"
                 />
               </div>
-
               {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="font-semibold">
@@ -84,7 +82,6 @@ function AuthEmpPage() {
                   className="!text-inputText"
                 />
               </div>
-
               {/* Phone Number */}
               <div className="space-y-2">
                 <Label htmlFor="phone" className="font-semibold">
@@ -97,7 +94,6 @@ function AuthEmpPage() {
                   className=" !text-inputText"
                 />
               </div>
-
               {/* Department */}
               <div className="space-y-2">
                 <Label htmlFor="department" className="font-semibold">
@@ -109,19 +105,18 @@ function AuthEmpPage() {
                   className="!text-inputText "
                 />
               </div>
-
               {/* Project Title */}
               <div className="space-y-2">
                 <Label htmlFor="ProjectTitle" className="font-semibold">
-                  Project Title
+                  {/*ex.... Degree, diploma, or certification. */}
+                  Highest Qualification
                 </Label>
                 <Input
                   id="ProjectTitle"
-                  placeholder="Project Title"
+                  placeholder="Your Qualification"
                   className=" !text-inputText"
                 />
               </div>
-
               {/* Gender */}
               <div className="space-y-2">
                 <Label htmlFor="gender" className="font-semibold">
@@ -137,7 +132,6 @@ function AuthEmpPage() {
                   <option value="Other">Other</option>
                 </select>
               </div>
-
               {/* Resignation Date */}
               <div className="space-y-2">
                 <Label htmlFor="resignationDate" className="font-semibold">
@@ -150,28 +144,34 @@ function AuthEmpPage() {
                   className=" !text-inputText"
                 />
               </div>
-
               {/* Address */}
-              <div className="space-y-2 md:col-span-2 lg:col-span-3">
+              <div className="space-y-2 md:col-span-2  lg:col-span-3">
                 <Label htmlFor="address" className="font-semibold">
                   Address
                 </Label>
                 <Input
                   id="address"
                   placeholder="Your Address"
-                  className="h-10 !text-inputText"
+                  className="h-10 !text-inputText border-2"
                 />
               </div>
+              {/* <div className="">alredy login Sign In</div> */}
             </div>
 
             {/* Submit Button */}
             <div className="mt-6 flex justify-center">
               <Button
                 type="submit"
-                className="px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                className="px-6 py-3 text-white w-[50%] btn-orange  hover:bg-orange-600"
               >
                 Submit
               </Button>
+            </div>
+            <div className="text-end font-semibold rounded-md mt-5">
+              Already logged in?
+              <span className="font-semibold text-blue-600 cursor-pointer underline">
+                Sign In
+              </span>
             </div>
           </form>
         </div>
