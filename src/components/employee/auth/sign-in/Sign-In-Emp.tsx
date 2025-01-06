@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
-import { MdOutlineAttachEmail } from "react-icons/md";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
-import { FaTransgenderAlt } from "react-icons/fa";
+import { IoTransgenderOutline } from "react-icons/io5";
+import { MdOutlineAttachEmail } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 function SignInEmp() {
   return (
@@ -53,7 +53,7 @@ function SignInEmp() {
               <Label htmlFor="gender" className="font-semibold">
                 Gender
               </Label>
-              <FaTransgenderAlt className="ml-2" />
+              <IoTransgenderOutline className="ml-2" />
             </div>
             <select
               id="gender"

@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
+import { AiOutlineUsergroupDelete } from "react-icons/ai";
+import { IoTransgenderOutline } from "react-icons/io5";
+import { MdOutlineAttachEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { FiPhoneCall } from "react-icons/fi";
+import { BsCalendar2Date } from "react-icons/bs";
+import { CiCircleList } from "react-icons/ci";
+import { FaRegAddressCard } from "react-icons/fa";
 
 function SignUpEmp() {
   return (
@@ -31,9 +38,12 @@ function SignUpEmp() {
         </div>
         {/* Email */}
         <div className="space-y-2">
-          <Label htmlFor="email" className="font-semibold">
-            Email
-          </Label>
+          <div className="flex items-center">
+            <Label htmlFor="email" className="font-semibold">
+              Email
+            </Label>
+            <MdOutlineAttachEmail className="ml-2" />
+          </div>
           <Input
             id="email"
             type="email"
@@ -43,9 +53,12 @@ function SignUpEmp() {
         </div>
         {/* Phone Number */}
         <div className="space-y-2">
-          <Label htmlFor="phone" className="font-semibold">
-            Phone Number
-          </Label>
+          <div className="flex items-center">
+            <Label htmlFor="phone" className="font-semibold">
+              Phone Number
+            </Label>
+            <FiPhoneCall className="ml-2" />
+          </div>
           <Input
             id="phone"
             type="tel"
@@ -53,34 +66,50 @@ function SignUpEmp() {
             className=" !text-inputText"
           />
         </div>
-        {/* Department */}
-        <div className="space-y-2">
-          <Label htmlFor="department" className="font-semibold">
-            Department
-          </Label>
-          <Input
-            id="department"
-            placeholder="Department"
-            className="!text-inputText "
-          />
-        </div>
+
         {/* Project Title */}
         <div className="space-y-2">
-          <Label htmlFor="ProjectTitle" className="font-semibold">
-            {/*ex.... Degree, diploma, or certification. */}
-            Highest Qualification
-          </Label>
+          <div className="flex items-center">
+            <Label htmlFor="ProjectTitle" className="font-semibold">
+              Highest Qualification
+            </Label>
+            <CiCircleList className="ml-2" />
+          </div>
           <Input
             id="ProjectTitle"
             placeholder="Your Qualification"
             className=" !text-inputText"
           />
         </div>
+
+        {/* Department */}
+        <div className="space-y-2">
+          <div className="flex">
+            <Label htmlFor="department" className="font-semibold">
+              Department
+            </Label>
+            <AiOutlineUsergroupDelete className="ml-1" />
+          </div>
+          <select
+            id="department"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-inputText"
+          >
+            <option value="">Select Department</option>
+            <option value="hr">HR</option>
+            <option value="engineering">Engineering</option>
+            <option value="marketing">Marketing</option>
+            <option value="sales">Sales</option>
+          </select>
+        </div>
+
         {/* Gender */}
         <div className="space-y-2">
-          <Label htmlFor="gender" className="font-semibold">
-            Gender
-          </Label>
+          <div className="flex items-center">
+            <Label htmlFor="gender" className="font-semibold">
+              Gender
+            </Label>
+            <IoTransgenderOutline className="ml-2" />
+          </div>
           <select
             id="gender"
             className="h-10 w-full border rounded-md !text-inputText px-3"
@@ -93,9 +122,12 @@ function SignUpEmp() {
         </div>
         {/* Resignation Date */}
         <div className="space-y-2">
-          <Label htmlFor="resignationDate" className="font-semibold">
-            Resignation Date
-          </Label>
+          <div className="flex items-center">
+            <Label htmlFor="resignationDate" className="font-semibold">
+              Resignation Date
+            </Label>
+            <BsCalendar2Date className="ml-2" size={"14px"} />
+          </div>
           <Input
             id="resignationDate"
             type="date"
@@ -105,9 +137,13 @@ function SignUpEmp() {
         </div>
         {/* Address */}
         <div className="space-y-2 md:col-span-2  lg:col-span-3">
-          <Label htmlFor="address" className="font-semibold">
-            Address
-          </Label>
+          <div className="flex items-center">
+            <Label htmlFor="address" className="font-semibold">
+              Address
+            </Label>
+            <FaRegAddressCard className="ml-2" />
+          </div>
+
           <Input
             id="address"
             placeholder="Your Address"
