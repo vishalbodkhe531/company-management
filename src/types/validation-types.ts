@@ -6,6 +6,7 @@ import {
   projectSchema,
   updateAdminSchema,
 } from "@/components/form-validation /Validation";
+import { empSchema } from "@/components/form-validation /empValidation";
 import z from "zod";
 
 // Admin Form
@@ -23,3 +24,7 @@ export type OTPFormValues = z.infer<typeof OTPSchema>;
 // Admin Project Form
 
 export type ProjectFormValue = z.infer<typeof projectSchema>;
+
+// Employee Section
+
+export type EmpFormValue = z.infer<typeof empSchema>;

@@ -15,10 +15,6 @@ export const adminSchema = z.object({
     .trim()
     .length(6, "Password must be exactly 6 characters long")
     .optional(),
-  // .refine((password) => !password || password.length >= 6, {
-  //   message: "Password must be at least 6 characters long",
-  // }),
-
   gender: z
     .enum(["male", "female", "other"], {
       message: "Select a valid gender",
