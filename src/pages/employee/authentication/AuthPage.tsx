@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
-import { useForm } from "react-hook-form";
-import { Form } from "react-router-dom";
 
 function AuthEmpPage() {
   // const form = useForm<UserFormValues>({
@@ -23,133 +20,161 @@ function AuthEmpPage() {
 
   return (
     <>
-      <div className=" min-h-screen flex justify-center bg-gradient-to-tr from-teal-400 via-blue-500 to-indigo-700  items-center">
-        <div className=" w-[50%] flex justify-center items-center text-white font-semibold">
-          <div className="w-[30%] text-center ">
-            <h3 className="font-bold text-title block">
-              Exit Interview Questionnaire
-            </h3>
-            <p className="text-smallTitle">
-              We would appreciate you taking a few minutes to answer the
-              following questions as honestly as possible. Your individual
-              responses are treated as confidential
-            </p>
+      <div className="min-h-[190vh] sm:min-h-[140vh] lg:min-h-[100vh] flex justify-center  bg-gradient-to-tr flex-wrap-reverse lg:flex-nowrap items-center  lg:item-start from-teal-400 via-blue-500 to-indigo-700">
+        <div className="w-[90%] lg:w-[52%] text-white flex justify-center h-[20rem] font-semibold">
+          <div className="flex w-[100%] justify-center gap-10 items-center flex-col lg:w-[90%]">
+            <div className="hidden md:block">
+              <h3 className="font-bold text-title block">
+                Exit Interview Questionnaire
+              </h3>
+              When designing an Employee Form, implementing security features is
+              crucial to protect sensitive employee data. Below are some key
+              security features and practices to include:
+            </div>
+            <div className="">
+              <h3 className="font-bold text-title block">Data Encryption</h3>
+              In Transit:Use HTTPS (SSL/TLS) for secure data transmission
+              between the client and server. At Rest: Encrypt sensitive data
+              like passwords, addresses, and identification numbers in the
+              database using encryption algorithms such as AES-256.
+            </div>
           </div>
         </div>
+
         {/* <Form> */}
-        <form className=" w-full p-20 rounded-lg rounded-l-[10rem]  shadow-2xl shadow-black bg-white">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {/* First Name */}
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input
-                id="firstName"
-                placeholder="First Name"
-                className=" !text-inputText"
-              />
+        <div className="w-full p-3 sm:p-10 lg:p-20  lg:rounded-l-[10rem]  shadow-2xl shadow-black bg-white">
+          <h1 className="h-32  md:h-16 lg:h-16 m-2 font-semibold text-2xl sm:text-3xl lg:text-3xl">
+            Employee Information Hub*
+          </h1>
+          <form className="">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {/* First Name */}
+              <div className="space-y-2">
+                <Label htmlFor="firstName" className="font-semibold">
+                  First Name
+                </Label>
+                <Input
+                  id="firstName"
+                  placeholder="First Name"
+                  className="!text-inputText "
+                />
+              </div>
+
+              {/* Last Name */}
+              <div className="space-y-2">
+                <Label htmlFor="lastName" className="font-semibold">
+                  Last Name
+                </Label>
+                <Input
+                  id="lastName"
+                  placeholder="Last Name"
+                  className=" !text-inputText"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="font-semibold">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                  className="!text-inputText"
+                />
+              </div>
+
+              {/* Phone Number */}
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="font-semibold">
+                  Phone Number
+                </Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="Phone Number"
+                  className=" !text-inputText"
+                />
+              </div>
+
+              {/* Department */}
+              <div className="space-y-2">
+                <Label htmlFor="department" className="font-semibold">
+                  Department
+                </Label>
+                <Input
+                  id="department"
+                  placeholder="Department"
+                  className="!text-inputText "
+                />
+              </div>
+
+              {/* Project Title */}
+              <div className="space-y-2">
+                <Label htmlFor="ProjectTitle" className="font-semibold">
+                  Project Title
+                </Label>
+                <Input
+                  id="ProjectTitle"
+                  placeholder="Project Title"
+                  className=" !text-inputText"
+                />
+              </div>
+
+              {/* Gender */}
+              <div className="space-y-2">
+                <Label htmlFor="gender" className="font-semibold">
+                  Gender
+                </Label>
+                <select
+                  id="gender"
+                  className="h-10 w-full border rounded-md !text-inputText px-3"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Resignation Date */}
+              <div className="space-y-2">
+                <Label htmlFor="resignationDate" className="font-semibold">
+                  Resignation Date
+                </Label>
+                <Input
+                  id="resignationDate"
+                  type="date"
+                  placeholder="Resignation Date"
+                  className=" !text-inputText"
+                />
+              </div>
+
+              {/* Address */}
+              <div className="space-y-2 md:col-span-2 lg:col-span-3">
+                <Label htmlFor="address" className="font-semibold">
+                  Address
+                </Label>
+                <Input
+                  id="address"
+                  placeholder="Your Address"
+                  className="h-10 !text-inputText"
+                />
+              </div>
             </div>
 
-            {/* Last Name */}
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input
-                id="lastName"
-                placeholder="Last Name"
-                className=" !text-inputText"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Email"
-                className="!text-inputText"
-              />
-            </div>
-
-            {/* Phone Number */}
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="Phone Number"
-                className=" !text-inputText"
-              />
-            </div>
-
-            {/* Department */}
-            <div className="space-y-2">
-              <Label htmlFor="department">Department</Label>
-              <Input
-                id="department"
-                placeholder="Department"
-                className="!text-inputText"
-              />
-            </div>
-
-            {/* Project Title */}
-            <div className="space-y-2">
-              <Label htmlFor="ProjectTitle">Project Title</Label>
-              <Input
-                id="ProjectTitle"
-                placeholder="Project Title"
-                className=" !text-inputText"
-              />
-            </div>
-
-            {/* Gender */}
-            <div className="space-y-2">
-              <Label htmlFor="gender">Gender</Label>
-              <select
-                id="gender"
-                className="h-10 w-full border rounded-md !text-inputText px-3"
+            {/* Submit Button */}
+            <div className="mt-6 flex justify-center">
+              <Button
+                type="submit"
+                className="px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700"
               >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
+                Submit
+              </Button>
             </div>
-
-            {/* Resignation Date */}
-            <div className="space-y-2">
-              <Label htmlFor="resignationDate">Resignation Date</Label>
-              <Input
-                id="resignationDate"
-                type="date"
-                placeholder="Resignation Date"
-                className=" !text-inputText"
-              />
-            </div>
-
-            {/* Address */}
-            <div className="space-y-2 md:col-span-2 lg:col-span-3">
-              <Label htmlFor="address">Address</Label>
-              <Input
-                id="address"
-                placeholder="Your Address"
-                className="h-10 !text-inputText"
-              />
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="mt-6 flex justify-center">
-            <Button
-              type="submit"
-              className="px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-            >
-              Submit
-            </Button>
-          </div>
-        </form>
-
-        {/* </div> */}
-        {/* </Form> */}
+          </form>
+        </div>
       </div>
     </>
   );
