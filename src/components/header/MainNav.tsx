@@ -2,6 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginButton } from "../button/Btn";
 import NavBtn from "./NavBtn";
 import ToasterComponent from "../toaster/Toaster";
+import { IoHomeOutline } from "react-icons/io5";
+import { FiUsers } from "react-icons/fi";
+import { LiaProjectDiagramSolid } from "react-icons/lia";
 
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -35,19 +38,30 @@ function MainNav() {
   return (
     <div className="flex items-center gap-4">
       <Link to={"/"}>
-        <NavBtn menu={"Home"} /> {/* Fixed spelling */}
+        <div className="flex items-center mx-4">
+          <IoHomeOutline />
+          <NavBtn menu={"Home"} />
+        </div>
       </Link>
 
-      <Link to={"/employee/payroll"}>
-        <NavBtn menu={"Payroll"} /> {/* Fixed spelling */}
-      </Link>
+      {/* <Link to={"/employee/payroll"}>
+        <div className="mx-4">
+          <NavBtn menu={"Payroll"} />
+        </div>
+      </Link> */}
 
       <Link to={"/admin/employee-management"}>
-        <NavBtn menu={"Employee"} /> {/* Fixed spelling */}
+        <div className="flex items-center mx-4">
+          <FiUsers />
+          <NavBtn menu={"Employee"} />
+        </div>
       </Link>
 
       <Link to={"/admin/projects"}>
-        <NavBtn menu={"Projects"} /> {/* Fixed spelling */}
+        <div className="flex items-center mx-4 ">
+          <LiaProjectDiagramSolid />
+          <NavBtn menu={"Projects"} />
+        </div>
       </Link>
 
       {admin ? (
@@ -55,7 +69,10 @@ function MainNav() {
           <img src={adminLogo} alt="Admin Logo" className="h-12" />
         </Link>
       ) : (
-        <div onClick={showLoginToast}>
+        <div
+          onClick={showLoginToast}
+          className="shadow-md rounded-md shadow-black"
+        >
           <LoginButton title={"Login"} />
         </div>
       )}

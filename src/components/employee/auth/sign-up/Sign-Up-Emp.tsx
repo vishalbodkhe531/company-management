@@ -1,10 +1,11 @@
 import { empSchema } from "@/components/form-validation /empValidation";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { BsCalendar2Date } from "react-icons/bs";
 import { FaRegAddressCard } from "react-icons/fa";
@@ -21,10 +22,10 @@ function SignUpEmp() {
       lastName: "",
       email: "",
       phoneNumber: "",
-      birthDay: "",
-      highestQualification: "",
+      resignationDate: "",
+      qualification: "",
       department: "",
-      gender: "other",
+      gender: "",
       address: "",
     },
   });
@@ -54,12 +55,13 @@ function SignUpEmp() {
               className="!text-inputText"
               {...register("firstName")}
             />
+            {errors.firstName && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.firstName.message as string}
+              </span>
+            )}
           </div>
-          {errors.firstName && (
-            <span className="text-errorText font-bold text-sm">
-              {errors.firstName.message as string}
-            </span>
-          )}
+
           {/* Last Name */}
           <div className="space-y-2">
             <Label htmlFor="lastName" className="font-semibold">
@@ -69,8 +71,15 @@ function SignUpEmp() {
               id="lastName"
               placeholder="Last Name"
               className=" !text-inputText"
+              {...register("lastName")}
             />
+            {errors.lastName && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.lastName.message as string}
+              </span>
+            )}
           </div>
+
           {/* Email */}
           <div className="space-y-2">
             <div className="flex items-center">
@@ -84,7 +93,13 @@ function SignUpEmp() {
               type="email"
               placeholder="Email"
               className="!text-inputText"
+              {...register("email")}
             />
+            {errors.email && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.email.message as string}
+              </span>
+            )}
           </div>
           {/* Phone Number */}
           <div className="space-y-2">
@@ -99,8 +114,16 @@ function SignUpEmp() {
               type="tel"
               placeholder="Phone Number"
               className=" !text-inputText"
+              {...register("phoneNumber")}
             />
+            {errors.phoneNumber && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.phoneNumber.message as string}
+              </span>
+            )}
           </div>
+
+          {/* Highest Qualification */}
 
           <div className="space-y-2">
             <label
@@ -112,8 +135,10 @@ function SignUpEmp() {
             <select
               id="qualification"
               className="h-10 w-full border border-gray-300 rounded-md bg-white text-gray-800 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              {...register("qualification")}
+              defaultValue=""
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Select Qualification
               </option>
               <option value="high_school">High School</option>
@@ -122,6 +147,11 @@ function SignUpEmp() {
               <option value="phd">PhD</option>
               <option value="other">Other</option>
             </select>
+            {errors.qualification && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.qualification.message as string}
+              </span>
+            )}
           </div>
 
           {/* Department */}
@@ -135,8 +165,10 @@ function SignUpEmp() {
             <select
               id="department"
               className="w-full border bg-white border-gray-300 rounded-md px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              {...register("department")}
+              defaultValue=""
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Select Department
               </option>
               <option value="frontend">Frontend Development</option>
@@ -164,6 +196,11 @@ function SignUpEmp() {
               <option value="data_analysis">Data Analysis</option>
               <option value="data_engineering">Data Engineering</option>
             </select>
+            {errors.department && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.department.message as string}
+              </span>
+            )}
           </div>
 
           {/* Gender */}
@@ -176,21 +213,29 @@ function SignUpEmp() {
             </div>
             <select
               id="gender"
-              className="h-10 w-full border bg-white rounded-md !text-inputText px-3"
+              className="h-10 w-full border bg-white rounded-md text-gray-800 px-3"
+              {...register("gender")}
+              defaultValue=""
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Select Gender
               </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
             </select>
+            {errors.gender && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.gender.message as string}
+              </span>
+            )}
           </div>
+
           {/* Resignation Date */}
           <div className="space-y-2">
             <div className="flex items-center">
               <Label htmlFor="resignationDate" className="font-semibold">
-                Birth Date
+                Resignation Date
               </Label>
               <BsCalendar2Date className="ml-2" size={"14px"} />
             </div>
@@ -199,8 +244,15 @@ function SignUpEmp() {
               type="date"
               placeholder="Resignation Date"
               className=" !text-inputText"
+              {...register("resignationDate")}
             />
+            {errors.resignationDate && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.resignationDate.message as string}
+              </span>
+            )}
           </div>
+
           {/* Address */}
           <div className="space-y-2 md:col-span-2  lg:col-span-3">
             <div className="flex items-center">
@@ -214,9 +266,14 @@ function SignUpEmp() {
               id="address"
               placeholder="Your Address"
               className="h-10 !text-inputText border-2"
+              {...register("address")}
             />
+            {errors.address && (
+              <span className="text-errorText font-bold text-sm">
+                {errors.address.message as string}
+              </span>
+            )}
           </div>
-          {/* <div className="">alredy login Sign In</div> */}
         </div>
 
         {/* Submit Button */}
