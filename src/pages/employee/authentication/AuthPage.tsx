@@ -49,8 +49,8 @@ function AuthEmpPage() {
           <h1 className="h-32  md:h-16 lg:h-16 m-2 font-semibold text-2xl sm:text-3xl lg:text-3xl">
             Employee Information Hub*
           </h1>
-          {pathName === "/emp/sign-up" && <SignUpEmp />}
           {pathName === "/emp/sign-in" && <SignInEmp />}
+          {pathName === "/emp/sign-up" && <SignUpEmp />}
         </div>
       </div>
     </>

@@ -1,7 +1,12 @@
 import { empSchema } from "@/components/form-validation /empValidation";
+import ToasterComponent, {
+  getErrorMessage,
+} from "@/components/toaster/Toaster";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useEmpRegisterMutation } from "@/redux/api/emp-API/EmpAPI";
+import { Employee } from "@/types/types";
 import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
@@ -15,6 +20,8 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 function SignUpEmp() {
+  const [empRegister] = useEmpRegisterMutation();
+
   const form = useForm<EmpFormValue>({
     resolver: zodResolver(empSchema),
     defaultValues: {
@@ -36,8 +43,27 @@ function SignUpEmp() {
     formState: { errors },
   } = form;
 
-  const handleForm = handleSubmit((data) => {
+  const handleForm = handleSubmit(async (data) => {
     console.log(data);
+    const res = await empRegister(data as Employee);
+
+    console.log(res);
+
+    if ("data" in res && res.data) {
+      ToasterComponent({
+        message: "Admin Registered Successfully !!",
+        description: "Thanks for Authentication",
+        firstLabel: "Close",
+      });
+      // navigate("/admin/sign-in");
+    } else if ("error" in res) {
+      const errorMessage = getErrorMessage(res.error);
+      ToasterComponent({
+        message: errorMessage,
+        description: "Admin does not Registered",
+        firstLabel: "Close",
+      });
+    }
   });
 
   return (

@@ -63,3 +63,18 @@ export interface UpdateProject {
   projectDescription?: string;
   _id?: string;
 }
+
+//**************************************************************************************************** */
+// Employee Section
+
+export type Employee = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  resignationDate: string;
+  qualification: string;
+  department: string;
+  gender: string;
+  address: string;
+};

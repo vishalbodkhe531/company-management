@@ -1,0 +1,78 @@
+import { messageResponce } from "@/types/api-types";
+import { Employee } from "@/types/types";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const empAPI = createApi({
+  reducerPath: "employeeApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${import.meta.env.VITE_SERVER}/api/emp/`,
+    credentials: "include",
+  }),
+  endpoints: (builder) => ({
+    empRegister: builder.mutation<messageResponce, Employee>({
+      query: (emp) => ({
+        url: "new",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emp),
+      }),
+    }),
+
+    //   login: builder.mutation<adminLoginResponce, adminLogin>({
+    //     query: (admin) => ({
+    //       url: "login",
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(admin),
+    //     }),
+    //   }),
+
+    //   getLoggedAdmin: builder.query<adminLoginResponce, void>({
+    //     query: () => ({ url: "logged" }),
+    //   }),
+
+    //   logoutAdmin: builder.mutation<messageResponce, void>({
+    //     query: () => ({
+    //       url: "logout",
+    //     }),
+    //   }),
+
+    //   updateAdmin: builder.mutation<messageResponce, updateAdminRequest>({
+    //     query: ({ id, admin }) => ({
+    //       url: id,
+    //       method: "PUT",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: admin,
+    //     }),
+    //   }),
+
+    //   googleSignIn: builder.mutation<Admin, Admin>({
+    //     query: (admin) => ({
+    //       url: "google-login",
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: admin,
+    //     }),
+    //   }),
+
+    //   sendOTP: builder.mutation<messageResponce, OTPRequest>({
+    //     query: (email) => ({
+    //       url: "send-otp",
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: email,
+    //     }),
+    //   }),
+
+    //   verifyOTP: builder.mutation<messageResponce, OTPRequest>({
+    //     query: ({ email, verificationCode }) => ({
+    //       url: "varify-otp",
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: { email, verificationCode },
+    //     }),
+    //   }),
+  }),
+});
+
+export const { useEmpRegisterMutation } = empAPI;

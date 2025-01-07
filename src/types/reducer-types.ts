@@ -1,4 +1,4 @@
-import { Admin } from "./types";
+import { Admin, Employee } from "./types";
 
 export interface adminReducerInitialState {
   admin: Admin | null;
@@ -20,3 +20,10 @@ export type adminProjectInitialState = {
   projects: adminProjectType[];
   loading: boolean;
 };
+
+// Employee Section
+
+export interface empReducerInitialState {
+  employee: Employee | null;
+  loading: boolean;
+}

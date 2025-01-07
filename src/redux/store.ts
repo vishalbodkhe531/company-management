@@ -3,6 +3,8 @@ import { adminAPI } from "./api/admin-API/AdminAPI";
 import { adminReducers } from "./reducer/AdminReducer";
 import { adminProjectAPI } from "./api/admin-API/ProjectAPI";
 import { adminProjectReducers } from "./reducer/ProjectReducer";
+import { empReducers } from "./reducer/EmpReducer";
+import { empAPI } from "./api/emp-API/EmpAPI";
 
 export const server = import.meta.env.VITE_SERVER;
 
@@ -10,13 +12,16 @@ export const store = configureStore({
   reducer: {
     [adminReducers.reducerPath]: adminReducers.reducer,
     [adminProjectReducers.reducerPath]: adminProjectReducers.reducer,
+    [empReducers.reducerPath]: empReducers.reducer,
     [adminAPI.reducerPath]: adminAPI.reducer,
     [adminProjectAPI.reducerPath]: adminProjectAPI.reducer,
+    [empAPI.reducerPath]: empAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       adminAPI.middleware,
-      adminProjectAPI.middleware
+      adminProjectAPI.middleware,
+      empAPI.middleware
     ),
 });
 
