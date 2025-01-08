@@ -18,6 +18,15 @@ export const empAPI = createApi({
       }),
     }),
 
+    sendRequest: builder.mutation<messageResponce, Employee>({
+      query: (emp) => ({
+        url: "send-request",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emp),
+      }),
+    }),
+
     //   login: builder.mutation<adminLoginResponce, adminLogin>({
     //     query: (admin) => ({
     //       url: "login",
@@ -75,4 +84,4 @@ export const empAPI = createApi({
   }),
 });
 
-export const { useEmpRegisterMutation } = empAPI;
+export const { useEmpRegisterMutation, useSendRequestMutation } = empAPI;

@@ -13,38 +13,22 @@ import { adminExist } from "./redux/reducer/AdminReducer";
 import { Admin } from "./types/types";
 import { Toaster } from "./components/ui/sonner";
 import AuthEmpPage from "./pages/employee/authentication/AuthPage";
+import WaitingPage from "./pages/employee/waiting/WaitingPage";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
 const AdminHome = lazy(() => import("./pages/admin/home/AdminHome"));
 const Loader = lazy(() => import("./components/loader/Loader"));
-
-// const SignInAddmin = lazy(
-//   () => import("./components/admin/auth/sign-in /Sign-In-Admin")
-// );
-// const SignUpAddmin = lazy(
-//   () => import("./components/admin/auth/sign-up/Sign-Up-Addmin")
-// );
-
 const SecureRoutes = lazy(() => import("./components/secure/SecureRoutes"));
-
 const AdminDashboard = lazy(
   () => import("./pages/admin/admin-dashboard/AdminDashboard")
 );
-
 const ProjectDashboard = lazy(
   () => import("./pages/admin/projects-dashboard/ProjectDashboard")
 );
 
-const EmployeeSignUp = lazy(
-  () => import("./components/employee/auth/sign-up/Sign-Up-Emp")
-);
-
 const Payroll = lazy(
   () => import("./components/admin/emp-management/EmpPayroll")
-);
-const EmployeeSignIn = lazy(
-  () => import("./components/employee/auth/sign-in/Sign-In-Emp")
 );
 
 const EmoployeeDash = lazy(
@@ -53,6 +37,9 @@ const EmoployeeDash = lazy(
 
 function AppRoutes() {
   const dispatch = useDispatch();
+
+  const isWaitingEmp = localStorage.getItem("EmpWaiting");
+  console.log(isWaitingEmp);
 
   const { admin } = useSelector((state: RootState) => state.adminReducers);
 
@@ -109,7 +96,14 @@ function AppRoutes() {
             {/* Employee Routes */}
             <Route path="emp" element={<Structure />}>
               <Route path="sign-in" element={<AuthEmpPage />} />
+              {/* {isWaitingEmp ? (
+                // <Route path="sign-up" element={<AuthEmpPage />} />
+                <Route path="waiting" element={<WaitingPage />} />
+              ) : (
+                <Route path="sign-up" element={<AuthEmpPage />} />
+              )} */}
               <Route path="sign-up" element={<AuthEmpPage />} />
+              <Route path="waiting" element={<WaitingPage />} />
               <Route path="payroll" element={<Payroll />} />
             </Route>
             <Route path="*" element={<Navigate to={"/"} />} />

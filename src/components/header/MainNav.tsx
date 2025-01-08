@@ -15,13 +15,16 @@ function MainNav() {
 
   const { admin } = useSelector((state: RootState) => state.adminReducers);
 
+  const isWaitingEmp = localStorage.getItem("EmpWaiting");
+  console.log(isWaitingEmp);
+
   const handleSignIn = (data: string) => {
     if (data === "Admin") {
       navigate("/admin/sign-in");
     }
 
     if (data === "Employee") {
-      navigate("/emp/sign-up");
+      isWaitingEmp ? navigate("/emp/waiting") : navigate("/emp/sign-up");
     }
   };
 
