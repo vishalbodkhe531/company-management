@@ -1,5 +1,5 @@
 import ProjectList from "@/components/admin/project-management/ProjectList";
-import ProjectOverview from "@/components/admin/project-management/ProjectOverview";
+// import ProjectOverview from "@/components/admin/project-management/ProjectOverview";
 import ProjectTabs from "@/components/admin/project-management/ProjectTabs";
 import ProjectReportTab from "@/components/admin/project-management/Reports";
 import ProjectSettings from "@/components/admin/project-management/Setting";
@@ -12,7 +12,7 @@ const ProjectDashboard = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
 
   return (
-    <div className="flex h-screen bg-black text-mainHeading">
+    <div className="flex h-screen bg-black text-white">
       {/* Sidebar for Large Screens */}
       <aside className="hidden lg:block w-[23rem] bg-gray-900 p-4">
         <h1 className="text-2xl font-system font-bold text-heading mb-6">
@@ -49,7 +49,7 @@ const ProjectDashboard = () => {
       </Sheet>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 overflow-y-auto">
+      <main className="flex-1 p-6 overflow-y-auto text-white">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">
             {selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}
@@ -58,7 +58,6 @@ const ProjectDashboard = () => {
 
         {/* Tab Content */}
         <div className="space-y-6">
-          {selectedTab === "overview" && <ProjectOverview />}
           {selectedTab === "all-projects" && <ProjectList />}
           {selectedTab === "team" && <TeamManagement />}
           {selectedTab === "reports" && <ProjectReportTab />}

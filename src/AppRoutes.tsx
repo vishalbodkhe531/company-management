@@ -38,9 +38,6 @@ const EmoployeeDash = lazy(
 function AppRoutes() {
   const dispatch = useDispatch();
 
-  const isWaitingEmp = localStorage.getItem("EmpWaiting");
-  console.log(isWaitingEmp);
-
   const { admin } = useSelector((state: RootState) => state.adminReducers);
 
   const { data } = useGetLoggedAdminQuery();
@@ -96,12 +93,6 @@ function AppRoutes() {
             {/* Employee Routes */}
             <Route path="emp" element={<Structure />}>
               <Route path="sign-in" element={<AuthEmpPage />} />
-              {/* {isWaitingEmp ? (
-                // <Route path="sign-up" element={<AuthEmpPage />} />
-                <Route path="waiting" element={<WaitingPage />} />
-              ) : (
-                <Route path="sign-up" element={<AuthEmpPage />} />
-              )} */}
               <Route path="sign-up" element={<AuthEmpPage />} />
               <Route path="waiting" element={<WaitingPage />} />
               <Route path="payroll" element={<Payroll />} />

@@ -10,12 +10,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import EmpTabs from "../../../components/admin/emp-management/EmpTabs";
 import EmployeePayroll from "@/components/admin/emp-management/EmpPayroll";
+import Notifications from "@/components/admin/emp-management/Notifications";
 
 const EmoployeeDash = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
 
   return (
-    <div className="flex h-screen bg-black text-mainHeading">
+    <div className="flex h-screen bg-black text-white">
       {/* Sidebar for Large Screens */}
       <aside className="hidden lg:block w-[23rem] bg-gray-900 p-4">
         <h1 className="text-2xl font-system font-bold text-heading mb-6">
@@ -67,6 +68,7 @@ const EmoployeeDash = () => {
           {selectedTab === "attendance-tracking" && <EmployeeAttendance />}
           {selectedTab === "employee-documents" && <EmployeeDocuments />}
           {selectedTab === "payroll" && <EmployeePayroll />}
+          {selectedTab === "notifications" && <Notifications />}
           {selectedTab === "setting" && <EmployeeSettings />}
         </div>
       </main>

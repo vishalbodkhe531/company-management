@@ -16,7 +16,6 @@ function MainNav() {
   const { admin } = useSelector((state: RootState) => state.adminReducers);
 
   const isWaitingEmp = localStorage.getItem("EmpWaiting");
-  console.log(isWaitingEmp);
 
   const handleSignIn = (data: string) => {
     if (data === "Admin") {

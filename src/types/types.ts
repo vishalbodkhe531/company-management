@@ -77,4 +77,12 @@ export type Employee = {
   department: string;
   gender: string;
   address: string;
+  profilePic: string;
 };
+
+export interface requestEmpList {
+  firstName: string;
+  lastName: string;
+  address: string;
+  profilePic: string;
+}

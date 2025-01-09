@@ -3,7 +3,7 @@ import {
   messageResponce,
   updateRequest,
 } from "@/types/api-types";
-import { Project, UpdateProject } from "@/types/types";
+import { Employee, Project, UpdateProject } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const adminProjectAPI = createApi({
@@ -40,6 +40,8 @@ export const adminProjectAPI = createApi({
       query: ({ id, data }) => ({ url: `${id}`, method: "PUT", body: data }),
       invalidatesTags: ["project"],
     }),
+
+  
   }),
 });
 
