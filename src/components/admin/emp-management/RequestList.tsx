@@ -8,29 +8,35 @@ function RequestList({
   address,
   profilePic,
 }: requestEmpList) {
-  console.log(firstName, lastName, address);
   return (
-    <div className="bg-gray-800 flex flex-col sm:flex-row sm:justify-between items-center p-4 rounded-lg gap-4">
-      {/* Employee Info */}
+    <div className="bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 flex flex-col sm:flex-row sm:justify-between items-center p-6 rounded-xl gap-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
       <div className="flex items-center">
         <img
           src={profilePic}
-          alt="Employee"
-          className="h-16 w-16 rounded-full object-cover"
+          alt={`${firstName}'s Profile`}
+          className="h-20 w-20 rounded-full border-4 border-gray-600 object-cover shadow-md"
         />
-        <div className="ml-4">
-          <h1 className="text-lg font-semibold text-white">{firstName}</h1>
-          <p className="text-sm text-gray-400 mt-1">{address}</p>
+        <div className="ml-5">
+          <h1 className="text-xl font-bold text-white">{`${firstName} ${lastName}`}</h1>
+          <p className="text-sm text-gray-400 mt-2">{address}</p>
         </div>
       </div>
 
-      {/* Buttons */}
-      <div className="flex gap-2 ">
-        <button className="px-4 py-2  bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition">
-          <RxCross1 />
+      <div className="flex gap-4">
+        <button
+          className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-red-600 border border-red-600 rounded-lg hover:bg-red-600 hover:text-white transition duration-300"
+          aria-label="Reject"
+        >
+          <RxCross1 className="text-lg" />
+          Reject
         </button>
-        <button className="px-4 py-2 bg-green-600  text-white text-sm font-medium rounded-lg hover:bg-green-700 transition">
-          <IoCheckmarkOutline />
+
+        <button
+          className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-green-600 border border-green-600 rounded-lg hover:bg-green-600 hover:text-white transition duration-300"
+          aria-label="Approve"
+        >
+          <IoCheckmarkOutline className="text-lg" />
+          Approve
         </button>
       </div>
     </div>
