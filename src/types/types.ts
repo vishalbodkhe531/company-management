@@ -68,6 +68,7 @@ export interface UpdateProject {
 // Employee Section
 
 export type Employee = {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -77,6 +78,7 @@ export type Employee = {
   department: string;
   gender: string;
   address: string;
+  isVerified: boolean;
   profilePic: string;
 };
 
@@ -85,4 +87,5 @@ export interface requestEmpList {
   lastName: string;
   address: string;
   profilePic: string;
+  id: string;
 }
