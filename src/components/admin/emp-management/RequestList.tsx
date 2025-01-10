@@ -1,5 +1,6 @@
 import { useAcceptRequestMutation } from "@/redux/api/emp-API/EmpAPI";
 import { requestEmpList } from "@/types/types";
+import { useEffect } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 
@@ -9,10 +10,17 @@ function RequestList({
   address,
   profilePic,
   id,
+  isVerified,
+  refetch,
 }: requestEmpList) {
   const [acceptRequest] = useAcceptRequestMutation();
+
+  useEffect(() => {
+    console.log(`isVerified changed for ${id}:`, isVerified);
+  }, [isVerified]);
+
   const handleAccept = async () => {
-    console.log(id);
+    refetch();
     const res = await acceptRequest(id);
 
     console.log(res);

@@ -88,4 +88,6 @@ export interface requestEmpList {
   address: string;
   profilePic: string;
   id: string;
+  isVerified: boolean;
+  refetch: () => void;
 }

@@ -24,9 +24,8 @@ function EmpTabs({
     <>
       {tabs.map((tab) =>
         tab.value === "home" ? (
-          <Link to={"/"}>
+          <Link to={"/"} key={tab.value}>
             <Button
-              key={tab.value}
               onClick={() => setTab(tab.value)}
               className={cn(
                 "w-full text-left px-4 py-2 rounded",

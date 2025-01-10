@@ -8,6 +8,7 @@ export const empAPI = createApi({
     baseUrl: `${import.meta.env.VITE_SERVER}/api/emp/`,
     credentials: "include",
   }),
+  tagTypes: ["Requests"], // Add tag
   endpoints: (builder) => ({
     empRegister: builder.mutation<messageResponce, Employee>({
       query: (emp) => ({
@@ -33,10 +34,12 @@ export const empAPI = createApi({
         method: "PUT",
         headers: { "Content-Type": "application/json" },
       }),
+      invalidatesTags: ["Requests"],
     }),
 
     allEmpRequests: builder.query<allRequest, void>({
       query: () => ({ url: "all-requests" }),
+      providesTags: ["Requests"],
     }),
   }),
 });
