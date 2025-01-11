@@ -5,10 +5,7 @@ import ToasterComponent, {
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  useAllEmpRequestsQuery,
-  useEmpRegisterMutation,
-} from "@/redux/api/emp-API/EmpAPI";
+import { useEmpRegisterMutation } from "@/redux/api/emp-API/EmpAPI";
 import { Employee } from "@/types/types";
 import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,10 +21,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 function SignUpEmp() {
   const [empRegister] = useEmpRegisterMutation();
-
-  const { data } = useAllEmpRequestsQuery();
-
-  console.log("data : ", data);
 
   const navigate = useNavigate();
 
@@ -53,10 +46,7 @@ function SignUpEmp() {
   } = form;
 
   const handleForm = handleSubmit(async (data) => {
-    console.log(data);
     const res = await empRegister(data as Employee);
-
-    console.log("res is : ", res);
 
     if ("data" in res && res.data) {
       ToasterComponent({
@@ -69,7 +59,7 @@ function SignUpEmp() {
       const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
         message: errorMessage,
-        description: "Admin does not Registered",
+        description: "You are not registered !!",
         firstLabel: "Close",
       });
     }

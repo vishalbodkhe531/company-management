@@ -41,3 +41,9 @@ export type updateRequest = {
 export type allRequest = {
   allRequests: Employee[];
 };
+
+export type empLoginRequest = {
+  email: string;
+  department: string;
+  gender: string;
+};

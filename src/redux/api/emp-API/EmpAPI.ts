@@ -1,4 +1,8 @@
-import { allRequest, messageResponce } from "@/types/api-types";
+import {
+  allRequest,
+  empLoginRequest,
+  messageResponce,
+} from "@/types/api-types";
 import { Employee } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -13,6 +17,15 @@ export const empAPI = createApi({
     empRegister: builder.mutation<messageResponce, Employee>({
       query: (emp) => ({
         url: "new",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emp),
+      }),
+    }),
+
+    empLogin: builder.mutation<messageResponce, empLoginRequest>({
+      query: (emp) => ({
+        url: "login",
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(emp),
@@ -38,5 +51,6 @@ export const empAPI = createApi({
 export const {
   useEmpRegisterMutation,
   useAllEmpRequestsQuery,
+  useEmpLoginMutation,
   useAcceptRequestMutation,
 } = empAPI;

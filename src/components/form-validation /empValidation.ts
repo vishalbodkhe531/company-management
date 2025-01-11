@@ -15,11 +15,7 @@ export const empSchema = z.object({
     .max(50, { message: "Last name cannot exceed 50 characters" })
     .optional(),
 
-  email: z
-    .string()
-    .trim()
-    .email({ message: "Invalid email address" })
-    .optional(),
+  email: z.string().trim().email({ message: "Invalid email address" }),
 
   address: z
     .string()
@@ -32,14 +28,16 @@ export const empSchema = z.object({
     .string()
     .trim()
     .length(10, { message: "Phone number must be exactly 10 digits" })
-    .regex(/^\d+$/, { message: "Phone number must contain only numbers" }),
+    .regex(/^\d+$/, { message: "Phone number must contain only numbers" })
+    .optional(),
 
   resignationDate: z
     .string()
     .trim()
     .regex(/^\d{4}-\d{2}-\d{2}$/, {
       message: "Birth date must be in the format YYYY-MM-DD",
-    }),
+    })
+    .optional(),
 
   qualification: z
     .string()
@@ -60,5 +58,5 @@ export const empSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" })
     .optional(),
 
-  gender: z.string().nonempty("Select a valid gender").optional(),
+  gender: z.string().nonempty("Select a valid gender"),
 });
