@@ -78,7 +78,7 @@ export type Employee = {
   department: string;
   gender: string;
   address: string;
-  isVerified: boolean;
+  isValaidate: boolean;
   profilePic: string;
 };
 

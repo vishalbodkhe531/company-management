@@ -19,15 +19,6 @@ export const empAPI = createApi({
       }),
     }),
 
-    sendRequest: builder.mutation<messageResponce, Employee>({
-      query: (emp) => ({
-        url: "send-request",
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(emp),
-      }),
-    }),
-
     acceptRequest: builder.mutation<Employee, string>({
       query: (id) => ({
         url: `/accept-requests/${id}`,
@@ -46,7 +37,6 @@ export const empAPI = createApi({
 
 export const {
   useEmpRegisterMutation,
-  useSendRequestMutation,
   useAllEmpRequestsQuery,
   useAcceptRequestMutation,
 } = empAPI;

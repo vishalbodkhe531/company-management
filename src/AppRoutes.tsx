@@ -13,7 +13,6 @@ import { adminExist } from "./redux/reducer/AdminReducer";
 import { Admin } from "./types/types";
 import { Toaster } from "./components/ui/sonner";
 import AuthEmpPage from "./pages/employee/authentication/AuthPage";
-import WaitingPage from "./pages/employee/waiting/WaitingPage";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -94,7 +93,6 @@ function AppRoutes() {
             <Route path="emp" element={<Structure />}>
               <Route path="sign-in" element={<AuthEmpPage />} />
               <Route path="sign-up" element={<AuthEmpPage />} />
-              <Route path="waiting" element={<WaitingPage />} />
               <Route path="payroll" element={<Payroll />} />
             </Route>
             <Route path="*" element={<Navigate to={"/"} />} />

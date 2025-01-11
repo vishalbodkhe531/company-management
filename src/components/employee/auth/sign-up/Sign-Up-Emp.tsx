@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
+  useAllEmpRequestsQuery,
   useEmpRegisterMutation,
-  useSendRequestMutation,
 } from "@/redux/api/emp-API/EmpAPI";
 import { Employee } from "@/types/types";
 import { EmpFormValue } from "@/types/validation-types";
@@ -25,7 +25,9 @@ import { Link, useNavigate } from "react-router-dom";
 function SignUpEmp() {
   const [empRegister] = useEmpRegisterMutation();
 
-  const [sendRequest] = useSendRequestMutation();
+  const { data } = useAllEmpRequestsQuery();
+
+  console.log("data : ", data);
 
   const navigate = useNavigate();
 
@@ -52,10 +54,9 @@ function SignUpEmp() {
 
   const handleForm = handleSubmit(async (data) => {
     console.log(data);
-    // const res = await empRegister(data as Employee);
-    const res = await sendRequest(data as Employee);
+    const res = await empRegister(data as Employee);
 
-    console.log(res);
+    console.log("res is : ", res);
 
     if ("data" in res && res.data) {
       ToasterComponent({
@@ -63,10 +64,7 @@ function SignUpEmp() {
         description: "Thanks for Authentication",
         firstLabel: "Close",
       });
-
-      const isValaidate = true;
-      localStorage.setItem("EmpWaiting", JSON.stringify(isValaidate));
-      navigate("/emp/waiting");
+      navigate("/emp/sign-in");
     } else if ("error" in res) {
       const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
