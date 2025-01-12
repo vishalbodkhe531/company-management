@@ -49,7 +49,7 @@ function SignInEmp() {
       const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
         message: errorMessage,
-        description: "You are not logged !!",
+        description: "You are not logged in",
         firstLabel: "Close",
       });
     }

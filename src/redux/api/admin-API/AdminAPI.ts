@@ -11,13 +11,16 @@ export const adminAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_SERVER}/api/admin/`,
     credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     adminRegister: builder.mutation<messageResponce, Admin>({
       query: (admin) => ({
         url: "new",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(admin),
       }),
     }),
@@ -26,7 +29,6 @@ export const adminAPI = createApi({
       query: (admin) => ({
         url: "login",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(admin),
       }),
     }),
@@ -45,7 +47,6 @@ export const adminAPI = createApi({
       query: ({ id, admin }) => ({
         url: id,
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: admin,
       }),
     }),
@@ -54,7 +55,6 @@ export const adminAPI = createApi({
       query: (admin) => ({
         url: "google-login",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: admin,
       }),
     }),
@@ -63,7 +63,6 @@ export const adminAPI = createApi({
       query: (email) => ({
         url: "send-otp",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: email,
       }),
     }),
@@ -72,7 +71,6 @@ export const adminAPI = createApi({
       query: ({ email, verificationCode }) => ({
         url: "varify-otp",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: { email, verificationCode },
       }),
     }),

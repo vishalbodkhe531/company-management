@@ -11,6 +11,10 @@ export const empAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_SERVER}/api/emp/`,
     credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
+      return headers;
+    },
   }),
   tagTypes: ["Requests"], // Add tag
   endpoints: (builder) => ({
@@ -18,16 +22,15 @@ export const empAPI = createApi({
       query: (emp) => ({
         url: "new",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(emp),
       }),
+      invalidatesTags: ["Requests"],
     }),
 
     empLogin: builder.mutation<messageResponce, empLoginRequest>({
       query: (emp) => ({
         url: "login",
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(emp),
       }),
     }),
@@ -36,7 +39,14 @@ export const empAPI = createApi({
       query: (id) => ({
         url: `/accept-requests/${id}`,
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+      }),
+      invalidatesTags: ["Requests"],
+    }),
+
+    rejectEmpRequests: builder.mutation<Employee, string>({
+      query: (id) => ({
+        url: `/reject-requests/${id}`,
+        method: "PUT",
       }),
       invalidatesTags: ["Requests"],
     }),

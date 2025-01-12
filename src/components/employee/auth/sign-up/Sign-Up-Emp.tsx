@@ -46,6 +46,7 @@ function SignUpEmp() {
   } = form;
 
   const handleForm = handleSubmit(async (data) => {
+    console.log(data);
     const res = await empRegister(data as Employee);
 
     if ("data" in res && res.data) {

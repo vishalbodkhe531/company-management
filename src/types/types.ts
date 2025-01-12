@@ -78,7 +78,7 @@ export type Employee = {
   department: string;
   gender: string;
   address: string;
-  isValaidate: boolean;
+  isVerified: string;
   profilePic: string;
 };
 
@@ -88,6 +88,5 @@ export interface requestEmpList {
   address: string;
   profilePic: string;
   id: string;
-  isVerified: boolean;
   refetch: () => void;
 }

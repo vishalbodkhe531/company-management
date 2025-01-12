@@ -8,7 +8,7 @@ function Notifications() {
     <div className="bg-black min-h-screen">
       <div className="space-y-6 w-full">
         {data?.allRequests.map((item) =>
-          !item.isVerified ? (
+          item.isVerified === "pendding" ? (
             <RequestList
               key={item._id}
               firstName={item.firstName}
@@ -16,7 +16,6 @@ function Notifications() {
               address={item.address}
               profilePic={item.profilePic}
               id={item._id}
-              isVerified={item.isVerified}
               refetch={refetch}
             />
           ) : null

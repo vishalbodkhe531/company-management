@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useAcceptRequestMutation } from "@/redux/api/emp-API/EmpAPI";
 import { requestEmpList } from "@/types/types";
 import { useEffect } from "react";
@@ -10,21 +11,22 @@ function RequestList({
   address,
   profilePic,
   id,
-  isVerified,
   refetch,
 }: requestEmpList) {
   const [acceptRequest] = useAcceptRequestMutation();
 
+  // refetch(); // It work like useEffect();
+
   useEffect(() => {
-    console.log(`isVerified changed for ${id}:`, isVerified);
-  }, [isVerified]);
+    // Only call refetch when the component mounts
+    refetch();
+  }, [refetch]);
 
   const handleAccept = async () => {
-    refetch();
-    const res = await acceptRequest(id);
-
-    console.log(res);
+    await acceptRequest(id);
   };
+
+  const handleReject = async () => {};
 
   return (
     <div className="bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 flex flex-col sm:flex-row sm:justify-between items-center p-6 rounded-xl gap-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -41,22 +43,23 @@ function RequestList({
       </div>
 
       <div className="flex gap-4">
-        <button
+        <Button
           className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-red-600 border border-red-600 rounded-lg hover:bg-red-600 hover:text-white transition duration-300"
           aria-label="Reject"
+          onClick={handleReject}
         >
           <RxCross1 className="text-lg" />
           Reject
-        </button>
+        </Button>
 
-        <button
+        <Button
           className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-green-600 border border-green-600 rounded-lg hover:bg-green-600 hover:text-white transition duration-300"
           aria-label="Approve"
           onClick={handleAccept}
         >
           <IoCheckmarkOutline className="text-lg" />
           Approve
-        </button>
+        </Button>
       </div>
     </div>
   );
