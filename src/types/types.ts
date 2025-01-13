@@ -88,5 +88,4 @@ export interface requestEmpList {
   address: string;
   profilePic: string;
   id: string;
-  refetch: () => void;
 }

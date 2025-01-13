@@ -1,3 +1,4 @@
+// import { socket } from "@/components/admin/emp-management/Notifications";
 import { empSchema } from "@/components/form-validation /empValidation";
 import ToasterComponent, {
   getErrorMessage,
@@ -48,6 +49,8 @@ function SignUpEmp() {
   const handleForm = handleSubmit(async (data) => {
     console.log(data);
     const res = await empRegister(data as Employee);
+
+    // socket.emit("employee-request", data);
 
     if ("data" in res && res.data) {
       ToasterComponent({

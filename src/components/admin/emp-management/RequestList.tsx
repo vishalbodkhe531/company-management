@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { useAcceptRequestMutation } from "@/redux/api/emp-API/EmpAPI";
+import {
+  useAcceptRequestMutation,
+  useRejectEmpRequestsMutation,
+} from "@/redux/api/emp-API/EmpAPI";
 import { requestEmpList } from "@/types/types";
-import { useEffect } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 
@@ -11,22 +13,18 @@ function RequestList({
   address,
   profilePic,
   id,
-  refetch,
 }: requestEmpList) {
   const [acceptRequest] = useAcceptRequestMutation();
-
-  // refetch(); // It work like useEffect();
-
-  useEffect(() => {
-    // Only call refetch when the component mounts
-    refetch();
-  }, [refetch]);
+  const [rejectEmpRequests] = useRejectEmpRequestsMutation();
 
   const handleAccept = async () => {
     await acceptRequest(id);
   };
 
-  const handleReject = async () => {};
+  const handleReject = async () => {
+    const res = await rejectEmpRequests(id);
+    console.log(res);
+  };
 
   return (
     <div className="bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 flex flex-col sm:flex-row sm:justify-between items-center p-6 rounded-xl gap-6 shadow-lg hover:shadow-xl transition-shadow duration-300">

@@ -63,4 +63,5 @@ export const {
   useAllEmpRequestsQuery,
   useEmpLoginMutation,
   useAcceptRequestMutation,
+  useRejectEmpRequestsMutation,
 } = empAPI;
