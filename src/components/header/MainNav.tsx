@@ -9,11 +9,13 @@ import { LiaProjectDiagramSolid } from "react-icons/lia";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import adminLogo from "../../assets/admin.jpg";
+import empLogo from "../../assets/emp.PNG2.png";
 
 function MainNav() {
   const navigate = useNavigate();
 
   const { admin } = useSelector((state: RootState) => state.adminReducers);
+  const { employee } = useSelector((state: RootState) => state.empReducers);
 
   const isWaitingEmp = localStorage.getItem("EmpWaiting");
 
@@ -31,8 +33,8 @@ function MainNav() {
     ToasterComponent({
       message: "Click Here To Log In With",
       description: "How you want to log in",
-      firstLabel: "Admin", // Fixed spelling
-      secLabel: "Employee", // Fixed spelling
+      firstLabel: "Admin",
+      secLabel: "Employee",
       caseHandler: handleSignIn,
     });
   };
@@ -45,12 +47,6 @@ function MainNav() {
           <NavBtn menu={"Home"} />
         </div>
       </Link>
-
-      {/* <Link to={"/employee/payroll"}>
-        <div className="mx-4">
-          <NavBtn menu={"Payroll"} />
-        </div>
-      </Link> */}
 
       <Link to={"/admin/employee-management"}>
         <div className="flex items-center mx-4">
@@ -66,10 +62,31 @@ function MainNav() {
         </div>
       </Link>
 
-      {admin ? (
+      {/* {admin ? (
         <Link to={"/admin/dashboard"}>
           <img src={adminLogo} alt="Admin Logo" className="h-12" />
         </Link>
+      ) : (
+        <div
+          onClick={showLoginToast}
+          className="shadow-md rounded-md shadow-black"
+        >
+          <LoginButton title={"Login"} />
+        </div>
+      )} */}
+
+      {admin || employee ? (
+        admin ? (
+          <Link to={"/admin/dashboard"}>
+            <img src={adminLogo} alt="Admin Logo" className="h-12" />
+          </Link>
+        ) : (
+          employee && (
+            <Link to={"/admin/dashboard"}>
+              <img src={empLogo} alt="Admin Logo" className="h-12" />
+            </Link>
+          )
+        )
       ) : (
         <div
           onClick={showLoginToast}

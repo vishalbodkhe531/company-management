@@ -27,7 +27,7 @@ export const empAPI = createApi({
       invalidatesTags: ["Requests"],
     }),
 
-    empLogin: builder.mutation<messageResponce, empLoginRequest>({
+    empLogin: builder.mutation<Employee, empLoginRequest>({
       query: (emp) => ({
         url: "login",
         method: "POST",

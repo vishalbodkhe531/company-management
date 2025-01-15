@@ -1,6 +1,15 @@
 import { adminProjectType } from "./reducer-types";
 import { Admin, Employee, UpdateProject } from "./types";
 
+// Commen Types
+
+export type GetLoggedUserResponce = {
+  success: boolean;
+  user: Admin | Employee;
+};
+
+// ************************************************************************************************
+
 export type messageResponce = {
   success: boolean;
   message: string;

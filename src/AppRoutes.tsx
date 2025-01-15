@@ -10,9 +10,11 @@ import {
 import AuthPage from "./pages/admin/authentication/AuthPage";
 import { useGetLoggedAdminQuery } from "./redux/api/admin-API/AdminAPI";
 import { adminExist } from "./redux/reducer/AdminReducer";
-import { Admin } from "./types/types";
+import { Admin, Employee } from "./types/types";
 import { Toaster } from "./components/ui/sonner";
 import AuthEmpPage from "./pages/employee/authentication/AuthPage";
+import { useGetLoggedUserQuery } from "./redux/api/admin-API/GetLoggedUserAPI";
+import { empExist } from "./redux/reducer/EmpReducer";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -37,15 +39,54 @@ const EmoployeeDash = lazy(
 function AppRoutes() {
   const dispatch = useDispatch();
 
-  const { admin } = useSelector((state: RootState) => state.adminReducers);
+  const { employee } = useSelector((state: RootState) => state.empReducers);
 
-  const { data } = useGetLoggedAdminQuery();
+  // const { role } = useSelector((state: RootState) => state.roleReducer);
+
+  const { data } = useGetLoggedUserQuery();
 
   useEffect(() => {
-    const { name, email, profilePic, gender, _id, role } = data?.admin || {};
-    if (data?.admin) {
+    if (data?.user && "role" in data.user && data.user.role === "admin") {
+      const { name, email, profilePic, gender, _id, role } =
+        (data?.user as Admin) || {};
       dispatch(
         adminExist({ name, email, profilePic, gender, _id, role } as Admin)
+      );
+    }
+
+    if (data?.user && "role" in data.user && data.user.role === "employee") {
+      const {
+        _id,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        resignationDate,
+        qualification,
+        department,
+        gender,
+        address,
+        isVerified,
+        profilePic,
+      } = data.user as Employee;
+
+      dispatch(
+        empExist(
+          ({
+            _id,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            resignationDate,
+            qualification,
+            department,
+            gender,
+            address,
+            isVerified,
+            profilePic,
+          } as Employee) || {}
+        )
       );
     }
   }, [data, dispatch]);
@@ -59,13 +100,14 @@ function AppRoutes() {
               path="/"
               element={
                 <Structure>
-                  {admin?.role === undefined ? (
+                  {/* {admin?.role === undefined ? (
                     <Home />
                   ) : admin?.role === "admin" ? (
                     <AdminHome />
                   ) : (
                     <Home />
-                  )}
+                  )} */}
+                  <Home />
                 </Structure>
               }
             />

@@ -80,6 +80,7 @@ export type Employee = {
   address: string;
   isVerified: string;
   profilePic: string;
+  role?: string;
 };
 
 export interface requestEmpList {

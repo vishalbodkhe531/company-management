@@ -7,16 +7,20 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEmpLoginMutation } from "@/redux/api/emp-API/EmpAPI";
+import { empExist } from "@/redux/reducer/EmpReducer";
 import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { IoTransgenderOutline } from "react-icons/io5";
 import { MdOutlineAttachEmail } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 function SignInEmp() {
   const [empLogin] = useEmpLoginMutation();
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -39,8 +43,40 @@ function SignInEmp() {
     const res = await empLogin(data);
 
     if ("data" in res && res.data) {
+      const {
+        _id,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        resignationDate,
+        qualification,
+        department,
+        gender,
+        address,
+        isVerified,
+        profilePic,
+      } = res.data;
+
+      dispatch(
+        empExist({
+          _id,
+          firstName,
+          lastName,
+          email,
+          phoneNumber,
+          resignationDate,
+          qualification,
+          department,
+          gender,
+          address,
+          isVerified,
+          profilePic,
+        })
+      );
+
       ToasterComponent({
-        message: res.data.message,
+        message: "Login successfully !!",
         description: "Thanks for Login",
         firstLabel: "Close",
       });
