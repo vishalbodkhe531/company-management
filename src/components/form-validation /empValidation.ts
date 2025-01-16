@@ -47,7 +47,7 @@ export const empSchema = z.object({
     })
     .optional(),
 
-  department: z
+  skill: z
     .string()
     .trim()
     .min(2, { message: "Department must be at least 2 characters long" }),

@@ -53,6 +53,6 @@ export type allRequest = {
 
 export type empLoginRequest = {
   email: string;
-  department: string;
+  skill: string;
   gender: string;
 };

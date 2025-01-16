@@ -55,6 +55,11 @@ export const empAPI = createApi({
       query: () => ({ url: "all-requests" }),
       providesTags: ["Requests"],
     }),
+
+    allEmployees: builder.query<allRequest, void>({
+      query: () => ({ url: "all-employee" }),
+      providesTags: ["Requests"],
+    }),
   }),
 });
 
@@ -63,5 +68,6 @@ export const {
   useAllEmpRequestsQuery,
   useEmpLoginMutation,
   useAcceptRequestMutation,
+  useAllEmployeesQuery,
   useRejectEmpRequestsMutation,
 } = empAPI;

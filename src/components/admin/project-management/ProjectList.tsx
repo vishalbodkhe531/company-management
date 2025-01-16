@@ -14,8 +14,6 @@ import {
 const ProjectList = () => {
   const { data: projects } = useAllProjectsQuery();
 
-  console.log(projects?.projects);
-
   const statusColorMap: Record<string, string> = {
     Active: "bg-green-500 text-white",
     "On Hold": "bg-yellow-500 text-black",

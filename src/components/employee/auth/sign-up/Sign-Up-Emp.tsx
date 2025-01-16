@@ -34,7 +34,7 @@ function SignUpEmp() {
       phoneNumber: "",
       resignationDate: "",
       qualification: "",
-      department: "",
+      skill: "",
       gender: "",
       address: "",
     },
@@ -187,18 +187,18 @@ function SignUpEmp() {
           <div className="space-y-2">
             <div className="flex">
               <Label htmlFor="department" className="font-semibold">
-                Department
+                Skill
               </Label>
               <AiOutlineUsergroupDelete className="ml-1" />
             </div>
             <select
-              id="department"
+              id="skill"
               className="w-full border bg-white border-gray-300 rounded-md px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              {...register("department")}
+              {...register("skill")}
               defaultValue=""
             >
               <option value="" disabled>
-                Select Department
+                Select Skill
               </option>
               <option value="frontend">Frontend Development</option>
               <option value="backend">Backend Development</option>
@@ -225,9 +225,9 @@ function SignUpEmp() {
               <option value="data_analysis">Data Analysis</option>
               <option value="data_engineering">Data Engineering</option>
             </select>
-            {errors.department && (
+            {errors.skill && (
               <span className="text-errorText font-bold text-sm">
-                {errors.department.message as string}
+                {errors.skill.message as string}
               </span>
             )}
           </div>

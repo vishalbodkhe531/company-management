@@ -75,7 +75,7 @@ export type Employee = {
   phoneNumber: string;
   resignationDate: string;
   qualification: string;
-  department: string;
+  skill: string;
   gender: string;
   address: string;
   isVerified: string;
