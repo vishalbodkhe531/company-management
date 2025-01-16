@@ -40,7 +40,7 @@ function AdminInfo({ isEdit }: { isEdit: boolean }) {
               <label className="block text-sm font-medium capitalize">
                 {key}
               </label>
-              <div className="w-full mt-1 px-4 py-2 bg-gray-700 text-white rounded border border-gray-600">
+              <div className="w-full mt-1 px-4 py-2 shadow-lg border-slate-500 rounded border ">
                 {value}
               </div>
             </div>

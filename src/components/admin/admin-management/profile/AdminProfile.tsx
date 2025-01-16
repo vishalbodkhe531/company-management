@@ -13,8 +13,8 @@ function AdminProfile() {
   return (
     <>
       {edit ? (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full md:w-1/3 flex flex-col items-center ">
-          <div className="w-24 h-24 rounded-full bg-gray-600 flex items-center justify-center text-2xl font-bold">
+        <div className=" p-6 rounded-lg shadow-lg w-full md:w-1/3 flex flex-col items-center ">
+          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold">
             V
           </div>
           <h2 className="text-xl font-semibold mt-4">Vishal Bodkhe</h2>
@@ -24,8 +24,8 @@ function AdminProfile() {
           </div>
         </div>
       ) : (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full md:w-1/3 flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full bg-gray-600 flex items-center justify-center text-2xl font-bold">
+        <div className="p-6 rounded-lg shadow-lg w-full md:w-1/3 flex flex-col items-center">
+          <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold">
             V
           </div>
           <h2 className="text-xl font-semibold mt-4">Vishal Bodkhe</h2>

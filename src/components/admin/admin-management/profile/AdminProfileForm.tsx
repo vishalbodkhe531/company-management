@@ -184,7 +184,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
                         id="password"
                         placeholder="Password"
                         type={showPassword ? "text" : "password"}
-                        className="border-none bg-inputBg text-inputTitle p-5 pr-10 !text-inputText"
+                        className="border-none bg-inputBg  p-5 pr-10  text-inputTitle !text-inputText"
                         {...register("password")}
                       />
                       <button
@@ -203,9 +203,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
                   </div>
                   {/* Gender Selection */}
                   <div className="flex flex-col space-y-4 mt-1 items-center">
-                    <Label className="text-mainHeading font-bold mt-4">
-                      Gender
-                    </Label>
+                    <Label className=" font-bold mt-4">Gender</Label>
                     <div className="flex justify-around w-full items-center">
                       {["male", "female", "other"].map((gender) => (
                         <div
@@ -221,7 +219,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
                           />
                           <label
                             htmlFor={gender}
-                            className="text-mainHeading font-medium cursor-pointer"
+                            className=" font-medium cursor-pointer"
                           >
                             {gender.charAt(0).toUpperCase() + gender.slice(1)}
                           </label>

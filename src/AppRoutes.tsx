@@ -7,14 +7,13 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-import AuthPage from "./pages/admin/authentication/AuthPage";
-import { useGetLoggedAdminQuery } from "./redux/api/admin-API/AdminAPI";
-import { adminExist } from "./redux/reducer/AdminReducer";
-import { Admin, Employee } from "./types/types";
 import { Toaster } from "./components/ui/sonner";
+import AuthPage from "./pages/admin/authentication/AuthPage";
 import AuthEmpPage from "./pages/employee/authentication/AuthPage";
 import { useGetLoggedUserQuery } from "./redux/api/admin-API/GetLoggedUserAPI";
+import { adminExist } from "./redux/reducer/AdminReducer";
 import { empExist } from "./redux/reducer/EmpReducer";
+import { Admin, Employee } from "./types/types";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -40,8 +39,6 @@ function AppRoutes() {
   const dispatch = useDispatch();
 
   const { employee } = useSelector((state: RootState) => state.empReducers);
-
-  // const { role } = useSelector((state: RootState) => state.roleReducer);
 
   const { data } = useGetLoggedUserQuery();
 
@@ -131,7 +128,7 @@ function AppRoutes() {
             </Route>
             {/* dashboards */}
 
-            {/* Employee Routes */}
+            {/* Employee Radminoutes */}
             <Route path="emp" element={<Structure />}>
               <Route path="sign-in" element={<AuthEmpPage />} />
               <Route path="sign-up" element={<AuthEmpPage />} />

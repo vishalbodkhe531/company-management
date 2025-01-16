@@ -10,29 +10,29 @@ function AdminDashboard() {
   const [edit, setEdit] = useState(false);
 
   return (
-    <div className="min-h-screen  bg-gray-900 text-gray-200 p-4 flex flex-col md:flex-row gap-4">
+    <div className="min-h-screen  p-4 flex flex-col md:flex-row gap-4">
       {/* Profile Card */}
       <AdminProfile />
 
       {/* Details Section */}
-      <div className="bg-background p-6  rounded-lg shadow-lg w-full md:w-2/3">
-        <Tabs defaultValue="admin">
-          <TabsList className="flex space-x-4 mb-4">
+      <div className=" p-6  rounded-lg shadow-lg w-full md:w-2/3">
+        <Tabs defaultValue="admin" className="rounded-lg shadow-lg p-4">
+          <TabsList className="flex space-x-4 mb-4 rounded-lg">
             <TabsTrigger
               value="admin"
-              className="px-4 py-2 text-white bg-gray-700 hover:bg-gray-600 rounded"
+              className="px-4 py-2 rounded hover:bg-gray-100 transition"
             >
               Admin Information
             </TabsTrigger>
             <TabsTrigger
               value="settings"
-              className="px-4 py-2 text-white bg-gray-700 hover:bg-gray-600 rounded"
+              className="px-4 py-2 rounded hover:bg-gray-100 transition"
             >
               Settings
             </TabsTrigger>
             <TabsTrigger
               value="logs"
-              className="px-4 py-2 text-white bg-gray-700 hover:bg-gray-600 rounded"
+              className="px-4 py-2 rounded hover:bg-gray-100 transition"
             >
               Activity Logs
             </TabsTrigger>
@@ -44,9 +44,9 @@ function AdminDashboard() {
             {/* Edit Button */}
             <div className="flex flex-col items-center mt-10">
               <Button
-                className={` ${
+                className={`${
                   edit ? `btn-gradient` : `btn-orange`
-                } w-[50%] rounded-full h-10 text-mainHeading font-bold cursor-pointer`}
+                } w-[50%] rounded-full h-10 font-bold cursor-pointer`}
                 onClick={() => setEdit((prev) => !prev)}
               >
                 {edit ? "Save" : "Edit"}
