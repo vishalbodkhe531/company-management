@@ -67,33 +67,60 @@ const EmployeeDirectory = () => {
       </div>
 
       {/* Employee Cards */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredEmployees.map((employee) => (
           <div
             key={employee._id}
-            className="bg-gray-800 shadow-md rounded-md p-4 flex flex-col items-center text-gray-100"
+            className="bg-gray-800 shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row hover:scale-105 transform transition-transform duration-200 text-gray-100"
           >
-            <img
-              src={employee.profilePic || "https://via.placeholder.com/150"}
-              alt={`${employee.firstName}'s profile`}
-              className="w-24 h-24 rounded-full mb-4"
-            />
-            <div className="">
-              <h2 className="text-xl font-bold text-gray-100">
-                {`${employee.firstName} ${employee.lastName}`}
-              </h2>
+            {/* Profile Image */}
+            <div className="md:w-1/3 bg-gray-700 p-4 flex items-center justify-center">
+              <img
+                src={employee.profilePic || "https://via.placeholder.com/150"}
+                alt={`${employee.firstName}'s profile`}
+                className="w-24 h-24 rounded-full border-2 border-gray-600"
+              />
             </div>
-            <p className="text-gray-100">{employee.qualification || "N/A"}</p>
-            <p className="text-sm text-gray-400">
-              Joined: {employee.resignationDate || "N/A"}
-            </p>
-            <div className="mt-4">
-              <p className="text-sm">Email: {employee.email}</p>
-              <p className="text-sm ">Phone: {employee.phoneNumber || "N/A"}</p>
-            </div>
-            <div className="mt-4 flex flex-col items-center">
-              <h3 className="text-sm font-bold text-gray-100">Skills</h3>
-              <p className="text-sm text-gray-300">{employee.skill}</p>
+
+            {/* Employee Info */}
+            <div className="flex-1 p-4 flex flex-col">
+              {/* Name & Qualification */}
+              <h2 className="text-xl font-bold">{`${employee.firstName} ${employee.lastName}`}</h2>
+              <p className="text-sm text-gray-400">
+                {employee.qualification || "N/A"}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Joined: {employee.resignationDate || "N/A"}
+              </p>
+
+              {/* Contact Info */}
+              <div className="mt-3">
+                <p className="text-sm">
+                  <span className="font-semibold">Email:</span> {employee.email}
+                </p>
+                <p className="text-sm">
+                  <span className="font-semibold">Phone:</span>{" "}
+                  {employee.phoneNumber || "N/A"}
+                </p>
+              </div>
+
+              {/* Skills */}
+              <div className="mt-4">
+                <h3 className="text-sm font-bold">Skills</h3>
+                <ul className="flex flex-wrap gap-2 mt-1">
+                  {employee.skill?.split(",").map((skill, index) => (
+                    <li
+                      key={index}
+                      className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full"
+                    >
+                      {skill.trim()}
+                    </li>
+                  )) || (
+                    <li className="text-sm text-gray-400">No skills listed</li>
+                  )}
+                </ul>
+              </div>
             </div>
           </div>
         ))}

@@ -18,64 +18,39 @@ function EmployeeDocuments() {
         </div>
 
         {/* Sections */}
-        <div className="space-y-8">
+        <div className="space-y-8 grid grid-cols-1 md:grid-cols-2">
           {/* Professional Summary */}
           <section>
             <h3 className="text-lg font-semibold text-gray-100 mb-2">
               Professional Summary
             </h3>
             <p className="text-sm text-gray-300">
-              Highly motivated Software Engineer with 5+ years of experience
-              designing, developing, and maintaining web applications. Skilled
-              in React, Node.js, and RESTful API design.
+              Results-oriented Software Engineer with 5+ years of experience in
+              full-stack development. Adept at delivering high-quality projects
+              within deadlines. Skilled in React, Node.js, and MongoDB.
             </p>
           </section>
 
-          {/* Work Experience */}
+          {/* Employment Details */}
           <section>
             <h3 className="text-lg font-semibold text-gray-100 mb-2">
-              Work Experience
+              Employment Details
             </h3>
-            <ul className="space-y-4">
-              <li>
-                <h4 className="font-semibold text-gray-100">
-                  Senior Developer at ABC Corp
-                </h4>
-                <p className="text-sm text-gray-400">Jan 2020 - Present</p>
-                <p className="text-sm text-gray-300">
-                  Led a team of 5 developers in building scalable web
-                  applications. Improved application performance by 30%.
-                </p>
-              </li>
-              <li>
-                <h4 className="font-semibold text-gray-100">
-                  Software Engineer at XYZ Ltd
-                </h4>
-                <p className="text-sm text-gray-400">Jun 2017 - Dec 2019</p>
-                <p className="text-sm text-gray-300">
-                  Developed RESTful APIs and front-end interfaces using React
-                  and Express.js. Achieved 99.9% uptime on production
-                  applications.
-                </p>
-              </li>
-            </ul>
-          </section>
-
-          {/* Education */}
-          <section>
-            <h3 className="text-lg font-semibold text-gray-100 mb-2">
-              Education
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <p className="font-semibold text-gray-100">
-                  Bachelor of Science in Computer Science
-                </p>
-                <p className="text-sm text-gray-400">
-                  University of Technology, 2017
-                </p>
-              </li>
-            </ul>
+            <p className="text-sm text-gray-300">
+              <strong>Current Position:</strong> Software Engineer
+            </p>
+            <p className="text-sm text-gray-300">
+              <strong>Department:</strong> IT
+            </p>
+            <p className="text-sm text-gray-300">
+              <strong>Joining Date:</strong> January 15, 2020
+            </p>
+            <p className="text-sm text-gray-300">
+              <strong>Work Location:</strong> HQ - New York
+            </p>
+            <p className="text-sm text-gray-300">
+              <strong>Reporting Manager:</strong> Jane Smith
+            </p>
           </section>
 
           {/* Skills */}
@@ -98,6 +73,89 @@ function EmployeeDocuments() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          {/* Projects */}
+          <section>
+            <h3 className="text-lg font-semibold text-gray-100 mb-2">
+              Projects
+            </h3>
+            <ul className="space-y-4">
+              <li>
+                <h4 className="font-semibold text-gray-100">
+                  E-commerce Platform
+                </h4>
+                <p className="text-sm text-gray-300">
+                  Developed a scalable e-commerce platform using the MERN stack,
+                  resulting in a 35% increase in user engagement.
+                </p>
+              </li>
+              <li>
+                <h4 className="font-semibold text-gray-100">
+                  Employee Management System
+                </h4>
+                <p className="text-sm text-gray-300">
+                  Built an internal tool for managing employee records,
+                  attendance, and performance tracking.
+                </p>
+              </li>
+            </ul>
+          </section>
+
+          {/* Education */}
+          <section>
+            <h3 className="text-lg font-semibold text-gray-100 mb-2">
+              Education
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <p className="font-semibold text-gray-100">
+                  Bachelor of Science in Computer Science
+                </p>
+                <p className="text-sm text-gray-400">
+                  University of Technology, 2017
+                </p>
+              </li>
+            </ul>
+          </section>
+
+          {/* Certifications */}
+          <section>
+            <h3 className="text-lg font-semibold text-gray-100 mb-2">
+              Certifications
+            </h3>
+            <ul className="space-y-2">
+              <li className="text-sm text-gray-300">
+                Full-Stack Developer Certification - Udemy
+              </li>
+              <li className="text-sm text-gray-300">
+                Certified Scrum Master (CSM)
+              </li>
+            </ul>
+          </section>
+
+          {/* Awards and Achievements */}
+          <section>
+            <h3 className="text-lg font-semibold text-gray-100 mb-2">
+              Awards and Achievements
+            </h3>
+            <ul className="space-y-2">
+              <li className="text-sm text-gray-300">
+                Employee of the Month (March 2023)
+              </li>
+              <li className="text-sm text-gray-300">
+                Successfully led a team for Project Alpha, reducing costs by
+                20%.
+              </li>
+            </ul>
+          </section>
+
+          {/* References */}
+          <section>
+            <h3 className="text-lg font-semibold text-gray-100 mb-2">
+              References
+            </h3>
+            <p className="text-sm text-gray-300">Available upon request.</p>
           </section>
         </div>
       </div>
