@@ -1,58 +1,42 @@
 import { Button } from "@/components/ui/button";
+import { useAllEmployeesQuery } from "@/redux/api/emp-API/EmpAPI";
 import { useState } from "react";
 
 const EmployeeSettings = () => {
-  const employees = [
-    {
-      id: 1,
-      name: "John Doe",
-      position: "Software Engineer",
-      department: "Engineering",
-      email: "john@example.com",
-      phone: "123-456-7890",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      position: "HR Manager",
-      department: "Human Resources",
-      email: "jane@example.com",
-      phone: "987-654-3210",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      position: "Product Designer",
-      department: "Design",
-      email: "alice@example.com",
-      phone: "555-123-4567",
-    },
-  ];
+  const { data, isLoading, isError } = useAllEmployeesQuery();
 
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("All");
 
-  const handleExpand = (id: number) => {
+  const handleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: string) => {
     console.log(`Editing details for employee with id ${id}`);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     console.log(`Deleting employee with id ${id}`);
   };
 
+  if (isError || !data?.allRequests) {
+    return (
+      <div className="text-red-500">
+        Failed to fetch employee data. Try again later.
+      </div>
+    );
+  }
+
   // Filter employees based on search query and selected filter
-  const filteredEmployees = employees.filter((employee) => {
+  const filteredEmployees = data.allRequests.filter((employee) => {
     const matchesSearch =
-      employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.department.toLowerCase().includes(searchQuery.toLowerCase());
+      employee.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      employee.skill.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter =
-      filter === "All" ||
-      employee.position.toLowerCase() === filter.toLowerCase();
+      filter === "select" ||
+      employee.skill.toLowerCase() === filter.toLowerCase();
     return matchesSearch && matchesFilter;
   });
 
@@ -81,53 +65,95 @@ const EmployeeSettings = () => {
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
-          <option value="All">All Positions</option>
-          <option value="HR Manager">HR Manager</option>
-          <option value="Software Engineer">Software Engineer</option>
-          <option value="Product Designer">Product Designer</option>
+          <option value="select" defaultValue={"select"}>
+            All Skill
+          </option>
+          <option value="frontend">Frontend Development</option>
+          <option value="backend">Backend Development</option>
+          <option value="database">Database Management</option>
+          <option value="devops">DevOps</option>
+          <option value="docker">Docker</option>
+          <option value="kubernetes">Kubernetes</option>
+          <option value="aws">AWS</option>
+          <option value="azure">Azure</option>
+          <option value="gcp">Google Cloud Platform</option>
+          <option value="mobile">Mobile Development</option>
+          <option value="android">Android</option>
+          <option value="flutter">Flutter</option>
+          <option value="react_native">React Native</option>
+
+          <option value="ai_ml">AI & Machine Learning</option>
+          <option value="nlp">Natural Language Processing</option>
+          <option value="computer_vision">Computer Vision</option>
+
+          <option value="cybersecurity">Cybersecurity</option>
+          <option value="game_dev">Game Development</option>
+          <option value="data_analysis">Data Analysis</option>
+          <option value="data_engineering">Data Engineering</option>
         </select>
       </div>
 
       {/* Employee List */}
-      <div className="space-y-4">
-        {filteredEmployees.length > 0 ? (
+      <div className="space-y-6">
+        {isLoading ? (
+          <div className="text-center text-gray-400">Loading...</div>
+        ) : filteredEmployees.length > 0 ? (
           filteredEmployees.map((employee) => (
             <div
-              key={employee.id}
-              className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition-all"
+              key={employee._id}
+              className="bg-gray-800 p-6 rounded-xl shadow-lg transition-transform transform hover:scale-105"
             >
-              <div className="flex justify-between items-center">
-                <div className="text-xl font-bold text-white">
-                  {employee.name}
+              {/* Header */}
+              <div className="flex items-center gap-4">
+                <img
+                  src={employee.profilePic || "https://via.placeholder.com/80"}
+                  alt={`${employee.firstName}'s profile`}
+                  className="w-16 h-16 rounded-full border border-gray-700"
+                />
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-white">
+                    {employee.firstName} {employee.lastName}
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    {employee.qualification || "N/A"} |{" "}
+                    {employee.skill || "No skills listed"}
+                  </p>
                 </div>
                 <Button
-                  onClick={() => handleExpand(employee.id)}
-                  className="text-blue-500"
+                  onClick={() => handleExpand(employee._id)}
+                  className="text-blue-500 text-sm font-semibold"
                 >
-                  {expandedId === employee.id ? "Collapse" : "Expand"}
+                  {expandedId === employee._id ? "Collapse" : "Expand"}
                 </Button>
               </div>
-              <div className="text-sm text-white">
-                {employee.position} - {employee.department}
-              </div>
-              {expandedId === employee.id && (
-                <div className="mt-4 space-y-2">
-                  <div className="text-sm text-white">
-                    Email: {employee.email}
+
+              {/* Expanded Content */}
+              {expandedId === employee._id && (
+                <div className="mt-4 space-y-4 border-t border-gray-700 pt-4">
+                  <div className="text-sm text-gray-400">
+                    <p>
+                      <span className="font-semibold text-gray-300">
+                        Email:
+                      </span>{" "}
+                      {employee.email}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-300">
+                        Phone:
+                      </span>{" "}
+                      {employee.phoneNumber || "N/A"}
+                    </p>
                   </div>
-                  <div className="text-sm text-white">
-                    Phone: {employee.phone}
-                  </div>
-                  <div className="flex gap-3 mt-4">
+                  <div className="flex gap-4">
                     <Button
-                      onClick={() => handleEdit(employee.id)}
-                      className="w-1/3 bg-yellow-500 text-white hover:bg-yellow-400"
+                      onClick={() => handleEdit(employee._id)}
+                      className="flex-1 bg-btnGradientFrom text-white hover:bg-green-600 py-2 rounded-lg text-sm"
                     >
                       Edit
                     </Button>
                     <Button
-                      onClick={() => handleDelete(employee.id)}
-                      className="w-1/3 bg-red-500 text-white hover:bg-red-400"
+                      onClick={() => handleDelete(employee._id)}
+                      className="flex-1 bg-btnOrangeTo text-white hover:bg-red-600 py-2 rounded-lg text-sm"
                     >
                       Delete
                     </Button>
