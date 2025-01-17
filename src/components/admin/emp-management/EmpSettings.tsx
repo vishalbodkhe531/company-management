@@ -7,7 +7,7 @@ const EmployeeSettings = () => {
 
   const [expandedId, setExpandedId] = useState<string | null>("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("select");
 
   const handleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
@@ -29,14 +29,12 @@ const EmployeeSettings = () => {
     );
   }
 
-  // Filter employees based on search query and selected filter
   const filteredEmployees = data.allRequests.filter((employee) => {
     const matchesSearch =
       employee.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.skill.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter =
-      filter === "select" ||
-      employee.skill.toLowerCase() === filter.toLowerCase();
+      employee.skill?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = filter === "select" || employee.skill === filter;
+
     return matchesSearch && matchesFilter;
   });
 
@@ -97,7 +95,7 @@ const EmployeeSettings = () => {
       <div className="space-y-6">
         {isLoading ? (
           <div className="text-center text-gray-400">Loading...</div>
-        ) : filteredEmployees.length > 0 ? (
+        ) : filteredEmployees.length ? (
           filteredEmployees.map((employee) => (
             <div
               key={employee._id}

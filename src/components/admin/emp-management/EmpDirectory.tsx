@@ -72,14 +72,14 @@ const EmployeeDirectory = () => {
         {filteredEmployees.map((employee) => (
           <div
             key={employee._id}
-            className="bg-gray-800 shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row hover:scale-105 transform transition-transform duration-200 text-gray-100"
+            className="bg-gray-800 shadow-md rounded-lg overflow-hidden flex flex-col flex-wrap justify-center md:flex-row hover:scale-105 transform transition-transform duration-200 text-gray-100"
           >
             {/* Profile Image */}
-            <div className="md:w-1/3 bg-gray-700 p-4 flex items-center justify-center">
+            <div className="w-full bg-gray-700 p-4 flex items-center justify-center">
               <img
                 src={employee.profilePic || "https://via.placeholder.com/150"}
                 alt={`${employee.firstName}'s profile`}
-                className="w-24 h-24 rounded-full border-2 border-gray-600"
+                className="h-24 rounded-full border-2 border-gray-600"
               />
             </div>
 

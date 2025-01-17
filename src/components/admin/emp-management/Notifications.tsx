@@ -13,8 +13,8 @@ function Notifications() {
     <div className="bg-black min-h-screen">
       <div className="space-y-6 w-full">
         {isLoading ? (
-          "Loading"
-        ) : data?.allRequests.length !== 0 ? (
+          <div className="text-center text-gray-400">Loading...</div>
+        ) : data?.allRequests.length ? (
           data?.allRequests.map(
             (item) =>
               item.isVerified === "pendding" && (

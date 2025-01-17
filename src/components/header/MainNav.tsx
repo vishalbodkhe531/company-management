@@ -17,15 +17,13 @@ function MainNav() {
   const { admin } = useSelector((state: RootState) => state.adminReducers);
   const { employee } = useSelector((state: RootState) => state.empReducers);
 
-  const isWaitingEmp = localStorage.getItem("EmpWaiting");
-
   const handleSignIn = (data: string) => {
     if (data === "Admin") {
       navigate("/admin/sign-in");
     }
 
     if (data === "Employee") {
-      isWaitingEmp ? navigate("/emp/waiting") : navigate("/emp/sign-up");
+      navigate("/emp/sign-up");
     }
   };
 
@@ -61,19 +59,6 @@ function MainNav() {
           <NavBtn menu={"Projects"} />
         </div>
       </Link>
-
-      {/* {admin ? (
-        <Link to={"/admin/dashboard"}>
-          <img src={adminLogo} alt="Admin Logo" className="h-12" />
-        </Link>
-      ) : (
-        <div
-          onClick={showLoginToast}
-          className="shadow-md rounded-md shadow-black"
-        >
-          <LoginButton title={"Login"} />
-        </div>
-      )} */}
 
       {admin || employee ? (
         admin ? (
