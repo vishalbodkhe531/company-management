@@ -14,6 +14,7 @@ import { useGetLoggedUserQuery } from "./redux/api/admin-API/GetLoggedUserAPI";
 import { adminExist } from "./redux/reducer/AdminReducer";
 import { empExist } from "./redux/reducer/EmpReducer";
 import { Admin, Employee } from "./types/types";
+import EmpDash from "./pages/employee/dashboard/EmpDash";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -133,6 +134,7 @@ function AppRoutes() {
               <Route path="sign-in" element={<AuthEmpPage />} />
               <Route path="sign-up" element={<AuthEmpPage />} />
               <Route path="payroll" element={<Payroll />} />
+              <Route path="dashboard" element={<EmpDash />} />
             </Route>
             <Route path="*" element={<Navigate to={"/"} />} />
           </Routes>

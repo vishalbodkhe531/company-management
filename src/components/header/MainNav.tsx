@@ -67,7 +67,7 @@ function MainNav() {
           </Link>
         ) : (
           employee && (
-            <Link to={"/admin/dashboard"}>
+            <Link to={"/emp/dashboard"}>
               <img src={empLogo} alt="Admin Logo" className="h-12" />
             </Link>
           )
