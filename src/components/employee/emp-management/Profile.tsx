@@ -19,6 +19,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { AiOutlineUsergroupDelete } from "react-icons/ai";
+import { BsCalendar2Date } from "react-icons/bs";
+import { FaRegAddressCard } from "react-icons/fa";
+import { FiPhoneCall } from "react-icons/fi";
+import { IoTransgenderOutline } from "react-icons/io5";
+import { MdOutlineAttachEmail } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
@@ -131,7 +137,7 @@ const Profile = () => {
           <Form {...form}>
             <form
               onSubmit={handleForm}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               {/* First Name */}
               <div className="space-y-2">
@@ -157,7 +163,12 @@ const Profile = () => {
 
               {/* Email */}
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <div className="flex items-center">
+                  <Label htmlFor="email" className="font-semibold">
+                    Email
+                  </Label>
+                  <MdOutlineAttachEmail className="ml-2" />
+                </div>
                 <Input
                   type="email"
                   id="email"
@@ -168,7 +179,12 @@ const Profile = () => {
 
               {/* Phone Number */}
               <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Phone Number</Label>
+                <div className="flex items-center">
+                  <Label htmlFor="phone" className="font-semibold">
+                    Phone Number
+                  </Label>
+                  <FiPhoneCall className="ml-2" />
+                </div>
                 <Input
                   type="tel"
                   id="phoneNumber"
@@ -179,7 +195,12 @@ const Profile = () => {
 
               {/* Resignation Date */}
               <div className="space-y-2">
-                <Label htmlFor="resignationDate">Resignation Date</Label>
+                <div className="flex items-center">
+                  <Label htmlFor="resignationDate" className="font-semibold">
+                    Resignation Date
+                  </Label>
+                  <BsCalendar2Date className="ml-2" size={"14px"} />
+                </div>
                 <Input
                   type="date"
                   id="resignationDate"
@@ -189,12 +210,22 @@ const Profile = () => {
 
               {/* Qualification */}
               <div className="space-y-2">
-                <Label htmlFor="qualification">Qualification</Label>
-                <Select {...register("qualification")}>
-                  <SelectTrigger id="skill">
-                    <SelectValue placeholder="Select qualification" />
+                <Label
+                  htmlFor="qualification"
+                  className="font-semibold text-gray-700"
+                >
+                  Highest Qualification
+                </Label>
+                <Select
+                  onValueChange={(value) =>
+                    form.setValue("qualification", value)
+                  }
+                  defaultValue=""
+                >
+                  <SelectTrigger id="qualification">
+                    <SelectValue placeholder="Select Qualification" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-100">
+                  <SelectContent className="bg-gray-50">
                     <SelectItem value="high_school">High School</SelectItem>
                     <SelectItem value="bachelor">Bachelor’s Degree</SelectItem>
                     <SelectItem value="master">Master’s Degree</SelectItem>
@@ -202,12 +233,26 @@ const Profile = () => {
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.qualification && (
+                  <span className="text-errorText font-bold text-sm">
+                    {errors.qualification.message as string}
+                  </span>
+                )}
               </div>
 
               {/* Skill */}
               <div className="space-y-2">
-                <Label htmlFor="skill">Skill</Label>
-                <Select {...register("skill")} name="skill">
+                <div className="flex">
+                  <Label htmlFor="skill" className="font-semibold">
+                    Skill
+                  </Label>
+                  <AiOutlineUsergroupDelete className="ml-1" />
+                </div>
+                <Select
+                  value={form.watch("skill")}
+                  onValueChange={(value) => form.setValue("skill", value)}
+                  name="skill"
+                >
                   <SelectTrigger id="skill">
                     <SelectValue placeholder="Select skill" />
                   </SelectTrigger>
@@ -248,8 +293,16 @@ const Profile = () => {
 
               {/* Gender */}
               <div className="space-y-2">
-                <Label htmlFor="gender">Gender</Label>
-                <Select {...register("gender")}>
+                <div className="flex items-center">
+                  <Label htmlFor="gender" className="font-semibold">
+                    Gender
+                  </Label>
+                  <IoTransgenderOutline className="ml-2" />
+                </div>
+                <Select
+                  value={form.watch("gender")}
+                  onValueChange={(value) => form.setValue("gender", value)}
+                >
                   <SelectTrigger id="gender">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
@@ -263,7 +316,12 @@ const Profile = () => {
 
               {/* Address (Full Width) */}
               <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="address">Address</Label>
+                <div className="flex items-center">
+                  <Label htmlFor="address" className="font-semibold">
+                    Address
+                  </Label>
+                  <FaRegAddressCard className="ml-2" />
+                </div>
                 <Input
                   type="text"
                   id="address"
