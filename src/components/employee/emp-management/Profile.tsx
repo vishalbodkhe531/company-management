@@ -20,7 +20,6 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
-import { BsCalendar2Date } from "react-icons/bs";
 import { FaRegAddressCard } from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
 import { IoTransgenderOutline } from "react-icons/io5";
@@ -28,18 +27,6 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
-  // const employee = {
-  //   firstName: "Ram",
-  //   lastName: "Patil",
-  //   email: "ram@gmail.com",
-  //   phoneNumber: "9128371232",
-  //   resignationDate: "01-01-2003",
-  //   qualification: "BTech",
-  //   skill: "Java",
-  //   gender: "male",
-  //   address: "pune xyz colleny",
-  // };
-
   const { employee } = useSelector((state: RootState) => state.empReducers);
 
   const [empUpdate] = useEmpUpdateMutation();
@@ -54,7 +41,7 @@ const Profile = () => {
       resignationDate: "",
       qualification: "",
       skill: "",
-      gender: "Other",
+      gender: "",
       address: "",
     },
   });
@@ -70,9 +57,9 @@ const Profile = () => {
     if (employee) {
       reset({
         firstName: employee.firstName,
+        lastName: employee.lastName,
         email: employee.email,
-        phoneNumber: employee.phoneNumber,
-        resignationDate: employee.resignationDate,
+        phoneNumber: employee.phoneNumber.toString(),
         qualification: employee.qualification,
         skill: employee.skill,
         gender: employee.gender,
@@ -82,20 +69,8 @@ const Profile = () => {
   }, [employee, reset]);
 
   const handleForm = handleSubmit(async (data) => {
-    console.log(data);
     const res = await empUpdate({ data, id: employee!._id });
     console.log(res);
-    // reset({
-    //   firstName: data.firstName,
-    //   lastName: data.lastName,
-    //   email: data.email,
-    //   phoneNumber: data.phoneNumber,
-    //   resignationDate: data.resignationDate,
-    //   qualification: data.qualification,
-    //   skill: data.skill,
-    //   gender: data.gender,
-    //   address: data.address,
-    // });
   });
 
   return (
@@ -135,205 +110,225 @@ const Profile = () => {
         <div className="max-w-full mx-auto p-6 bg-white shadow-xl border-2 rounded-lg">
           <h1 className="text-2xl font-bold mb-6">Update Profile</h1>
           <Form {...form}>
-            <form
-              onSubmit={handleForm}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
-              {/* First Name */}
-              <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
-                <Input
-                  type="text"
-                  id="firstName"
-                  placeholder="Enter your first name"
-                  {...register("firstName")}
-                />
-              </div>
-
-              {/* Last Name */}
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input
-                  type="text"
-                  id="lastName"
-                  placeholder="Enter your last name"
-                  {...register("lastName")}
-                />
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <div className="flex items-center">
-                  <Label htmlFor="email" className="font-semibold">
-                    Email
-                  </Label>
-                  <MdOutlineAttachEmail className="ml-2" />
+            <form onSubmit={handleForm}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
+                {/* First Name */}
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">First Name</Label>
+                  <Input
+                    type="text"
+                    id="firstName"
+                    placeholder="Enter your first name"
+                    {...register("firstName")}
+                  />
+                  {errors.firstName && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.firstName.message}
+                    </span>
+                  )}
                 </div>
-                <Input
-                  type="email"
-                  id="email"
-                  placeholder="Enter your email"
-                  {...register("email")}
-                />
-              </div>
-
-              {/* Phone Number */}
-              <div className="space-y-2">
-                <div className="flex items-center">
-                  <Label htmlFor="phone" className="font-semibold">
-                    Phone Number
-                  </Label>
-                  <FiPhoneCall className="ml-2" />
+                {/* Last Name */}
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">Last Name</Label>
+                  <Input
+                    type="text"
+                    id="lastName"
+                    placeholder="Enter your last name"
+                    {...register("lastName")}
+                  />
+                  {errors.lastName && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.lastName.message}
+                    </span>
+                  )}
                 </div>
-                <Input
-                  type="tel"
-                  id="phoneNumber"
-                  placeholder="Enter your phone number"
-                  {...register("phoneNumber")}
-                />
-              </div>
-
-              {/* Resignation Date */}
-              <div className="space-y-2">
-                <div className="flex items-center">
-                  <Label htmlFor="resignationDate" className="font-semibold">
-                    Resignation Date
-                  </Label>
-                  <BsCalendar2Date className="ml-2" size={"14px"} />
+                {/* Email */}
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="email" className="font-semibold">
+                      Email
+                    </Label>
+                    <MdOutlineAttachEmail className="ml-2" />
+                  </div>
+                  <Input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    {...register("email")}
+                  />
+                  {errors.email && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.email.message}
+                    </span>
+                  )}
                 </div>
-                <Input
-                  type="date"
-                  id="resignationDate"
-                  {...register("resignationDate")}
-                />
-              </div>
-
-              {/* Qualification */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="qualification"
-                  className="font-semibold text-gray-700"
-                >
-                  Highest Qualification
-                </Label>
-                <Select
-                  onValueChange={(value) =>
-                    form.setValue("qualification", value)
-                  }
-                  defaultValue=""
-                >
-                  <SelectTrigger id="qualification">
-                    <SelectValue placeholder="Select Qualification" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-50">
-                    <SelectItem value="high_school">High School</SelectItem>
-                    <SelectItem value="bachelor">Bachelor’s Degree</SelectItem>
-                    <SelectItem value="master">Master’s Degree</SelectItem>
-                    <SelectItem value="phd">PhD</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.qualification && (
-                  <span className="text-errorText font-bold text-sm">
-                    {errors.qualification.message as string}
-                  </span>
-                )}
-              </div>
-
-              {/* Skill */}
-              <div className="space-y-2">
-                <div className="flex">
-                  <Label htmlFor="skill" className="font-semibold">
-                    Skill
-                  </Label>
-                  <AiOutlineUsergroupDelete className="ml-1" />
+                {/* Phone Number */}
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="phone" className="font-semibold">
+                      Phone Number
+                    </Label>
+                    <FiPhoneCall className="ml-2" />
+                  </div>
+                  <Input
+                    type="tel"
+                    id="phoneNumber"
+                    placeholder="Enter your phone number"
+                    {...register("phoneNumber")}
+                  />
+                  {errors.phoneNumber && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.phoneNumber.message}
+                    </span>
+                  )}
                 </div>
-                <Select
-                  value={form.watch("skill")}
-                  onValueChange={(value) => form.setValue("skill", value)}
-                  name="skill"
-                >
-                  <SelectTrigger id="skill">
-                    <SelectValue placeholder="Select skill" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-100">
-                    <SelectItem value="frontend">
-                      Frontend Development
-                    </SelectItem>
-                    <SelectItem value="backend">Backend Development</SelectItem>
-                    <SelectItem value="database">
-                      Database Management
-                    </SelectItem>
-                    <SelectItem value="devops">DevOps</SelectItem>
-                    <SelectItem value="docker">Docker</SelectItem>
-                    <SelectItem value="kubernetes">Kubernetes</SelectItem>
-                    <SelectItem value="aws">AWS</SelectItem>
-                    <SelectItem value="azure">Azure</SelectItem>
-                    <SelectItem value="gcp">Google Cloud Platform</SelectItem>
-                    <SelectItem value="mobile">Mobile Development</SelectItem>
-                    <SelectItem value="android">Android</SelectItem>
-                    <SelectItem value="flutter">Flutter</SelectItem>
-                    <SelectItem value="react_native">React Native</SelectItem>
-                    <SelectItem value="ai_ml">AI & Machine Learning</SelectItem>
-                    <SelectItem value="nlp">
-                      Natural Language Processing
-                    </SelectItem>
-                    <SelectItem value="computer_vision">
-                      Computer Vision
-                    </SelectItem>
-                    <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
-                    <SelectItem value="game_dev">Game Development</SelectItem>
-                    <SelectItem value="data_analysis">Data Analysis</SelectItem>
-                    <SelectItem value="data_engineering">
-                      Data Engineering
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Gender */}
-              <div className="space-y-2">
-                <div className="flex items-center">
-                  <Label htmlFor="gender" className="font-semibold">
-                    Gender
+                {/* Qualification */}
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="qualification"
+                    className="font-semibold text-gray-700"
+                  >
+                    Highest Qualification
                   </Label>
-                  <IoTransgenderOutline className="ml-2" />
+                  <Select
+                    onValueChange={(value) =>
+                      form.setValue("qualification", value)
+                    }
+                    value={form.watch("qualification")}
+                  >
+                    <SelectTrigger id="qualification">
+                      <SelectValue placeholder="Select Qualification" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-50">
+                      <SelectItem value="high_school">High School</SelectItem>
+                      <SelectItem value="bachelor">
+                        Bachelor’s Degree
+                      </SelectItem>
+                      <SelectItem value="master">Master’s Degree</SelectItem>
+                      <SelectItem value="phd">PhD</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.qualification && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.qualification.message as string}
+                    </span>
+                  )}
                 </div>
-                <Select
-                  value={form.watch("gender")}
-                  onValueChange={(value) => form.setValue("gender", value)}
-                >
-                  <SelectTrigger id="gender">
-                    <SelectValue placeholder="Select gender" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-100">
-                    <SelectItem value="Male">Male</SelectItem>
-                    <SelectItem value="Female">Female</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Address (Full Width) */}
-              <div className="space-y-2 md:col-span-2">
-                <div className="flex items-center">
-                  <Label htmlFor="address" className="font-semibold">
-                    Address
-                  </Label>
-                  <FaRegAddressCard className="ml-2" />
+                {/* Skill */}
+                <div className="space-y-2">
+                  <div className="flex">
+                    <Label htmlFor="skill" className="font-semibold">
+                      Skill
+                    </Label>
+                    <AiOutlineUsergroupDelete className="ml-1" />
+                  </div>
+                  <Select
+                    value={form.watch("skill")}
+                    onValueChange={(value) => form.setValue("skill", value)}
+                    name="skill"
+                  >
+                    <SelectTrigger id="skill">
+                      <SelectValue placeholder="Select skill" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-100">
+                      <SelectItem value="frontend">
+                        Frontend Development
+                      </SelectItem>
+                      <SelectItem value="backend">
+                        Backend Development
+                      </SelectItem>
+                      <SelectItem value="database">
+                        Database Management
+                      </SelectItem>
+                      <SelectItem value="devops">DevOps</SelectItem>
+                      <SelectItem value="docker">Docker</SelectItem>
+                      <SelectItem value="kubernetes">Kubernetes</SelectItem>
+                      <SelectItem value="aws">AWS</SelectItem>
+                      <SelectItem value="azure">Azure</SelectItem>
+                      <SelectItem value="gcp">Google Cloud Platform</SelectItem>
+                      <SelectItem value="mobile">Mobile Development</SelectItem>
+                      <SelectItem value="android">Android</SelectItem>
+                      <SelectItem value="flutter">Flutter</SelectItem>
+                      <SelectItem value="react_native">React Native</SelectItem>
+                      <SelectItem value="ai_ml">
+                        AI & Machine Learning
+                      </SelectItem>
+                      <SelectItem value="nlp">
+                        Natural Language Processing
+                      </SelectItem>
+                      <SelectItem value="computer_vision">
+                        Computer Vision
+                      </SelectItem>
+                      <SelectItem value="cybersecurity">
+                        Cybersecurity
+                      </SelectItem>
+                      <SelectItem value="game_dev">Game Development</SelectItem>
+                      <SelectItem value="data_analysis">
+                        Data Analysis
+                      </SelectItem>
+                      <SelectItem value="data_engineering">
+                        Data Engineering
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.skill && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.skill.message}
+                    </span>
+                  )}
                 </div>
-                <Input
-                  type="text"
-                  id="address"
-                  placeholder="Enter your address"
-                  {...register("address")}
-                />
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="gender" className="font-semibold">
+                      Gender
+                    </Label>
+                    <IoTransgenderOutline className="ml-2" />
+                  </div>
+                  <Select
+                    onValueChange={(value) => form.setValue("gender", value)}
+                    value={form.watch("gender")}
+                  >
+                    <SelectTrigger id="gender">
+                      <SelectValue placeholder="Select gender" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-100">
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.gender && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.gender.message}
+                    </span>
+                  )}
+                </div>
+                {/* Address (Full Width) */}
+                <div className="space-y-2 md:col-span-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="address" className="font-semibold">
+                      Address
+                    </Label>
+                    <FaRegAddressCard className="ml-2" />
+                  </div>
+                  <Input
+                    type="text"
+                    id="address"
+                    placeholder="Enter your address"
+                    {...register("address")}
+                  />
+                  {errors.address && (
+                    <span className="text-errorText font-bold text-sm">
+                      {errors.address.message}
+                    </span>
+                  )}
+                </div>
               </div>
-
               {/* Submit Button */}
-              <div className="md:col-span-2 flex justify-end">
-                <Button type="submit" className="btn-orange">
-                  Update Profile
+              <div className="w-full flex justify-center mt-12">
+                <Button type="submit" className="btn-orange w-[40%]">
+                  Updatele
                 </Button>
               </div>
             </form>
