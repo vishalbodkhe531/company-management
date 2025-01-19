@@ -15,7 +15,11 @@ export const empSchema = z.object({
     .max(50, { message: "Last name cannot exceed 50 characters" })
     .optional(),
 
-  email: z.string().trim().email({ message: "Invalid email address" }),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Invalid email address" })
+    .optional(),
 
   address: z
     .string()
@@ -50,7 +54,8 @@ export const empSchema = z.object({
   skill: z
     .string()
     .trim()
-    .min(2, { message: "Department must be at least 2 characters long" }),
+    .min(2, { message: "Department must be at least 2 characters long" })
+    .optional(),
 
   password: z
     .string()
@@ -58,5 +63,5 @@ export const empSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" })
     .optional(),
 
-  gender: z.string().nonempty("Select a valid gender"),
+  gender: z.string().nonempty("Select a valid gender").optional(),
 });

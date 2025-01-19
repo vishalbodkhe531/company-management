@@ -1,4 +1,7 @@
 import { empSchema } from "@/components/form-validation /empValidation";
+import ToasterComponent, {
+  getErrorMessage,
+} from "@/components/toaster/Toaster";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,11 +28,14 @@ import { FiPhoneCall } from "react-icons/fi";
 import { IoTransgenderOutline } from "react-icons/io5";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { employee } = useSelector((state: RootState) => state.empReducers);
 
   const [empUpdate] = useEmpUpdateMutation();
+
+  const navigate = useNavigate();
 
   const form = useForm<EmpFormValue>({
     resolver: zodResolver(empSchema),
@@ -69,8 +75,40 @@ const Profile = () => {
   }, [employee, reset]);
 
   const handleForm = handleSubmit(async (data) => {
-    const res = await empUpdate({ data, id: employee!._id });
+    // check between employee and data and give only changable field;
+    const updatedData = Object.keys(data).reduce((acc, key) => {
+      const employeeValue = employee?.[key as keyof typeof employee];
+      const dataValue = data[key as keyof EmpFormValue];
+
+      if (employeeValue !== undefined) {
+        if (
+          (key === "phoneNumber" && dataValue !== employeeValue.toString()) ||
+          (key !== "phoneNumber" && dataValue !== employeeValue)
+        ) {
+          acc[key as keyof EmpFormValue] = dataValue;
+        }
+      }
+
+      return acc;
+    }, {} as EmpFormValue);
+
+    const res = await empUpdate({ data: updatedData, id: employee!._id });
     console.log(res);
+    if ("data" in res && res.data) {
+      ToasterComponent({
+        message: "Successfully Updated You Profile!!",
+        description: "Thanks for updating your profile",
+        firstLabel: "Close",
+      });
+      // navigate("/emp/sign-in");
+    } else if ("error" in res) {
+      const errorMessage = getErrorMessage(res.error);
+      ToasterComponent({
+        message: errorMessage,
+        description: "Profile update failed!!",
+        firstLabel: "Close",
+      });
+    }
   });
 
   return (
