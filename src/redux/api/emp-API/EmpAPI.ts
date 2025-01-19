@@ -1,6 +1,7 @@
 import {
   allRequest,
   empLoginRequest,
+  empUpdateRequest,
   messageResponce,
 } from "@/types/api-types";
 import { Employee } from "@/types/types";
@@ -60,6 +61,14 @@ export const empAPI = createApi({
       query: () => ({ url: "all-employee" }),
       providesTags: ["Requests"],
     }),
+
+    empUpdate: builder.mutation<messageResponce, empUpdateRequest>({
+      query: ({ data, id }) => ({
+        url: id,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -70,4 +79,5 @@ export const {
   useAcceptRequestMutation,
   useAllEmployeesQuery,
   useRejectEmpRequestsMutation,
+  useEmpUpdateMutation,
 } = empAPI;

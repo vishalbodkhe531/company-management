@@ -14,7 +14,6 @@ const EmpDash = () => {
   const [activeTab, setActiveTab] = useState("Profile");
 
   return (
-    // <div className="flex min-h-screen bg-gray-100">
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-64 bg-blue-600 text-white">

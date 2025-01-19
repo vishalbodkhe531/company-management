@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { useEmpLoginMutation } from "@/redux/api/emp-API/EmpAPI";
 import { empExist } from "@/redux/reducer/EmpReducer";
 import { EmpFormValue } from "@/types/validation-types";
@@ -19,9 +26,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function SignInEmp() {
   const [empLogin] = useEmpLoginMutation();
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const form = useForm<EmpFormValue>({
@@ -118,48 +123,50 @@ function SignInEmp() {
               )}
             </div>
 
-            {/* Department */}
+            {/* Skill */}
             <div className="space-y-2">
-              <div className="flex">
-                <Label htmlFor="department" className="font-semibold">
+              <div className="flex items-center">
+                <Label htmlFor="skill" className="font-semibold">
                   Skill
                 </Label>
                 <AiOutlineUsergroupDelete className="ml-1" />
               </div>
-              <select
-                id="department"
-                className="w-full border bg-white border-gray-300 rounded-md px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                {...register("skill")}
+              <Select
+                onValueChange={(value) => form.setValue("skill", value)}
                 defaultValue=""
               >
-                <option value="" disabled>
-                  Select Skill
-                </option>
-                <option value="frontend">Frontend Development</option>
-                <option value="backend">Backend Development</option>
-
-                <option value="database">Database Management</option>
-
-                <option value="devops">DevOps</option>
-                <option value="docker">Docker</option>
-                <option value="kubernetes">Kubernetes</option>
-                <option value="aws">AWS</option>
-                <option value="azure">Azure</option>
-                <option value="gcp">Google Cloud Platform</option>
-                <option value="mobile">Mobile Development</option>
-                <option value="android">Android</option>
-                <option value="flutter">Flutter</option>
-                <option value="react_native">React Native</option>
-
-                <option value="ai_ml">AI & Machine Learning</option>
-                <option value="nlp">Natural Language Processing</option>
-                <option value="computer_vision">Computer Vision</option>
-
-                <option value="cybersecurity">Cybersecurity</option>
-                <option value="game_dev">Game Development</option>
-                <option value="data_analysis">Data Analysis</option>
-                <option value="data_engineering">Data Engineering</option>
-              </select>
+                <SelectTrigger id="skill">
+                  <SelectValue placeholder="Select Skill" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-50">
+                  <SelectItem value="frontend">Frontend Development</SelectItem>
+                  <SelectItem value="backend">Backend Development</SelectItem>
+                  <SelectItem value="database">Database Management</SelectItem>
+                  <SelectItem value="devops">DevOps</SelectItem>
+                  <SelectItem value="docker">Docker</SelectItem>
+                  <SelectItem value="kubernetes">Kubernetes</SelectItem>
+                  <SelectItem value="aws">AWS</SelectItem>
+                  <SelectItem value="azure">Azure</SelectItem>
+                  <SelectItem value="gcp">Google Cloud Platform</SelectItem>
+                  <SelectItem value="mobile">Mobile Development</SelectItem>
+                  <SelectItem value="android">Android</SelectItem>
+                  <SelectItem value="flutter">Flutter</SelectItem>
+                  <SelectItem value="react_native">React Native</SelectItem>
+                  <SelectItem value="ai_ml">AI & Machine Learning</SelectItem>
+                  <SelectItem value="nlp">
+                    Natural Language Processing
+                  </SelectItem>
+                  <SelectItem value="computer_vision">
+                    Computer Vision
+                  </SelectItem>
+                  <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
+                  <SelectItem value="game_dev">Game Development</SelectItem>
+                  <SelectItem value="data_analysis">Data Analysis</SelectItem>
+                  <SelectItem value="data_engineering">
+                    Data Engineering
+                  </SelectItem>
+                </SelectContent>
+              </Select>
               {errors.skill && (
                 <span className="text-errorText font-bold text-sm">
                   {errors.skill.message as string}
@@ -175,19 +182,19 @@ function SignInEmp() {
                 </Label>
                 <IoTransgenderOutline className="ml-2" />
               </div>
-              <select
-                id="gender"
-                className="h-10 w-full border bg-white rounded-md text-gray-800 px-3"
-                {...register("gender")}
+              <Select
+                onValueChange={(value) => form.setValue("gender", value)}
                 defaultValue=""
               >
-                <option value="" disabled>
-                  Select Gender
-                </option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
+                <SelectTrigger id="gender">
+                  <SelectValue placeholder="Select Gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
               {errors.gender && (
                 <span className="text-errorText font-bold text-sm">
                   {errors.gender.message as string}
@@ -206,7 +213,7 @@ function SignInEmp() {
             </Button>
           </div>
           <div className="text-end font-semibold rounded-md mt-5">
-            create accout
+            Create account
             <span className="font-semibold text-blue-600 cursor-pointer underline">
               <Link to={"/emp/sign-up"}>Sign Up</Link>
             </span>

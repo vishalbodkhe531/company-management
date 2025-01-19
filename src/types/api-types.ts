@@ -1,5 +1,5 @@
 import { adminProjectType } from "./reducer-types";
-import { Admin, Employee, UpdateProject } from "./types";
+import { Admin, Employee, UpdateProject, updateEmp } from "./types";
 
 // Commen Types
 
@@ -55,4 +55,9 @@ export type empLoginRequest = {
   email: string;
   skill: string;
   gender: string;
+};
+
+export type empUpdateRequest = {
+  id: string;
+  data: updateEmp;
 };

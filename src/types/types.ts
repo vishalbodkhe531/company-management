@@ -90,3 +90,16 @@ export interface requestEmpList {
   profilePic: string;
   id: string;
 }
+
+export interface updateEmp {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNumber?: string;
+  resignationDate?: string;
+  qualification?: string;
+  skill?: string;
+  gender?: string;
+  address?: string;
+  profilePic?: string;
+}
