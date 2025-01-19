@@ -1,7 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const Profile = () => {
   const employee = {
@@ -34,17 +44,41 @@ const Profile = () => {
     ],
   };
 
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    resignationDate: "",
+    qualification: "",
+    skill: "",
+    gender: "",
+    address: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Updated Profile Data:", formData);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-500 p-8">
       <motion.div
-        className="max-w-7xl mx-auto"
+        className="max-w-full mx-auto"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         {/* Header Section */}
         <Card className="mb-8">
-          <CardContent className="flex items-center p-6">
+          <CardContent className="flex items-center p-6 bg-white rounded-xl shadow-xl bottom-2">
             <Avatar className="w-24 h-24 mr-6">
               <AvatarImage src={employee.profileImage} alt="Profile Picture" />
               <AvatarFallback>{employee.name[0]}</AvatarFallback>
@@ -68,101 +102,141 @@ const Profile = () => {
         </Card>
 
         {/* Tabs Section */}
-        <Tabs
-          defaultValue="Performance"
-          className="bg-white shadow-md rounded-lg"
-        >
-          <TabsList className="flex space-x-4 p-4">
-            <TabsTrigger value="Performance">Performance</TabsTrigger>
-            <TabsTrigger value="Tasks">Tasks</TabsTrigger>
-            <TabsTrigger value="Notifications">Notifications</TabsTrigger>
-          </TabsList>
-          <TabsContent value="Performance" className="p-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CardHeader>
-                <CardTitle className="text-2xl font-semibold mb-4">
-                  Performance Overview
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>
-                  <strong>Projects Handled:</strong>{" "}
-                  {employee.performance.projectsHandled}
-                </p>
-                <p>
-                  <strong>Average Rating:</strong>{" "}
-                  {employee.performance.averageRating} / 5
-                </p>
-                <p>
-                  <strong>Feedback:</strong> {employee.performance.feedback}
-                </p>
-              </CardContent>
-            </motion.div>
-          </TabsContent>
-          <TabsContent value="Tasks" className="p-6">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CardHeader>
-                <CardTitle className="text-2xl font-semibold mb-4">
-                  Assigned Tasks
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul>
-                  {employee.tasks.map((task) => (
-                    <li
-                      key={task.id}
-                      className="flex justify-between items-center border-b py-2"
-                    >
-                      <span>{task.title}</span>
-                      <span
-                        className={`px-3 py-1 text-sm rounded ${
-                          task.status === "In Progress"
-                            ? "bg-blue-100 text-blue-600"
-                            : "bg-yellow-100 text-yellow-600"
-                        }`}
-                      >
-                        {task.status}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </motion.div>
-          </TabsContent>
-          <TabsContent value="Notifications" className="p-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CardHeader>
-                <CardTitle className="text-2xl font-semibold mb-4">
-                  Notifications
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul>
-                  {employee.notifications.map((notification) => (
-                    <li key={notification.id} className="mb-2">
-                      <p>{notification.message}</p>
-                      <small className="text-gray-500">
-                        {notification.time}
-                      </small>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </motion.div>
-          </TabsContent>
-        </Tabs>
+        <div className="max-w-full mx-auto p-6 bg-white shadow-xl border-2 rounded-lg">
+          <h1 className="text-2xl font-bold mb-6">Update Profile</h1>
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"
+          >
+            {/* First Name */}
+            <div className="space-y-2">
+              <Label htmlFor="firstName">First Name</Label>
+              <Input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="Enter your first name"
+              />
+            </div>
+
+            {/* Last Name */}
+            <div className="space-y-2">
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Enter your last name"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+              />
+            </div>
+
+            {/* Phone Number */}
+            <div className="space-y-2">
+              <Label htmlFor="phoneNumber">Phone Number</Label>
+              <Input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            {/* Resignation Date */}
+            <div className="space-y-2">
+              <Label htmlFor="resignationDate">Resignation Date</Label>
+              <Input
+                type="date"
+                id="resignationDate"
+                name="resignationDate"
+                value={formData.resignationDate}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Qualification */}
+            <div className="space-y-2">
+              <Label htmlFor="qualification">Qualification</Label>
+              <Input
+                type="text"
+                id="qualification"
+                name="qualification"
+                value={formData.qualification}
+                onChange={handleChange}
+                placeholder="Enter your qualification"
+              />
+            </div>
+
+            {/* Skill */}
+            <div className="space-y-2">
+              <Label htmlFor="skill">Skill</Label>
+              <Input
+                type="text"
+                id="skill"
+                name="skill"
+                value={formData.skill}
+                onChange={handleChange}
+                placeholder="Enter your skill"
+              />
+            </div>
+
+            {/* Gender */}
+            <div className="space-y-2">
+              <Label htmlFor="gender">Gender</Label>
+              <Select
+                // onValueChange={handleGenderChange}
+                value={formData.gender}
+              >
+                <SelectTrigger id="gender">
+                  <SelectValue placeholder="Select gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Male">Male</SelectItem>
+                  <SelectItem value="Female">Female</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Address (Full Width) */}
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="address">Address</Label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Enter your address"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="md:col-span-2 flex justify-end">
+              <Button type="submit" className="btn-orange">
+                Update Profile
+              </Button>
+            </div>
+          </form>
+        </div>
       </motion.div>
     </div>
   );
