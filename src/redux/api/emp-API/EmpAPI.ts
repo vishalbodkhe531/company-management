@@ -69,6 +69,10 @@ export const empAPI = createApi({
         body: data,
       }),
     }),
+
+    logoutEmp: builder.mutation<messageResponce, void>({
+      query: () => ({ url: "logout" }),
+    }),
   }),
 });
 
@@ -80,4 +84,5 @@ export const {
   useAllEmployeesQuery,
   useRejectEmpRequestsMutation,
   useEmpUpdateMutation,
+  useLogoutEmpMutation,
 } = empAPI;

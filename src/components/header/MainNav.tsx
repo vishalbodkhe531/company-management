@@ -75,7 +75,7 @@ function MainNav() {
       ) : (
         <div
           onClick={showLoginToast}
-          className="shadow-md rounded-md shadow-black"
+          className="shadow-md rounded-md shadow-black "
         >
           <LoginButton title={"Login"} />
         </div>

@@ -1,3 +1,4 @@
+import { LoginButton } from "@/components/button/Btn";
 import { empSchema } from "@/components/form-validation /empValidation";
 import ToasterComponent, {
   getErrorMessage,
@@ -15,7 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEmpUpdateMutation } from "@/redux/api/emp-API/EmpAPI";
+import {
+  useEmpUpdateMutation,
+  useLogoutEmpMutation,
+} from "@/redux/api/emp-API/EmpAPI";
 import { empExist } from "@/redux/reducer/EmpReducer";
 import { RootState } from "@/redux/store";
 import { Employee } from "@/types/types";
@@ -30,13 +34,18 @@ import { FiPhoneCall } from "react-icons/fi";
 import { IoTransgenderOutline } from "react-icons/io5";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { employee } = useSelector((state: RootState) => state.empReducers);
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const [empUpdate] = useEmpUpdateMutation();
+
+  const [logoutEmp] = useLogoutEmpMutation();
 
   const form = useForm<EmpFormValue>({
     resolver: zodResolver(empSchema),
@@ -113,6 +122,11 @@ const Profile = () => {
     }
   });
 
+  const handleLogout = () => {
+    logoutEmp();
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-500 p-8">
       <motion.div
@@ -123,7 +137,7 @@ const Profile = () => {
       >
         {/* Header Section */}
         <Card className="mb-8">
-          <CardContent className="flex items-center p-6 bg-white rounded-xl shadow-xl bottom-2">
+          <CardContent className="flex items-center p-6 bg-white rounded-t-xl shadow-xl bottom-2">
             <Avatar className="w-24 h-24 mr-6">
               <AvatarImage src={employee?.profilePic} alt="Profile Picture" />
               <AvatarFallback>{employee?.firstName}</AvatarFallback>
@@ -145,6 +159,11 @@ const Profile = () => {
               </div>
             </div>
           </CardContent>
+          <div className="bg-white rounded-b-xl text-end px-4 py-2">
+            <button onClick={handleLogout}>
+              <LoginButton title={"Logout"} />
+            </button>
+          </div>
         </Card>
 
         {/* Tabs Section */}
@@ -369,7 +388,7 @@ const Profile = () => {
               {/* Submit Button */}
               <div className="w-full flex justify-center mt-12">
                 <Button type="submit" className="btn-orange w-[40%]">
-                  Updatele
+                  Update Profile
                 </Button>
               </div>
             </form>

@@ -8,7 +8,9 @@ export function LoginButton({ title }: { title: string }) {
         {title}
       </span>
       <span
-        className="absolute left-0 flex items-center justify-center w-10 h-10 ml-2 transition-transform duration-500 ease-[cubic-bezier(1.65, 0, 0.076, 1)] translate-x-[-100%] group-hover:translate-x-12"
+        className={`absolute left-0 flex items-center justify-center ${
+          title === "Logout" ? "w-16" : "w-10"
+        } h-10 ml-2 transition-transform duration-500 ease-[cubic-bezier(1.65, 0, 0.076, 1)] translate-x-[-100%] group-hover:translate-x-12`}
         aria-hidden="true"
       >
         <span className="relative w-4 h-4 transform rotate-45 border-t-2 border-r-2 transition-colors duration-500 border-gray-900 group-hover:border-white" />
