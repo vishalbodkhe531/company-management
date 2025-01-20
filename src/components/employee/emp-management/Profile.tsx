@@ -16,7 +16,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEmpUpdateMutation } from "@/redux/api/emp-API/EmpAPI";
+import { empExist } from "@/redux/reducer/EmpReducer";
 import { RootState } from "@/redux/store";
+import { Employee } from "@/types/types";
 import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -27,15 +29,14 @@ import { FaRegAddressCard } from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
 import { IoTransgenderOutline } from "react-icons/io5";
 import { MdOutlineAttachEmail } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
   const { employee } = useSelector((state: RootState) => state.empReducers);
 
-  const [empUpdate] = useEmpUpdateMutation();
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  const [empUpdate] = useEmpUpdateMutation();
 
   const form = useForm<EmpFormValue>({
     resolver: zodResolver(empSchema),
@@ -100,7 +101,8 @@ const Profile = () => {
         description: "Thanks for updating your profile",
         firstLabel: "Close",
       });
-      // navigate("/emp/sign-in");
+
+      dispatch(empExist(res.data as Employee));
     } else if ("error" in res) {
       const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
@@ -123,21 +125,22 @@ const Profile = () => {
         <Card className="mb-8">
           <CardContent className="flex items-center p-6 bg-white rounded-xl shadow-xl bottom-2">
             <Avatar className="w-24 h-24 mr-6">
-              <AvatarImage src={"profileImage"} alt="Profile Picture" />
-              <AvatarFallback>{"employee.name[0]"}</AvatarFallback>
+              <AvatarImage src={employee?.profilePic} alt="Profile Picture" />
+              <AvatarFallback>{employee?.firstName}</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-3xl font-bold">{"employee"}</h1>
-              <p className="text-gray-500">{"employee.role"}</p>
+              <h1 className="text-3xl font-bold">
+                {employee?.firstName} {employee?.lastName}
+              </h1>
               <div className="mt-2">
                 <p>
-                  <strong>Email:</strong> {"employee.email"}
+                  <strong>Email:</strong> {employee?.email}
                 </p>
                 <p>
-                  <strong>Phone:</strong> {"employee.phone"}
+                  <strong>Phone:</strong> {employee?.phoneNumber}
                 </p>
                 <p>
-                  <strong>Department:</strong> {"employee.department"}
+                  <strong>Skill:</strong> {employee?.skill}
                 </p>
               </div>
             </div>

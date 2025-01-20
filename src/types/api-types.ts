@@ -13,6 +13,7 @@ export type GetLoggedUserResponce = {
 export type messageResponce = {
   success: boolean;
   message: string;
+  // error?: { message: string };
 };
 
 export type adminLoginResponce = {

@@ -62,7 +62,7 @@ export const empAPI = createApi({
       providesTags: ["Requests"],
     }),
 
-    empUpdate: builder.mutation<messageResponce, empUpdateRequest>({
+    empUpdate: builder.mutation<Employee, empUpdateRequest>({
       query: ({ data, id }) => ({
         url: id,
         method: "PUT",

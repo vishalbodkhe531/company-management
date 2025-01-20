@@ -13,11 +13,11 @@ export const empReducers = createSlice({
   reducers: {
     empExist: (state, action: PayloadAction<Employee>) => {
       state.employee = action.payload;
-      state.loading = false;
+      // state.loading = false;
     },
     empNotExist: (state) => {
       state.employee = null;
-      state.loading = false;
+      // state.loading = false;
     },
   },
 });
