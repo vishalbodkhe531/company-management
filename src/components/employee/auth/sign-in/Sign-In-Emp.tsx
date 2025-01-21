@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { useEmpLoginMutation } from "@/redux/api/emp-API/EmpAPI";
 import { empExist } from "@/redux/reducer/EmpReducer";
+import { empLoginRequest } from "@/types/api-types";
 import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -45,41 +46,12 @@ function SignInEmp() {
   } = form;
 
   const handleForm = handleSubmit(async (data) => {
-    const res = await empLogin(data);
+    const res = await empLogin(data as empLoginRequest);
+
+    console.log("data : ", data);
 
     if ("data" in res && res.data) {
-      const {
-        _id,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        resignationDate,
-        qualification,
-        skill,
-        gender,
-        address,
-        isVerified,
-        profilePic,
-      } = res.data;
-
-      dispatch(
-        empExist({
-          _id,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          resignationDate,
-          qualification,
-          skill,
-          gender,
-          address,
-          isVerified,
-          profilePic,
-        })
-      );
-
+      dispatch(empExist(res.data));
       ToasterComponent({
         message: "Login successfully !!",
         description: "Thanks for Login",

@@ -45,7 +45,7 @@ function OTPdrower({ open, setOpen, onOTPSubmit }: OTPdrowerProps) {
     ToasterComponent({
       message: "You submitted the following values:",
       description: "Thanks for submitting",
-      firstLable: "Close",
+      firstLabel: "Close",
     });
     setOpen(false);
   });

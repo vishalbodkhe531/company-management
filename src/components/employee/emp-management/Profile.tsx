@@ -20,7 +20,7 @@ import {
   useEmpUpdateMutation,
   useLogoutEmpMutation,
 } from "@/redux/api/emp-API/EmpAPI";
-import { empExist } from "@/redux/reducer/EmpReducer";
+import { empExist, empNotExist } from "@/redux/reducer/EmpReducer";
 import { RootState } from "@/redux/store";
 import { Employee } from "@/types/types";
 import { EmpFormValue } from "@/types/validation-types";
@@ -76,6 +76,7 @@ const Profile = () => {
         lastName: employee.lastName,
         email: employee.email,
         phoneNumber: employee.phoneNumber.toString(),
+        // phoneNumber: employee.phoneNumber,
         qualification: employee.qualification,
         skill: employee.skill,
         gender: employee.gender,
@@ -124,6 +125,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     logoutEmp();
+    empNotExist();
     navigate("/");
   };
 
