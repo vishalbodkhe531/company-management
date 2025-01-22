@@ -3,7 +3,6 @@ import Notifications from "@/components/employee/emp-management/Notifications";
 import Performance from "@/components/employee/emp-management/Performance";
 import Profile from "@/components/employee/emp-management/Profile";
 import Tasks from "@/components/employee/emp-management/Tasks";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,7 +14,6 @@ const EmpDash = () => {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
       <aside className="w-64 bg-blue-600 text-white">
         <div className="p-6">
           <h1 className="text-2xl font-bold">Employee Dashboard</h1>
@@ -34,18 +32,12 @@ const EmpDash = () => {
         </nav>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 p-8 bg-gray-400">
-        {/* Header */}
         <header className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-3xl font-bold">Welcome, {"employee.name"}!</h2>
             <p className="text-gray-600">{"employee.role"}</p>
           </div>
-          <Avatar className="flex items-center">
-            <AvatarImage src="/profile.jpg" alt="John Doe" />
-            <AvatarFallback>{"employee.name[0]"}</AvatarFallback>
-          </Avatar>
         </header>
 
         {/* Content */}

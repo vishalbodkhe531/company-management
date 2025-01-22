@@ -4,7 +4,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: empReducerInitialState = {
   employee: null,
-  loading: false,
 };
 
 export const empReducers = createSlice({
@@ -13,11 +12,10 @@ export const empReducers = createSlice({
   reducers: {
     empExist: (state, action: PayloadAction<Employee>) => {
       state.employee = action.payload;
-      // state.loading = false;
     },
     empNotExist: (state) => {
+      console.log(`first`);
       state.employee = null;
-      // state.loading = false;
     },
   },
 });

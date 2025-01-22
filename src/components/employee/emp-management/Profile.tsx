@@ -125,7 +125,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     logoutEmp();
-    empNotExist();
+    dispatch(empNotExist());
     navigate("/");
   };
 
@@ -162,9 +162,9 @@ const Profile = () => {
             </div>
           </CardContent>
           <div className="bg-white rounded-b-xl text-end px-4 py-2">
-            <button onClick={handleLogout}>
+            <div onClick={handleLogout}>
               <LoginButton title={"Logout"} />
-            </button>
+            </div>
           </div>
         </Card>
 
