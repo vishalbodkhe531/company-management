@@ -1,15 +1,18 @@
 import { useAllEmployeesQuery } from "@/redux/api/emp-API/EmpAPI";
 import { useState } from "react";
-
-type AttendanceStatus = "Present" | "Absent" | "On Leave";
+import EmployeeDocuments from "./EmpDocuments";
+import { Employee } from "@/types/types";
 
 const EmployeeDirectory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("All");
 
-  const { data, isLoading, isError } = useAllEmployeesQuery();
+  const [switchDetailes, setSwitchDetailes] = useState<Employee>();
+  const [toggle, setToggle] = useState(false);
 
-  console.log(data);
+  console.log(switchDetailes);
+
+  const { data, isLoading, isError } = useAllEmployeesQuery();
 
   if (isLoading) {
     return <div className="text-gray-200">Loading employees...</div>;
@@ -29,15 +32,19 @@ const EmployeeDirectory = () => {
       employee.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.skill?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter = filter === "All";
-    // employee.status === filter ||
-    // employee.attendance === filter;s
 
     return matchesSearch && matchesFilter;
   });
 
-  return (
+  const handleClick = (employee: Employee) => {
+    setSwitchDetailes(employee);
+    setToggle(false);
+  };
+
+  return switchDetailes?._id && !toggle ? (
+    <EmployeeDocuments switchDetailes={switchDetailes} setToggle={setToggle} />
+  ) : (
     <div className="p-6 bg-gray-900 min-h-screen text-gray-200">
-      {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-100">Employee Directory</h1>
         <p className="text-gray-400">
@@ -72,7 +79,8 @@ const EmployeeDirectory = () => {
         {filteredEmployees.map((employee) => (
           <div
             key={employee._id}
-            className="bg-gray-800 shadow-md rounded-lg overflow-hidden flex flex-col flex-wrap justify-center md:flex-row hover:scale-105 transform transition-transform duration-200 text-gray-100"
+            className="bg-gray-800 shadow-md rounded-lg overflow-hidden flex flex-col flex-wrap justify-center md:flex-row hover:scale-105 transform transition-transform duration-200 text-gray-100 cursor-pointer"
+            onClick={() => handleClick(employee)}
           >
             {/* Profile Image */}
             <div className="w-full bg-gray-700 p-4 flex items-center justify-center">
@@ -85,7 +93,6 @@ const EmployeeDirectory = () => {
 
             {/* Employee Info */}
             <div className="flex-1 p-4 flex flex-col">
-              {/* Name & Qualification */}
               <h2 className="text-xl font-bold">{`${employee.firstName} ${employee.lastName}`}</h2>
               <p className="text-sm text-gray-400">
                 {employee.qualification || "N/A"}

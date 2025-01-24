@@ -1,19 +1,62 @@
-function EmployeeDocuments() {
+import { Employee } from "@/types/types";
+import { RxCross1 } from "react-icons/rx";
+
+// type EmpPropsType = {
+//   setToggle: (value: boolean) => void;
+// };
+
+type EmpPropsType = {
+  switchDetailes: Employee;
+  setToggle: (value: boolean) => void;
+};
+
+function EmpDocuments({ switchDetailes, setToggle }: EmpPropsType) {
+  const {
+    _id,
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    resignationDate,
+    qualification,
+    skill,
+    gender,
+    address,
+    isVerified,
+    profilePic,
+    role,
+  } = switchDetailes;
+
   return (
-    <div className="bg-gray-900 min-h-screen py-10 px-4 sm:px-6 lg:px-8 text-gray-100">
+    <div className="bg-gray-900 min-h-screen py-4 px-4 sm:px-6 lg:px-8 text-gray-100 select-none">
       <div className="w-full mx-auto bg-gray-800 shadow-md rounded-lg p-6">
         {/* Header */}
-        <div className="flex items-center gap-4 border-b border-gray-700 pb-4 mb-6">
-          <img
-            src="/placeholder-avatar.jpg" // Replace with actual image URL or component
-            alt="Employee Photo"
-            className="w-24 h-24 rounded-full border border-gray-700"
-          />
-          <div>
-            <h2 className="text-2xl font-semibold text-gray-100">John Doe</h2>
-            <p className="text-sm text-gray-400">Software Engineer</p>
-            <p className="text-sm text-gray-400">johndoe@example.com</p>
-            <p className="text-sm text-gray-400">+1 (555) 123-4567</p>
+        <div className="flex items-center justify-between gap-4 border-b border-red-700 pb-4 mb-6">
+          <div className="flex w-full">
+            <img
+              src={profilePic}
+              alt="Employee Photo"
+              className="w-24 h-24 rounded-full border border-gray-700"
+            />
+            <div className="mx-3">
+              <h1 className="text-2xl font-bold">
+                {firstName} {lastName}
+              </h1>
+              <div className="mt-2">
+                <p>
+                  <strong>Email:</strong> {email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {phoneNumber}
+                </p>
+                <p>
+                  <strong>Skill:</strong> {skill}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="cursor-pointer" onClick={() => setToggle(true)}>
+            <RxCross1 size={18} />
           </div>
         </div>
 
@@ -163,4 +206,4 @@ function EmployeeDocuments() {
   );
 }
 
-export default EmployeeDocuments;
+export default EmpDocuments;

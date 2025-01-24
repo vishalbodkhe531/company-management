@@ -92,7 +92,7 @@ function AppRoutes() {
   return (
     <>
       <Suspense fallback={<Loader />}>
-        <Router>
+        <Router >
           <Routes>
             <Route
               path="/"
