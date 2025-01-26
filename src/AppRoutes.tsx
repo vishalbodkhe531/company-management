@@ -18,7 +18,6 @@ import EmpDash from "./pages/employee/dashboard/EmpDash";
 
 const Structure = lazy(() => import("./layout/Structure"));
 const Home = lazy(() => import("./pages/home/Home"));
-const AdminHome = lazy(() => import("./pages/admin/home/AdminHome"));
 const Loader = lazy(() => import("./components/loader/Loader"));
 const SecureRoutes = lazy(() => import("./components/secure/SecureRoutes"));
 const AdminDashboard = lazy(
@@ -39,7 +38,7 @@ const EmoployeeDash = lazy(
 function AppRoutes() {
   const dispatch = useDispatch();
 
-  const { employee } = useSelector((state: RootState) => state.empReducers);
+  // const { employee } = useSelector((state: RootState) => state.empReducers);
 
   const { data } = useGetLoggedUserQuery();
 
@@ -53,46 +52,14 @@ function AppRoutes() {
     }
 
     if (data?.user && "role" in data.user && data.user.role === "employee") {
-      const {
-        _id,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        resignationDate,
-        qualification,
-        skill,
-        gender,
-        address,
-        isVerified,
-        profilePic,
-      } = data.user as Employee;
-
-      dispatch(
-        empExist(
-          ({
-            _id,
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-            resignationDate,
-            qualification,
-            skill,
-            gender,
-            address,
-            isVerified,
-            profilePic,
-          } as Employee) || {}
-        )
-      );
+      dispatch(empExist(data.user as Employee));
     }
   }, [data, dispatch]);
 
   return (
     <>
       <Suspense fallback={<Loader />}>
-        <Router >
+        <Router>
           <Routes>
             <Route
               path="/"

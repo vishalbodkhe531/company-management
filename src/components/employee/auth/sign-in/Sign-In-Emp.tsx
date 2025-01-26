@@ -51,6 +51,7 @@ function SignInEmp() {
     console.log("data : ", data);
 
     if ("data" in res && res.data) {
+      console.log("data : ", res.data);
       dispatch(empExist(res.data));
       ToasterComponent({
         message: "Login successfully !!",

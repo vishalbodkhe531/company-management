@@ -66,7 +66,6 @@ const EmoployeeDash = () => {
           {selectedTab === "all-projects" && <ProjectList />}
           {selectedTab === "employee-directory" && <EmployeeDirectory />}
           {selectedTab === "attendance-tracking" && <EmployeeAttendance />}
-          {selectedTab === "employee-documents" && <EmployeeDocuments />}
           {selectedTab === "payroll" && <EmployeePayroll />}
           {selectedTab === "notifications" && <Notifications />}
           {selectedTab === "setting" && <EmployeeSettings />}

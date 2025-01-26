@@ -81,6 +81,10 @@ export type Employee = {
   isVerified: string;
   profilePic: string;
   role?: string;
+  professionalSummary?: string;
+  employmentDetails?: string;
+  educationDetails?: string;
+  achievements?: string;
 };
 
 export interface requestEmpList {

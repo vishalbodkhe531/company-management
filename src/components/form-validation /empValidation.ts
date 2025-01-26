@@ -64,4 +64,18 @@ export const empSchema = z.object({
     .optional(),
 
   gender: z.string().nonempty("Select a valid gender").optional(),
+
+  professionalSummary: z.string().trim().optional(),
+
+  employmentDetails: z.string().trim().optional(),
+
+  educationDetails: z.string().trim().optional(),
+
+  achievements: z.string().trim().optional(),
+
+  // project: z
+  //   .string()
+  //   .trim()
+  //   .min(2, { message: "project name must be at least 2 characters long" })
+  //   .optional(),
 });
