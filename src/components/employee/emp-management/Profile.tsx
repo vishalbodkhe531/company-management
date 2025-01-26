@@ -27,7 +27,7 @@ import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { FaRegAddressCard } from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
@@ -63,7 +63,7 @@ const Profile = () => {
       employmentDetails: "",
       educationDetails: "",
       achievements: "",
-      // project: "",
+      project: [{ name: "", description: "" }],
     },
   });
 
@@ -75,6 +75,11 @@ const Profile = () => {
   } = form;
 
   console.log("employee : ", employee);
+
+  const { fields, append, remove, update } = useFieldArray({
+    control: form.control,
+    name: "project",
+  });
 
   useEffect(() => {
     if (employee) {
@@ -95,43 +100,95 @@ const Profile = () => {
     }
   }, [employee, reset]);
 
+  // const handleForm = handleSubmit(async (data) => {
+  //   // check between employee and data and give only changable field;
+  //   const updatedData = Object.keys(data).reduce((acc, key) => {
+  //     const employeeValue = employee?.[key as keyof typeof employee];
+  //     const dataValue = data[key as keyof EmpFormValue];
+
+  //     if (employeeValue !== undefined) {
+  //       if (
+  //         (key === "phoneNumber" && dataValue !== employeeValue.toString()) ||
+  //         (key !== "phoneNumber" && dataValue !== employeeValue)
+  //       ) {
+  //         acc[key as keyof EmpFormValue] = dataValue;
+  //       }
+  //     }
+
+  //     return acc;
+  //   }, {} as EmpFormValue);
+
+  //   // console.log("updatedData : ", employee);
+
+  //   const res = await empUpdate({ data: updatedData, id: employee!._id });
+  //   if ("data" in res && res.data) {
+  //     ToasterComponent({
+  //       message: "Successfully Updated You Profile!!",
+  //       description: "Thanks for updating your profile",
+  //       firstLabel: "Close",
+  //     });
+
+  //     dispatch(empExist(res.data as Employee));
+  //   } else if ("error" in res) {
+  //     const errorMessage = getErrorMessage(res.error);
+  //     ToasterComponent({
+  //       message: errorMessage,
+  //       description: "Profile update failed!!",
+  //       firstLabel: "Close",
+  //     });
+  //   }
+  // });
+
   const handleForm = handleSubmit(async (data) => {
-    // console.log(data);
-    // check between employee and data and give only changable field;
     const updatedData = Object.keys(data).reduce((acc, key) => {
       const employeeValue = employee?.[key as keyof typeof employee];
       const dataValue = data[key as keyof EmpFormValue];
 
       if (employeeValue !== undefined) {
-        if (
-          (key === "phoneNumber" && dataValue !== employeeValue.toString()) ||
-          (key !== "phoneNumber" && dataValue !== employeeValue)
-        ) {
-          acc[key as keyof EmpFormValue] = dataValue;
+        // Special handling for "project" (array of objects)
+        if (key === "project") {
+          if (
+            Array.isArray(dataValue) &&
+            JSON.stringify(dataValue) !== JSON.stringify(employeeValue)
+          ) {
+            acc[key as keyof EmpFormValue] = dataValue as {
+              name: string;
+              description: string;
+            }[];
+          }
+        } else if (key === "phoneNumber") {
+          // Special handling for "phoneNumber" (convert to string for comparison)
+          if (dataValue !== employeeValue.toString()) {
+            acc[key as keyof EmpFormValue] = dataValue as string;
+          }
+        } else {
+          // Handle other scalar fields
+          if (dataValue !== employeeValue) {
+            acc[key as keyof EmpFormValue] = dataValue as string;
+          }
         }
       }
 
       return acc;
-    }, {} as EmpFormValue);
+    }, {} as Record<keyof EmpFormValue, any>); // Use Record to allow indexing
 
-    // console.log("updatedData : ", employee);
-
+    // Call the update function
     const res = await empUpdate({ data: updatedData, id: employee!._id });
-    console.log(res);
+
+    // Handle the response
     if ("data" in res && res.data) {
       ToasterComponent({
-        message: "Successfully Updated You Profile!!",
+        message: "Successfully Updated Your Profile!",
         description: "Thanks for updating your profile",
         firstLabel: "Close",
       });
 
-      console.log("res.data : ", res.data);
       dispatch(empExist(res.data as Employee));
     } else if ("error" in res) {
       const errorMessage = getErrorMessage(res.error);
       ToasterComponent({
         message: errorMessage,
-        description: "Profile update failed!!",
+        description: "Profile update failed!",
         firstLabel: "Close",
       });
     }
@@ -471,23 +528,26 @@ const Profile = () => {
                     ></textarea>
                   </div>
                   {/* Projects */}
-                  {/* <div className="space-y-2 md:col-span-2">
+                  <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="project">Project Details</Label>
                     <div className="space-y-4">
-                      {form.watch("project")?.map((_, index) => (
+                      {fields.map((item, index) => (
                         <div
-                          key={index}
+                          key={item.id}
                           className="grid grid-cols-1 md:grid-cols-2 gap-4"
                         >
                           <div>
                             <Input
                               type="text"
                               placeholder="Project Name"
-                              {...register(`project.${index}.name`)}
+                              {...form.register(`project.${index}.name`)}
                             />
-                            {errors.project?.[index]?.name && (
+                            {form.formState.errors.project?.[index]?.name && (
                               <span className="text-errorText font-bold text-sm">
-                                {errors.project[index].name.message}
+                                {
+                                  form.formState.errors.project[index]?.name
+                                    ?.message
+                                }
                               </span>
                             )}
                           </div>
@@ -495,30 +555,53 @@ const Profile = () => {
                             <textarea
                               placeholder="Project Description"
                               className="w-full p-2 border rounded-md"
-                              {...register(`project.${index}.description`)}
+                              {...form.register(`project.${index}.description`)}
                             ></textarea>
-                            {errors.project?.[index]?.description && (
+                            {form.formState.errors.project?.[index]
+                              ?.description && (
                               <span className="text-errorText font-bold text-sm">
-                                {errors.project[index].description.message}
+                                {
+                                  form.formState.errors.project[index]
+                                    ?.description?.message
+                                }
                               </span>
                             )}
+                          </div>
+                          <div className="flex gap-2 mt-2">
+                            <Button
+                              type="button"
+                              className="btn-primary"
+                              onClick={() => {
+                                // Example update: you can edit values directly or create a modal for this
+                                update(index, {
+                                  name: "Updated Name",
+                                  description: "Updated Description",
+                                });
+                              }}
+                            >
+                              Update
+                            </Button>
+                            <Button
+                              type="button"
+                              className="btn-danger"
+                              onClick={() => remove(index)} // This removes the project from the array
+                            >
+                              Delete
+                            </Button>
                           </div>
                         </div>
                       ))}
                       <Button
                         type="button"
                         className="btn-secondary mt-4"
-                        onClick={() =>
-                          form.setValue("project", [
-                            ...(form.watch("project") || []),
-                            { name: "", description: "" },
-                          ])
+                        onClick={
+                          () => append({ name: "", description: "" }) // Adds a new project
                         }
                       >
                         Add Project
                       </Button>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
                 {/* Submit Button */}
                 <div className="w-full flex justify-center mt-12">

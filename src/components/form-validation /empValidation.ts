@@ -73,9 +73,12 @@ export const empSchema = z.object({
 
   achievements: z.string().trim().optional(),
 
-  // project: z
-  //   .string()
-  //   .trim()
-  //   .min(2, { message: "project name must be at least 2 characters long" })
-  //   .optional(),
+  project: z
+    .array(
+      z.object({
+        name: z.string().trim(),
+        description: z.string().trim(),
+      })
+    )
+    .optional(),
 });

@@ -85,6 +85,7 @@ export type Employee = {
   employmentDetails?: string;
   educationDetails?: string;
   achievements?: string;
+  project: [];
 };
 
 export interface requestEmpList {
