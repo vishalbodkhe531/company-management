@@ -29,11 +29,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const [updateAdmin] = useUpdateAdminMutation();
   const [logoutAdmin] = useLogoutAdminMutation();
@@ -124,6 +127,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
           firstLabel: "Close",
         });
         dispatch(adminNotExist());
+        navigate("/");
         switer(false);
       }
     } catch (error) {
