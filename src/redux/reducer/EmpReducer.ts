@@ -14,9 +14,10 @@ export const empReducers = createSlice({
       state.employee = action.payload;
     },
     empNotExist: (state) => {
+      console.log(`first`);
       state.employee = null;
     },
-  },  
+  },
 });
 
 export const { empExist, empNotExist } = empReducers.actions;

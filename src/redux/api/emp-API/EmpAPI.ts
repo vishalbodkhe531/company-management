@@ -73,6 +73,14 @@ export const empAPI = createApi({
     logoutEmp: builder.mutation<messageResponce, void>({
       query: () => ({ url: "logout" }),
     }),
+
+    deleteEmp: builder.mutation<messageResponce, string>({
+      query: (id) => ({
+        url: id,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Requests"],
+    }),
   }),
 });
 
@@ -85,4 +93,5 @@ export const {
   useRejectEmpRequestsMutation,
   useEmpUpdateMutation,
   useLogoutEmpMutation,
+  useDeleteEmpMutation,
 } = empAPI;

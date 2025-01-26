@@ -1,9 +1,19 @@
+import ToasterComponent, {
+  getErrorMessage,
+} from "@/components/toaster/Toaster";
 import { Button } from "@/components/ui/button";
-import { useAllEmployeesQuery } from "@/redux/api/emp-API/EmpAPI";
+import {
+  useAllEmployeesQuery,
+  useDeleteEmpMutation,
+} from "@/redux/api/emp-API/EmpAPI";
+import { empNotExist } from "@/redux/reducer/EmpReducer";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const EmployeeSettings = () => {
   const { data, isLoading, isError } = useAllEmployeesQuery();
+
+  const dispatch = useDispatch();
 
   const [expandedId, setExpandedId] = useState<string | null>("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,12 +23,27 @@ const EmployeeSettings = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  const handleEdit = (id: string) => {
-    console.log(`Editing details for employee with id ${id}`);
-  };
+  const [deleteEmp] = useDeleteEmpMutation();
 
-  const handleDelete = (id: string) => {
-    console.log(`Deleting employee with id ${id}`);
+  const handleDelete = async (id: string) => {
+    const res = await deleteEmp(id);
+
+    if ("data" in res && res.data) {
+      console.log("data : ", res.data);
+      dispatch(empNotExist());
+      ToasterComponent({
+        message: res.data.message,
+        description: "Thanks for Login",
+        firstLabel: "Close",
+      });
+    } else if ("error" in res) {
+      const errorMessage = getErrorMessage(res.error);
+      ToasterComponent({
+        message: errorMessage,
+        description: "Error while delete employee !!",
+        firstLabel: "Close",
+      });
+    }
   };
 
   if (isError || !data?.allRequests) {
@@ -143,12 +168,6 @@ const EmployeeSettings = () => {
                     </p>
                   </div>
                   <div className="flex gap-4">
-                    <Button
-                      onClick={() => handleEdit(employee._id)}
-                      className="flex-1 bg-btnGradientFrom text-white hover:bg-green-600 py-2 rounded-lg text-sm"
-                    >
-                      Edit
-                    </Button>
                     <Button
                       onClick={() => handleDelete(employee._id)}
                       className="flex-1 bg-btnOrangeTo text-white hover:bg-red-600 py-2 rounded-lg text-sm"

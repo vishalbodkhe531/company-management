@@ -1,9 +1,13 @@
+import { useGetLoggedUserQuery } from "@/redux/api/admin-API/GetLoggedUserAPI";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
 function SecureRoutes() {
   const { admin } = useSelector((state: RootState) => state.adminReducers);
+
+  const { data } = useGetLoggedUserQuery();
+  console.log(data);
 
   // if (!admin?.email) {
   //   return (
@@ -15,7 +19,7 @@ function SecureRoutes() {
   //         <span className="sr-only">Loading...</span>
   //       </div>
   //     </div>
-  //   );
+  //   );`
   // }
 
   return admin ? <Outlet /> : <Navigate to="/" />;

@@ -1,16 +1,15 @@
 import EmployeeAttendance from "@/components/admin/emp-management/EmpAttendance";
 import EmployeeDirectory from "@/components/admin/emp-management/EmpDirectory";
-import EmployeeDocuments from "@/components/admin/emp-management/EmpDocuments";
 import EmployeeOverview from "@/components/admin/emp-management/EmpOverview";
+import EmployeePayroll from "@/components/admin/emp-management/EmpPayroll";
 import EmployeeSettings from "@/components/admin/emp-management/EmpSettings";
+import Notifications from "@/components/admin/emp-management/Notifications";
 import ProjectList from "@/components/admin/project-management/ProjectList";
 import ProjectTabs from "@/components/admin/project-management/ProjectTabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import EmpTabs from "../../../components/admin/emp-management/EmpTabs";
-import EmployeePayroll from "@/components/admin/emp-management/EmpPayroll";
-import Notifications from "@/components/admin/emp-management/Notifications";
 
 const EmoployeeDash = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
