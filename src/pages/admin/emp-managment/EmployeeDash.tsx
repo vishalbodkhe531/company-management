@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import EmpTabs from "../../../components/admin/emp-management/EmpTabs";
 
-const EmoployeeDash = () => {
+const EmployeeDash = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
 
   return (
@@ -74,4 +74,4 @@ const EmoployeeDash = () => {
   );
 };
 
-export default EmoployeeDash;
+export default EmployeeDash;

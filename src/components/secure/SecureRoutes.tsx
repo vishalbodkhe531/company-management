@@ -1,66 +1,99 @@
-// import { useGetLoggedUserQuery } from "@/redux/api/admin-API/GetLoggedUserAPI";
-// import { RootState } from "@/redux/store";
-// import { useSelector } from "react-redux";
 // import { Navigate, Outlet } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/redux/store"; // Adjust the import based on your project structure
+// import { useGetLoggedUserQuery } from "@/redux/api/admin-API/GetLoggedUserAPI";
+// import { useEffect } from "react";
 
-// function SecureRoutes() {
+// interface SecureRoutesProps {
+//   allowedRoles: string[]; // Roles that are allowed to access the route
+// }
+
+// function SecureRoutes({ allowedRoles }: SecureRoutesProps) {
+//   const { employee } = useSelector((state: RootState) => state.empReducers);
 //   const { admin } = useSelector((state: RootState) => state.adminReducers);
 
-//   const { data } = useGetLoggedUserQuery();
-//   console.log(data);
+//   const { data, isLoading } = useGetLoggedUserQuery();
 
-//   // if (!admin?.email) {
-//   //   return (
-//   //     <div className="flex items-center justify-center h-screen">
-//   //       <div
-//   //         className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
-//   //         role="status"
-//   //       >
-//   //         <span className="sr-only">Loading...</span>
-//   //       </div>
-//   //     </div>
-//   //   );`
-//   // }
+//   console.log(data?.user.role);
 
-//   return admin ? <Outlet /> : <Navigate to="/" />;
+//   // const {user} = data;
+//   // const {role} = user;
+//   // console.log(role);
+
+//   const role = data?.user.role;
+//   console.log(role);
+//   console.log(isLoading);
+
+//   // const user = admin || employee;
+//   // let user;
+
+//   // useEffect(() => {
+//   //   if (role === "admin") {
+//   //     user = true;
+//   //   } else if (role === "employee") {
+//   //     user = true;
+//   //   }
+//   // }, []);
+
+//   if (isLoading) {
+//     // <div className="">Locding..</div>;
+//     setTimeout(async () => {
+//       console.log(`Hello!`);
+//     }, 2000);
+//   }
+
+//   if (!role) {
+//     // Redirect to the home page if the user is not logged in
+//     return <Navigate to="/" />;
+//   }
+
+//   // Check if the user's role is included in the allowed roles
+//   if (allowedRoles.includes(role!)) {
+//     return <Outlet />;
+//   }
+
+//   // If the user's role is not allowed, redirect to a "Not Authorized" page
+//   return <Navigate to="/not-authorized" />;
 // }
 
 // export default SecureRoutes;
-import { useGetLoggedUserQuery } from "@/redux/api/admin-API/GetLoggedUserAPI";
-import { adminExist } from "@/redux/reducer/AdminReducer";
-import { empExist } from "@/redux/reducer/EmpReducer";
-import { Admin, Employee } from "@/types/types";
-import { useDispatch } from "react-redux";
+
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store"; // Adjust the import based on your project structure
+import { useGetLoggedUserQuery } from "@/redux/api/admin-API/GetLoggedUserAPI";
+import React from "react";
 
-function SecureRoutes({ allowedRoles }: { allowedRoles: string[] }) {
-  const dispatch = useDispatch();
-  const { data, isLoading } = useGetLoggedUserQuery();
+interface SecureRoutesProps {
+  allowedRoles: string[]; // Roles that are allowed to access the route
+}
 
-  // Show a loading spinner until the user data is fetched
-  if (isLoading) return <div>Loading...</div>;
+function SecureRoutes({ allowedRoles }: SecureRoutesProps) {
+  const { isLoading, data, isError } = useGetLoggedUserQuery(); // Fetch user data
+  const role = data?.user.role;
 
-  // Check if user data exists and matches allowed roles
-  const user = data?.user;
-  if (user) {
-    const { role } = user;
-
-    console.log(role);
-
-    if (role && allowedRoles.includes(role)) {
-      // // Dispatch the appropriate action based on the role
-      // if (role === "admin") {
-      //   dispatch(adminExist(user as Admin));
-      // } else if (role === "employee") {
-      //   dispatch(empExist(user as Employee));
-      // }
-
-      return <Outlet />; // Render child routes
-    }
+  if (isLoading) {
+    // Show a loading indicator while waiting for the data
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading...</p>
+      </div>
+    );
   }
 
-  // Redirect if user is not authenticated or lacks the proper role
-  return <Navigate to="/" />;
+  if (isError || !role) {
+    // Redirect to home page if there's an error or no role
+    return <Navigate to="/" />;
+  }
+
+  // Check if the user's role is included in the allowed roles
+  console.log(role);
+  if (allowedRoles.includes(role)) {
+    return <Outlet />;
+  }
+
+  // Redirect to a "Not Authorized" page if the user's role is not allowed
+  return <Navigate to="/not-authorized" />;
 }
 
 export default SecureRoutes;
