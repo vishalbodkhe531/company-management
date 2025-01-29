@@ -13,8 +13,8 @@ import AdminHome from "./pages/admin/home/AdminHome";
 import AuthEmpPage from "./pages/employee/authentication/AuthPage";
 import EmpDash from "./pages/employee/dashboard/EmpDash";
 import { useGetLoggedUserQuery } from "./redux/api/admin-API/GetLoggedUserAPI";
-import { adminExist } from "./redux/reducer/AdminReducer";
-import { empExist } from "./redux/reducer/EmpReducer";
+import { adminExist, adminLoading } from "./redux/reducer/AdminReducer";
+import { empExist, empLoading } from "./redux/reducer/EmpReducer";
 import { Admin, Employee } from "./types/types";
 
 const Structure = lazy(() => import("./layout/Structure"));
@@ -38,9 +38,14 @@ const EmoployeeDash = lazy(
 
 function AppRoutes() {
   const dispatch = useDispatch();
-  const { data } = useGetLoggedUserQuery();
+  const { data, isLoading } = useGetLoggedUserQuery();
 
   useEffect(() => {
+    if (isLoading) {
+      dispatch(empLoading());
+      dispatch(adminLoading());
+    }
+
     if (data?.user) {
       if (data.user.role === "admin") {
         dispatch(adminExist(data.user as Admin));
@@ -55,6 +60,7 @@ function AppRoutes() {
       <Suspense fallback={<Loader />}>
         <Router>
           <Routes>
+            {/* Public Routes */}
             <Route
               path="/"
               element={
@@ -90,10 +96,13 @@ function AppRoutes() {
             <Route path="emp" element={<Structure />}>
               <Route path="sign-in" element={<AuthEmpPage />} />
               <Route path="sign-up" element={<AuthEmpPage />} />
+            </Route>
+            <Route
+              path="emp"
+              element={<SecureRoutes allowedRoles={["employee"]} />}
+            >
               <Route path="payroll" element={<Payroll />} />
-              <Route element={<SecureRoutes allowedRoles={["employee"]} />}>
-                <Route path="dashboard" element={<EmpDash />} />
-              </Route>
+              <Route path="dashboard" element={<EmpDash />} />
             </Route>
 
             {/* Catch-All Route */}

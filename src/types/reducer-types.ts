@@ -25,4 +25,5 @@ export type adminProjectInitialState = {
 
 export interface empReducerInitialState {
   employee: Employee | null;
+  loading: boolean;
 }

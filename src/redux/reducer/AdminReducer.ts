@@ -19,7 +19,12 @@ export const adminReducers = createSlice({
       state.admin = null;
       state.loading = false;
     },
+
+    adminLoading: (state) => {
+      state.loading = true;
+    },
   },
 });
 
-export const { adminExist, adminNotExist } = adminReducers.actions;
+export const { adminExist, adminNotExist, adminLoading } =
+  adminReducers.actions;
