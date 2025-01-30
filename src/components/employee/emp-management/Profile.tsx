@@ -5,7 +5,7 @@ import ToasterComponent, {
 } from "@/components/toaster/Toaster";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -477,7 +477,74 @@ const Profile = () => {
             </Form>
           </div>
 
+          {/* 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 */}
           {/* Document Section */}
+
+          <Card className="w-full mx-auto p-8 shadow-2xl border-2 rounded-xl bg-white">
+            <CardHeader>
+              <h1 className="text-3xl font-extrabold text-center text-gray-800">
+                Document Information
+              </h1>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Professional Summary */}
+                <div className="space-y-2">
+                  <Label className="text-lg font-semibold">
+                    Professional Summary
+                  </Label>
+                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip  shadow-sm">
+                    {employee?.professionalSummary ||
+                      "No information available"}
+                  </div>
+                </div>
+                {/* Employment Details */}
+                <div className="space-y-2">
+                  <Label className="text-lg font-semibold">
+                    Employment Details
+                  </Label>
+                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm">
+                    {employee?.employmentDetails || "No information available"}
+                  </div>
+                </div>
+                {/* Education Details */}
+                <div className="space-y-2">
+                  <Label className="text-lg font-semibold">
+                    Education Details
+                  </Label>
+                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm">
+                    {employee?.educationDetails || "No information available"}
+                  </div>
+                </div>
+                {/* Achievements */}
+                <div className="space-y-2">
+                  <Label className="text-lg font-semibold">Achievements</Label>
+                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm overflow-x-clip">
+                    {employee?.achievements || "No information available"}
+                  </div>
+                </div>
+                {/* Projects */}
+                <div className="space-y-2 col-span-2">
+                  <Label className="text-lg font-semibold">
+                    Project Details
+                  </Label>
+                  <div className="w-full p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-auto shadow-sm">
+                    <div className="font-semibold text-xl text-gray-900">
+                      E-Commerce
+                    </div>
+                    <div>No project details available</div>
+                  </div>
+                </div>
+              </div>
+              {/* Submit Button */}
+              <div className="w-full flex justify-center mt-12">
+                <Button type="submit" className="btn-gradient w-[40%]">
+                  Update Document
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="w-full mx-auto p-6 bg-white shadow-xl border-2 rounded-lg">
             <h1 className="text-2xl font-bold mb-6">Document Information</h1>
             <Form {...form}>
@@ -490,19 +557,19 @@ const Profile = () => {
                     </Label>
                     <textarea
                       id="professionalSummary"
-                      className="w-full p-2 border rounded-md"
+                      className="w-full h-[10rem] p-2 border rounded-md"
                       placeholder="Write your professional summary here"
                       {...register("professionalSummary")}
                     ></textarea>
                   </div>
                   {/* Employment Details */}
-                  <div className="space-y-2 md:col-span-2">
+                  <div className="space-y-2 h-[10rem] md:col-span-2">
                     <Label htmlFor="employmentDetails">
                       Employment Details
                     </Label>
                     <textarea
                       id="employmentDetails"
-                      className="w-full p-2 border rounded-md"
+                      className="w-full p-2 h-[10rem] border rounded-md"
                       placeholder="Provide details about your employment"
                       {...register("employmentDetails")}
                     ></textarea>
@@ -512,17 +579,17 @@ const Profile = () => {
                     <Label htmlFor="educationDetails">Education Details</Label>
                     <textarea
                       id="educationDetails"
-                      className="w-full p-2 border rounded-md"
+                      className="w-full p-2 h-[10rem] border rounded-md"
                       placeholder="Provide details about your education"
                       {...register("educationDetails")}
                     ></textarea>
                   </div>
                   {/* Achievements */}
-                  <div className="space-y-2 md:col-span-2">
+                  <div className="space-y-2  md:col-span-2">
                     <Label htmlFor="achievements">Achievements</Label>
                     <textarea
                       id="achievements"
-                      className="w-full p-2 border rounded-md"
+                      className="w-full p-2  h-[10rem] border rounded-md"
                       placeholder="List your achievements"
                       {...register("achievements")}
                     ></textarea>

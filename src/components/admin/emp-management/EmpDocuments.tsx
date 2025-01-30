@@ -22,7 +22,6 @@ function EmpDocuments({ switchDetailes, setToggle }: EmpPropsType) {
     skill,
     gender,
     address,
-    isVerified,
     profilePic,
     role,
   } = switchDetailes;
