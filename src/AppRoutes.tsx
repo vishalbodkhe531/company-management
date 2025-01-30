@@ -28,10 +28,6 @@ const ProjectDashboard = lazy(
   () => import("./pages/admin/projects-dashboard/ProjectDashboard")
 );
 
-const Payroll = lazy(
-  () => import("./components/admin/emp-management/EmpPayroll")
-);
-
 const EmoployeeDash = lazy(
   () => import("./pages/admin/emp-managment/EmployeeDash")
 );
@@ -101,7 +97,6 @@ function AppRoutes() {
               path="emp"
               element={<SecureRoutes allowedRoles={["employee"]} />}
             >
-              <Route path="payroll" element={<Payroll />} />
               <Route path="dashboard" element={<EmpDash />} />
             </Route>
 

@@ -5,8 +5,6 @@ import { useEffect } from "react";
 function Notifications() {
   const { data, refetch, isLoading } = useAllEmpRequestsQuery();
 
-  console.log("data : ", data);
-
   useEffect(() => {
     refetch();
   }, []);

@@ -1,6 +1,8 @@
 import {
   allRequest,
   empLoginRequest,
+  empSkillResponse,
+  empTrendsResponse,
   empUpdateRequest,
   messageResponce,
 } from "@/types/api-types";
@@ -81,6 +83,16 @@ export const empAPI = createApi({
       }),
       invalidatesTags: ["Requests"],
     }),
+
+    skillGraph: builder.query<empSkillResponse, void>({
+      query: () => ({ url: "department-distribution" }),
+      providesTags: ["Requests"],
+    }),
+
+    empTrends: builder.query<empTrendsResponse, void>({
+      query: () => ({ url: "emp-trends" }),
+      providesTags: ["Requests"],
+    }),
   }),
 });
 
@@ -94,4 +106,6 @@ export const {
   useEmpUpdateMutation,
   useLogoutEmpMutation,
   useDeleteEmpMutation,
+  useSkillGraphQuery,
+  useEmpTrendsQuery,
 } = empAPI;

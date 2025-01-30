@@ -62,3 +62,14 @@ export type empUpdateRequest = {
   id: string;
   data: updateEmp;
 };
+
+export type empSkillResponse = {
+  allSkills: { _id: string; count: number }[];
+};
+
+export type empTrendsResponse = {
+  labels: string[];
+  datasets: {
+    data: number[];
+  };
+};

@@ -18,8 +18,6 @@ function SecureRoutes({ allowedRoles }: SecureRoutesProps) {
 
   const isAuthorized = allowedRoles.includes(userRole || "");
 
-  console.log(isAuthorized);
-
   if (isAuthorized) {
     return <Outlet />;
   }

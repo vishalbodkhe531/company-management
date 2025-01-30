@@ -13,8 +13,6 @@ function EmpTabs({
     { value: "home", label: "Home" },
     { value: "overview", label: "Overview" },
     { value: "employee-directory", label: "Employee Directory" },
-    { value: "attendance-tracking", label: "Attendance Tracking" },
-    { value: "payroll", label: "Payroll" },
     { value: "notifications", label: "Notifications" },
     { value: "setting", label: "Settings" },
   ];

@@ -1,4 +1,8 @@
 import {
+  useEmpTrendsQuery,
+  useSkillGraphQuery,
+} from "@/redux/api/emp-API/EmpAPI";
+import {
   ArcElement,
   BarElement,
   CategoryScale,
@@ -23,6 +27,9 @@ ChartJS.register(
 );
 
 const EmployeeOverview = () => {
+  const { data: skills } = useSkillGraphQuery();
+  const { data: trends } = useEmpTrendsQuery();
+
   const pieData = {
     labels: ["Active", "On Leave", "Absent"],
     datasets: [
@@ -66,11 +73,11 @@ const EmployeeOverview = () => {
   };
 
   const lineData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    labels: trends?.labels || [],
     datasets: [
       {
         label: "Employees",
-        data: [150, 160, 170, 180, 190, 200, 230],
+        data: trends?.datasets[0]?.data || [],
         borderColor: "#3B82F6",
         backgroundColor: "rgba(59, 130, 246, 0.5)",
         fill: true,
@@ -103,11 +110,11 @@ const EmployeeOverview = () => {
   };
 
   const barData = {
-    labels: ["Engineering", "HR", "Sales", "Marketing", "Finance", "Support"],
+    labels: skills?.allSkills.map((item) => item._id) || [],
     datasets: [
       {
-        label: "Employees per Department",
-        data: [50, 20, 30, 25, 15, 10],
+        label: "totle skills",
+        data: skills?.allSkills.map((item) => item.count) || [],
         backgroundColor: [
           "#6366F1",
           "#10B981",
@@ -128,6 +135,9 @@ const EmployeeOverview = () => {
         titleColor: "#FFFFFF",
         bodyColor: "#FFFFFF",
       },
+    },
+    legend: {
+      display: false, // Hide legend
     },
     responsive: true,
     scales: {

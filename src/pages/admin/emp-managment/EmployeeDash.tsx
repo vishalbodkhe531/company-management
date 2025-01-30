@@ -1,7 +1,5 @@
-import EmployeeAttendance from "@/components/admin/emp-management/EmpAttendance";
 import EmployeeDirectory from "@/components/admin/emp-management/EmpDirectory";
 import EmployeeOverview from "@/components/admin/emp-management/EmpOverview";
-import EmployeePayroll from "@/components/admin/emp-management/EmpPayroll";
 import EmployeeSettings from "@/components/admin/emp-management/EmpSettings";
 import Notifications from "@/components/admin/emp-management/Notifications";
 import ProjectList from "@/components/admin/project-management/ProjectList";
@@ -64,8 +62,6 @@ const EmployeeDash = () => {
           {selectedTab === "overview" && <EmployeeOverview />}
           {selectedTab === "all-projects" && <ProjectList />}
           {selectedTab === "employee-directory" && <EmployeeDirectory />}
-          {selectedTab === "attendance-tracking" && <EmployeeAttendance />}
-          {selectedTab === "payroll" && <EmployeePayroll />}
           {selectedTab === "notifications" && <Notifications />}
           {selectedTab === "setting" && <EmployeeSettings />}
         </div>
