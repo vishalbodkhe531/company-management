@@ -16,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import {
   useEmpUpdateMutation,
   useLogoutEmpMutation,
@@ -26,7 +28,7 @@ import { Employee } from "@/types/types";
 import { EmpFormValue } from "@/types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { FaRegAddressCard } from "react-icons/fa";
@@ -46,6 +48,8 @@ const Profile = () => {
   const [empUpdate] = useEmpUpdateMutation();
 
   const [logoutEmp] = useLogoutEmpMutation();
+
+  const [switchUpdate, setSwitchUpdate] = useState(false);
 
   const form = useForm<EmpFormValue>({
     resolver: zodResolver(empSchema),
@@ -74,9 +78,9 @@ const Profile = () => {
     reset,
   } = form;
 
-  console.log("employee : ", employee);
+  console.log("employee : ", employee?.project[0].name);
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control: form.control,
     name: "project",
   });
@@ -96,50 +100,15 @@ const Profile = () => {
         employmentDetails: employee.employmentDetails,
         educationDetails: employee.educationDetails,
         achievements: employee.achievements,
+        project: employee.project,
       });
     }
   }, [employee, reset]);
 
-  // const handleForm = handleSubmit(async (data) => {
-  //   // check between employee and data and give only changable field;
-  //   const updatedData = Object.keys(data).reduce((acc, key) => {
-  //     const employeeValue = employee?.[key as keyof typeof employee];
-  //     const dataValue = data[key as keyof EmpFormValue];
-
-  //     if (employeeValue !== undefined) {
-  //       if (
-  //         (key === "phoneNumber" && dataValue !== employeeValue.toString()) ||
-  //         (key !== "phoneNumber" && dataValue !== employeeValue)
-  //       ) {
-  //         acc[key as keyof EmpFormValue] = dataValue;
-  //       }
-  //     }
-
-  //     return acc;
-  //   }, {} as EmpFormValue);
-
-  //   // console.log("updatedData : ", employee);
-
-  //   const res = await empUpdate({ data: updatedData, id: employee!._id });
-  //   if ("data" in res && res.data) {
-  //     ToasterComponent({
-  //       message: "Successfully Updated You Profile!!",
-  //       description: "Thanks for updating your profile",
-  //       firstLabel: "Close",
-  //     });
-
-  //     dispatch(empExist(res.data as Employee));
-  //   } else if ("error" in res) {
-  //     const errorMessage = getErrorMessage(res.error);
-  //     ToasterComponent({
-  //       message: errorMessage,
-  //       description: "Profile update failed!!",
-  //       firstLabel: "Close",
-  //     });
-  //   }
-  // });
-
   const handleForm = handleSubmit(async (data) => {
+    console.log(data);
+    setSwitchUpdate(false);
+
     const updatedData = Object.keys(data).reduce((acc, key) => {
       const employeeValue = employee?.[key as keyof typeof employee];
       const dataValue = data[key as keyof EmpFormValue];
@@ -157,12 +126,10 @@ const Profile = () => {
             }[];
           }
         } else if (key === "phoneNumber") {
-          // Special handling for "phoneNumber" (convert to string for comparison)
           if (dataValue !== employeeValue.toString()) {
             acc[key as keyof EmpFormValue] = dataValue as string;
           }
         } else {
-          // Handle other scalar fields
           if (dataValue !== employeeValue) {
             acc[key as keyof EmpFormValue] = dataValue as string;
           }
@@ -170,12 +137,10 @@ const Profile = () => {
       }
 
       return acc;
-    }, {} as Record<keyof EmpFormValue, any>); // Use Record to allow indexing
+    }, {} as Record<keyof EmpFormValue, any>);
 
-    // Call the update function
     const res = await empUpdate({ data: updatedData, id: employee!._id });
 
-    // Handle the response
     if ("data" in res && res.data) {
       ToasterComponent({
         message: "Successfully Updated Your Profile!",
@@ -201,7 +166,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-500 p-8">
+    <div className="min-h-screen bg-gray-500 p-8 select-none">
       <motion.div
         className="max-w-full mx-auto "
         initial={{ opacity: 0, y: 50 }}
@@ -477,208 +442,239 @@ const Profile = () => {
             </Form>
           </div>
 
-          {/* 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 */}
           {/* Document Section */}
-
-          <Card className="w-full mx-auto p-8 shadow-2xl border-2 rounded-xl bg-white">
-            <CardHeader>
-              <h1 className="text-3xl font-extrabold text-center text-gray-800">
-                Document Information
-              </h1>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Professional Summary */}
-                <div className="space-y-2">
-                  <Label className="text-lg font-semibold">
-                    Professional Summary
-                  </Label>
-                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip  shadow-sm">
-                    {employee?.professionalSummary ||
-                      "No information available"}
-                  </div>
-                </div>
-                {/* Employment Details */}
-                <div className="space-y-2">
-                  <Label className="text-lg font-semibold">
-                    Employment Details
-                  </Label>
-                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm">
-                    {employee?.employmentDetails || "No information available"}
-                  </div>
-                </div>
-                {/* Education Details */}
-                <div className="space-y-2">
-                  <Label className="text-lg font-semibold">
-                    Education Details
-                  </Label>
-                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm">
-                    {employee?.educationDetails || "No information available"}
-                  </div>
-                </div>
-                {/* Achievements */}
-                <div className="space-y-2">
-                  <Label className="text-lg font-semibold">Achievements</Label>
-                  <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm overflow-x-clip">
-                    {employee?.achievements || "No information available"}
-                  </div>
-                </div>
-                {/* Projects */}
-                <div className="space-y-2 col-span-2">
-                  <Label className="text-lg font-semibold">
-                    Project Details
-                  </Label>
-                  <div className="w-full p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-auto shadow-sm">
-                    <div className="font-semibold text-xl text-gray-900">
-                      E-Commerce
-                    </div>
-                    <div>No project details available</div>
-                  </div>
-                </div>
-              </div>
-              {/* Submit Button */}
-              <div className="w-full flex justify-center mt-12">
-                <Button type="submit" className="btn-gradient w-[40%]">
-                  Update Document
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="w-full mx-auto p-6 bg-white shadow-xl border-2 rounded-lg">
-            <h1 className="text-2xl font-bold mb-6">Document Information</h1>
-            <Form {...form}>
-              <form onSubmit={handleForm}>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 ">
+          {!switchUpdate ? (
+            <Card className="w-full mx-auto p-8 shadow-2xl border-2 rounded-xl bg-white">
+              <CardHeader>
+                <h1 className="text-3xl font-extrabold text-center text-gray-800">
+                  Document Information
+                </h1>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Professional Summary */}
-                  <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="professionalSummary">
+                  <div className="space-y-2">
+                    <Label className="text-lg font-semibold">
                       Professional Summary
                     </Label>
-                    <textarea
-                      id="professionalSummary"
-                      className="w-full h-[10rem] p-2 border rounded-md"
-                      placeholder="Write your professional summary here"
-                      {...register("professionalSummary")}
-                    ></textarea>
+                    <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip  shadow-sm">
+                      {employee?.professionalSummary ||
+                        "No information available"}
+                    </div>
                   </div>
                   {/* Employment Details */}
-                  <div className="space-y-2 h-[10rem] md:col-span-2">
-                    <Label htmlFor="employmentDetails">
+                  <div className="space-y-2">
+                    <Label className="text-lg font-semibold">
                       Employment Details
                     </Label>
-                    <textarea
-                      id="employmentDetails"
-                      className="w-full p-2 h-[10rem] border rounded-md"
-                      placeholder="Provide details about your employment"
-                      {...register("employmentDetails")}
-                    ></textarea>
+                    <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm">
+                      {employee?.employmentDetails ||
+                        "No information available"}
+                    </div>
                   </div>
                   {/* Education Details */}
-                  <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="educationDetails">Education Details</Label>
-                    <textarea
-                      id="educationDetails"
-                      className="w-full p-2 h-[10rem] border rounded-md"
-                      placeholder="Provide details about your education"
-                      {...register("educationDetails")}
-                    ></textarea>
+                  <div className="space-y-2">
+                    <Label className="text-lg font-semibold">
+                      Education Details
+                    </Label>
+                    <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm">
+                      {employee?.educationDetails || "No information available"}
+                    </div>
                   </div>
                   {/* Achievements */}
-                  <div className="space-y-2  md:col-span-2">
-                    <Label htmlFor="achievements">Achievements</Label>
-                    <textarea
-                      id="achievements"
-                      className="w-full p-2  h-[10rem] border rounded-md"
-                      placeholder="List your achievements"
-                      {...register("achievements")}
-                    ></textarea>
+                  <div className="space-y-2">
+                    <Label className="text-lg font-semibold">
+                      Achievements
+                    </Label>
+                    <div className="w-full h-32 p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-clip shadow-sm overflow-x-clip">
+                      {employee?.achievements || "No information available"}
+                    </div>
                   </div>
                   {/* Projects */}
-                  <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="project">Project Details</Label>
-                    <div className="space-y-4">
-                      {fields.map((item, index) => (
-                        <div
-                          key={item.id}
-                          className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                        >
-                          <div>
-                            <Input
-                              type="text"
-                              placeholder="Project Name"
-                              {...form.register(`project.${index}.name`)}
-                            />
-                            {form.formState.errors.project?.[index]?.name && (
-                              <span className="text-errorText font-bold text-sm">
-                                {
-                                  form.formState.errors.project[index]?.name
-                                    ?.message
-                                }
-                              </span>
-                            )}
-                          </div>
-                          <div>
-                            <textarea
-                              placeholder="Project Description"
-                              className="w-full p-2 border rounded-md"
-                              {...form.register(`project.${index}.description`)}
-                            ></textarea>
-                            {form.formState.errors.project?.[index]
-                              ?.description && (
-                              <span className="text-errorText font-bold text-sm">
-                                {
-                                  form.formState.errors.project[index]
-                                    ?.description?.message
-                                }
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex gap-2 mt-2">
-                            <Button
-                              type="button"
-                              className="btn-primary"
-                              onClick={() => {
-                                // Example update: you can edit values directly or create a modal for this
-                                update(index, {
-                                  name: "Updated Name",
-                                  description: "Updated Description",
-                                });
-                              }}
-                            >
-                              Update
-                            </Button>
-                            <Button
-                              type="button"
-                              className="btn-danger"
-                              onClick={() => remove(index)} // This removes the project from the array
-                            >
-                              Delete
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                      <Button
-                        type="button"
-                        className="btn-secondary mt-4"
-                        onClick={
-                          () => append({ name: "", description: "" }) // Adds a new project
-                        }
+                  <div className="space-y-2 col-span-2">
+                    <Label className="text-lg font-semibold">
+                      Project Details
+                    </Label>
+
+                    {employee?.project.map((item) => (
+                      <div
+                        className="w-full p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-auto shadow-sm"
+                        key={item._id}
                       >
-                        Add Project
-                      </Button>
-                    </div>
+                        <div className="font-semibold text-xl text-gray-900">
+                          {item.name}
+                        </div>
+                        <div>{item.description}</div>
+                      </div>
+                    ))}
+
+                    {/* <div className="w-full p-4 border rounded-lg bg-gray-100 text-gray-700 overflow-y-auto shadow-sm">
+                      <div className="font-semibold text-xl text-gray-900">
+                        E-Commerce
+                      </div>
+                      <div>No project details available</div>
+                    </div> */}
                   </div>
                 </div>
                 {/* Submit Button */}
                 <div className="w-full flex justify-center mt-12">
-                  <Button type="submit" className="btn-gradient w-[40%]">
+                  <Button
+                    type="submit"
+                    className="btn-gradient w-[40%]"
+                    onClick={() => setSwitchUpdate(true)}
+                  >
                     Update Document
                   </Button>
                 </div>
-              </form>
-            </Form>
-          </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="w-full mx-auto p-6 bg-white shadow-xl border-2 rounded-lg">
+              <h1 className="text-2xl font-bold mb-6">Document Information</h1>
+              <Form {...form}>
+                <form onSubmit={handleForm}>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6 ">
+                    {/* Professional Summary */}
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="professionalSummary">
+                        Professional Summary
+                      </Label>
+                      <textarea
+                        id="professionalSummary"
+                        className="w-full h-[10rem] p-2 border rounded-md"
+                        placeholder="Write your professional summary here"
+                        {...register("professionalSummary")}
+                      ></textarea>
+                    </div>
+                    {/* Employment Details */}
+                    <div className="space-y-2 h-[10rem] md:col-span-2">
+                      <Label htmlFor="employmentDetails">
+                        Employment Details
+                      </Label>
+                      <textarea
+                        id="employmentDetails"
+                        className="w-full p-2 h-[10rem] border rounded-md"
+                        placeholder="Provide details about your employment"
+                        {...register("employmentDetails")}
+                      ></textarea>
+                    </div>
+                    {/* Education Details */}
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="educationDetails">
+                        Education Details
+                      </Label>
+                      <textarea
+                        id="educationDetails"
+                        className="w-full p-2 h-[10rem] border rounded-md"
+                        placeholder="Provide details about your education"
+                        {...register("educationDetails")}
+                      ></textarea>
+                    </div>
+                    {/* Achievements */}
+                    <div className="space-y-2  md:col-span-2">
+                      <Label htmlFor="achievements">Achievements</Label>
+                      <textarea
+                        id="achievements"
+                        className="w-full p-2  h-[10rem] border rounded-md"
+                        placeholder="List your achievements"
+                        {...register("achievements")}
+                      ></textarea>
+                    </div>
+                    {/* Projects */}
+                    <div className="space-y-4 md:col-span-3 ">
+                      <Label
+                        htmlFor="project"
+                        className="text-lg font-semibold"
+                      >
+                        Project Details
+                      </Label>
+                      <Separator />
+                      <div className="space-y-4">
+                        {fields.map((item, index) => (
+                          <Card key={item.id} className="p-4 bg-muted">
+                            <CardContent className="grid gap-4 md:grid-cols-2">
+                              <div>
+                                <Label htmlFor={`project.${index}.name`}>
+                                  Project Name
+                                </Label>
+                                <Input
+                                  type="text"
+                                  placeholder="Enter project name"
+                                  {...form.register(`project.${index}.name`)}
+                                />
+                                {/* {form.formState.errors.project?.[index]
+                                  ?.name && (
+                                  <span className="text-destructive text-sm font-medium">
+                                    {
+                                      form.formState.errors.project[index]?.name
+                                        ?.message
+                                    }
+                                  </span>
+                                )} */}
+                              </div>
+                              <div>
+                                <Label htmlFor={`project.${index}.description`}>
+                                  Project Description
+                                </Label>
+                                <Textarea
+                                  placeholder="Enter project description"
+                                  {...form.register(
+                                    `project.${index}.description`
+                                  )}
+                                />
+                                {form.formState.errors.project?.[index]
+                                  ?.description && (
+                                  <span className="text-destructive text-sm font-medium">
+                                    {
+                                      form.formState.errors.project[index]
+                                        ?.description?.message
+                                    }
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex gap-2 mt-2">
+                                {/* <Button
+                                  type="button"
+                                >
+                                  Update
+                                </Button> */}
+                                <Button
+                                  type="button"
+                                  variant="destructive"
+                                  // onClick={() => remove(index)}
+                                >
+                                  {/* <Trash className="w-4 h-4 mr-2" /> Delete */}
+                                  Delete
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                        <Button
+                          type="button"
+                          className="w-[30%] btn-orange"
+                          onClick={() => append({ name: "", description: "" })}
+                        >
+                          {/* <Plus className="w-5 h-5 mr-2" /> Add Project */}
+                          Add Project
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Submit Button */}
+                  <div className="w-full flex justify-center mt-12">
+                    <Button
+                      type="submit"
+                      className="btn-gradient w-[40%]"
+                      // onClick={() => setSwitchUpdate(false)}
+                    >
+                      Save Changes
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>

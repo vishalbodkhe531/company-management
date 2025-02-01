@@ -85,7 +85,7 @@ export type Employee = {
   employmentDetails?: string;
   educationDetails?: string;
   achievements?: string;
-  project: [];
+  project: [{ name: string; description: string; _id: string }];
 };
 
 export interface requestEmpList {
