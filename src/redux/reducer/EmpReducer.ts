@@ -15,7 +15,6 @@ export const empReducers = createSlice({
       state.employee = action.payload;
     },
     empNotExist: (state) => {
-      console.log(`first`);
       state.employee = null;
     },
     empLoading: (state) => {

@@ -43,7 +43,7 @@ export const adminAPI = createApi({
       }),
     }),
 
-    updateAdmin: builder.mutation<messageResponce, updateAdminRequest>({
+    updateAdmin: builder.mutation<Admin, updateAdminRequest>({
       query: ({ id, admin }) => ({
         url: id,
         method: "PUT",

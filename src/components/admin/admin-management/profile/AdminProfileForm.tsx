@@ -78,7 +78,7 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
 
     try {
       if (admin?._id) {
-        await updateAdmin({
+        const res = await updateAdmin({
           id: admin._id,
           admin: data as Admin,
         }).unwrap();
@@ -88,17 +88,8 @@ function AdminProfileForm({ switer }: { switer: (value: boolean) => void }) {
           firstLabel: "Close",
         });
 
-        const { name, email, gender } = data;
         switer(false);
-        dispatch(
-          adminExist({
-            name,
-            email,
-            gender,
-            _id: admin._id,
-            profilePic: admin.profilePic,
-          } as Admin)
-        );
+        dispatch(adminExist(res as Admin));
       } else {
         ToasterComponent({
           message: "Profile Update Failed!",

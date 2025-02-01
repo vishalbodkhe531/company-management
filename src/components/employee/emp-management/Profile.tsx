@@ -78,8 +78,6 @@ const Profile = () => {
     reset,
   } = form;
 
-  console.log("employee : ", employee?.project[0].name);
-
   const { fields, append } = useFieldArray({
     control: form.control,
     name: "project",
@@ -107,6 +105,7 @@ const Profile = () => {
 
   const handleForm = handleSubmit(async (data) => {
     console.log(data);
+
     setSwitchUpdate(false);
 
     const updatedData = Object.keys(data).reduce((acc, key) => {
